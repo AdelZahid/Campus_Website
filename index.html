@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab1</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Assignment Submission</h1>
+      <div class="transparent-form">
+        <form>
+          <label for="name">Name:</label>
+          <input
+            style="margin-top: 10px"
+            type="text"
+            id="name"
+            name="name"
+            required
+          />
+          <label for="student-id">Student ID:</label>
+          <input type="text" id="student-id" name="student-id" required />
+          <label for="class">Class:</label>
+          <input type="text" id="class" name="class" required />
+          <label for="due-date">Due Date:</label>
+          <input type="date" id="due-date" name="due-date" required />
+          <fieldset>
+            <legend>Assignment Description:</legend>
+            <p>
+              Solve the following mathematic problem and show your work Make
+              sure to include all the steps you took to solve the problem: 1.
+              Solve the following equation for x: 2x + 3 = 11 2. Solve the
+              following equation for x: 3x - 5 = 7
+            </p>
+          </fieldset>
+          <label for="your-answer">Your Answer:</label>
+          <textarea
+            id="your-answer"
+            name="your-answer"
+            required
+            style="height: 100px"
+          ></textarea>
+          <button type="submit">Submit</button>
+          <button type="button" aria-label="Login button">Login</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

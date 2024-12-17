@@ -1,0 +1,90 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f0f0f0; /* Added background color */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-style: italic;
+}
+
+.container {
+  background-color: #ffffff; /* Added background color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  font-style: italic;
+}
+
+h1 {
+  text-align: center;
+  color: #333333; /* Added color */
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+}
+
+p {
+  color: #666666; /* Added color */
+  font-style: italic;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  font-style: italic;
+}
+
+label {
+  margin-top: 10px; /* Adjusted margin */
+  color: #333333; /* Added color */
+  font-style: italic;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="date"] {
+  padding: 10px;
+  margin-top: 10px; /* Adjusted margin */
+  border: 1px solid #cccccc; /* Added color */
+  border-radius: 4px;
+  font-style: italic;
+}
+
+fieldset {
+  margin-top: 10px; /* Adjusted margin */
+  border: 1px solid #cccccc; /* Added color */
+  border-radius: 4px;
+  padding: 10px;
+  font-style: italic;
+}
+
+legend {
+  color: #333333; /* Added color */
+  font-style: italic;
+}
+
+button {
+  margin-top: 10px; /* Adjusted margin */
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: chartreuse;
+  color: #ffffff; /* Added color */
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-style: italic;
+}
+
+button[type="button"] {
+  background-color: #cccccc; /* Added color */
+  font-style: italic;
+}
+
+button:hover {
+  opacity: 0.9;
+  font-style: italic;
+}

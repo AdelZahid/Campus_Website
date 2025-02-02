@@ -14,7 +14,7 @@ const HomePage = () => {
     <div className="container">
       <div className="row">
         <div className="col-md-6 mx-auto mt-5">
-          <h1 className="text-center">Welcome to the University Portal</h1>
+          <h1 className="text-center">Welcome to the Campus Portal</h1>
           <form onSubmit={handleSearch}>
             <div className="input-group mb-3">
               <input

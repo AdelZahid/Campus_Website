@@ -5,11 +5,9 @@ import campusLogo from "../assets/logos/campus-icon.png";
 
 function Login() {
   const [isActive, setIsActive] = useState(false);
-
   const toggleActive = () => {
     setIsActive(!isActive);
   };
-
   return (
     <div className={`container ${isActive ? "active" : ""}`} id="container">
       <div className="form-container sign-up">
@@ -65,7 +63,6 @@ function Login() {
           <button type="submit">Sign In</button>
         </form>
       </div>
-
       <div className="toggle-container">
         <div className="toggle">
           <div className="toggle-panel toggle-left">

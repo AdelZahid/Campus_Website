@@ -1,9 +1,9 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import React, { useState } from "react";
 import "../css/style.css";
-import campusLogo from "../assets/logos/campus-icon.png";
+import campusLogo from "../assets/logos/campus-icon.png"; // Go up one level from components to src
 
-function Login() {
+function App() {
   const [isActive, setIsActive] = useState(false);
 
   const toggleActive = () => {
@@ -14,7 +14,7 @@ function Login() {
     <div className={`container ${isActive ? "active" : ""}`} id="container">
       <div className="form-container sign-up">
         <form>
-          {}
+          {/* Add the logo above the header */}
           <img src={campusLogo} alt="Campus Logo" className="logo" />
           <h1>Create Account</h1>
           <div className="social-icons">
@@ -41,7 +41,7 @@ function Login() {
 
       <div className="form-container sign-in">
         <form>
-          {}
+          {/* Add the logo above the header */}
           <img src={campusLogo} alt="Campus Logo" className="logo" />
           <h1>Sign In</h1>
           <div className="social-icons">
@@ -91,4 +91,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default App;

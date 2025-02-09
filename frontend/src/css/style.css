@@ -1,4 +1,4 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 * {
   margin: 0;
@@ -329,6 +329,13 @@ body {
   transform: translateX(0);
 }
 
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
+}
+
 .toggle-right {
   right: 0;
   transform: translateX(0);
@@ -355,4 +362,4 @@ body {
   to {
     transform: translateX(0);
   }
-} */
+}

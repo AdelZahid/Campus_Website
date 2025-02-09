@@ -1,6 +1,4 @@
-/* ProfilePage.css
-
-.profile-container {
+ProfilePage.css .profile-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
@@ -112,4 +110,4 @@
 
 .message-button:hover {
   background-color: #218838;
-} */
+}

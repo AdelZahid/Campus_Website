@@ -3,7 +3,7 @@ import "../css/style.css";
 import campusLogo from "../assets/logos/campus-icon.png";
 import axios from "axios";
 
-function Login() {
+const Login = () => {
   const [isActive, setIsActive] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -175,6 +175,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

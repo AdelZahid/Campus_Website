@@ -4,6 +4,7 @@ import ChatUserCard from "../chat/ChatUserCard";
 import AddFriendButton from "../chat/AddFriendDialog";
 import ChatView from "../chat/ChatView";
 import "./Home.css";
+import Navbar from "../../../components/Navbar/Navbar";
 
 const demoUsers = [
   {
@@ -33,6 +34,7 @@ export default function Home() {
 
   return (
     <div className="chat-container">
+      <Navbar />
       <div className="chat-content">
         <div className="header-card">
           <h1 className="header-title">Find Your Friends</h1>

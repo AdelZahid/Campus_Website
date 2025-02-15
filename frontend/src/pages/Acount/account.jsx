@@ -55,15 +55,10 @@
 
 // export default AccountPage;
 
-
-
-
-
-
 import React, { useState } from "react";
-import "./account.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "./account.css";
 import { NavLink } from "react-router-dom";
 
 const AccountPage = () => {

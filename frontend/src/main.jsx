@@ -18,7 +18,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <Messages />
+        <App />
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>

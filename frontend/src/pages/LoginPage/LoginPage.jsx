@@ -1,7 +1,7 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import React, { useState } from "react";
 // import "../css/style.css";
-import campusLogo from "../assets/logos/campus-icon.png";
+import campusLogo from "../../assets/logos/campus-icon.png";
 
 function Login() {
   const [isActive, setIsActive] = useState(false);

@@ -60,6 +60,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./account.css";
 import { NavLink } from "react-router-dom";
+import NavBar from "../../components/Navbar/Navbar";
 
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState("general");
@@ -75,6 +76,7 @@ const AccountPage = () => {
 
   return (
     <div className="container light-style flex-grow-1 container-p-y">
+      < NavBar />
       <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
       <div className="card overflow-hidden">
         <div className="row no-gutters row-bordered row-border-light">

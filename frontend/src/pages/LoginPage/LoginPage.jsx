@@ -50,86 +50,95 @@ const Login = () => {
   };
 
   return (
-    <body className="login-page">
-      <div className={`container ${isActive ? "active" : ""}`} id="container">
-        <div className="form-container sign-up">
-          <form onSubmit={(e) => handleSubmit(e, "register")}>
-            <img src={campusLogo} alt="Campus Logo" className="logo" />
-            <h1>Create Account</h1>
-            <div className="social-icons">
-              {["google", "facebook-f", "github", "linkedin-in"].map((icon) => (
-                <a key={icon} href="#" className="icon">
-                  <i className={`fab fa-${icon}`}></i>
-                </a>
+    <div>
+      <Navbar />
+      <body className="login-page">
+        <div className={`container ${isActive ? "active" : ""}`} id="container">
+          <div className="form-container sign-up">
+            <form onSubmit={(e) => handleSubmit(e, "register")}>
+              <img src={campusLogo} alt="Campus Logo" className="logo" />
+              <h1>Create Account</h1>
+              <div className="social-icons">
+                {["google", "facebook-f", "github", "linkedin-in"].map(
+                  (icon) => (
+                    <a key={icon} href="#" className="icon">
+                      <i className={`fab fa-${icon}`}></i>
+                    </a>
+                  )
+                )}
+              </div>
+              <span>or use your email for registration</span>
+              {["name", "email", "password"].map((field) => (
+                <input
+                  key={field}
+                  type={field === "password" ? "password" : "text"}
+                  name={field}
+                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                  value={formData[field]}
+                  onChange={handleChange}
+                />
               ))}
-            </div>
-            <span>or use your email for registration</span>
-            {["name", "email", "password"].map((field) => (
-              <input
-                key={field}
-                type={field === "password" ? "password" : "text"}
-                name={field}
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                value={formData[field]}
-                onChange={handleChange}
-              />
-            ))}
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <button type="submit">Sign Up</button>
-          </form>
-        </div>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+              <button type="submit">Sign Up</button>
+            </form>
+          </div>
 
-        <div className="form-container sign-in">
-          <form onSubmit={(e) => handleSubmit(e, "login")}>
-            <img src={campusLogo} alt="Campus Logo" className="logo" />
-            <h1>Sign In</h1>
-            <div className="social-icons">
-              {["google", "facebook-f", "github", "linkedin-in"].map((icon) => (
-                <a key={icon} href="#" className="icon">
-                  <i className={`fab fa-${icon}`}></i>
-                </a>
+          <div className="form-container sign-in">
+            <form onSubmit={(e) => handleSubmit(e, "login")}>
+              <img src={campusLogo} alt="Campus Logo" className="logo" />
+              <h1>Sign In</h1>
+              <div className="social-icons">
+                {["google", "facebook-f", "github", "linkedin-in"].map(
+                  (icon) => (
+                    <a key={icon} href="#" className="icon">
+                      <i className={`fab fa-${icon}`}></i>
+                    </a>
+                  )
+                )}
+              </div>
+              <span>or use your email password</span>
+              {["email", "password"].map((field) => (
+                <input
+                  key={field}
+                  type={field}
+                  name={field}
+                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                  value={formData[field]}
+                  onChange={handleChange}
+                />
               ))}
-            </div>
-            <span>or use your email password</span>
-            {["email", "password"].map((field) => (
-              <input
-                key={field}
-                type={field}
-                name={field}
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                value={formData[field]}
-                onChange={handleChange}
-              />
-            ))}
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <a href="#">Forget Your Password?</a>
-            <button type="submit">Sign In</button>
-          </form>
-        </div>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+              <a href="#">Forget Your Password?</a>
+              <button type="submit">Sign In</button>
+            </form>
+          </div>
 
-        <div className="toggle-container">
-          <div className="toggle">
-            <div className="toggle-panel toggle-left">
-              <h1>Welcome Back!</h1>
-              <p>Enter your personal details to use all of the site features</p>
-              <button className="hidden" id="login" onClick={toggleActive}>
-                Sign In
-              </button>
-            </div>
-            <div className="toggle-panel toggle-right">
-              <h1>Hello, Friend!</h1>
-              <p>
-                Register with your personal details to use all of the site
-                features
-              </p>
-              <button className="hidden" id="register" onClick={toggleActive}>
-                Sign Up
-              </button>
+          <div className="toggle-container">
+            <div className="toggle">
+              <div className="toggle-panel toggle-left">
+                <h1>Welcome Back!</h1>
+                <p>
+                  Enter your personal details to use all of the site features
+                </p>
+                <button className="hidden" id="login" onClick={toggleActive}>
+                  Sign In
+                </button>
+              </div>
+              <div className="toggle-panel toggle-right">
+                <h1>Hello, Friend!</h1>
+                <p>
+                  Register with your personal details to use all of the site
+                  features
+                </p>
+                <button className="hidden" id="register" onClick={toggleActive}>
+                  Sign Up
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </body>
+      </body>
+    </div>
   );
 };
 

@@ -10,6 +10,8 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/HomePage/HomePage.jsx";
 import University from "./pages/UniversityPage/UniversityPage.jsx";
 import Library from "./pages/LibraryPage/LibraryPage.jsx";
+import Clubs from "./pages/ClubsPage/ClubsPage.jsx";
+import Helpdesk from "./pages/HelpdeskPage/HelpdeskPage.jsx";
 
 import Account from "./pages/Acount/account.jsx";
 import Messages from "./pages/Chatpage/Pages/home.jsx";
@@ -24,6 +26,9 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/account" element={<Account />} />
       <Route path="/messages" element={<Messages />} />
+      <Route path="/clubs" element={<Clubs />} />
+      <Route path="/helpdesk" element={<Helpdesk />} />
+
     </Routes>
   );
 }

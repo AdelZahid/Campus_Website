@@ -1,9 +1,11 @@
 import React from 'react'
+import Navbar from '../../components/Navbar/Navbar'
 
 const UniversityPage = () => {
   return (
     <div>
-      <h1>I am university</h1>
+      <Navbar />
+      <h1>University Page</h1>
     </div>
   )
 }

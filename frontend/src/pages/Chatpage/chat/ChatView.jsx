@@ -5,6 +5,7 @@ import { ArrowLeft, Send } from "lucide-react";
 import MessageCard from "../chat/MessageCard"; // Adjust path as needed
 import useWebSocket from "../chat/socket"; // Adjust path as needed
 import "./ChatView.css";
+import Navbar from "../../../components/Navbar/Navbar";
 
 export default function ChatView({ user, onClose }) {
   const [newMessage, setNewMessage] = useState("");

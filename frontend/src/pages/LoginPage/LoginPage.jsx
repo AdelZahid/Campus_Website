@@ -15,7 +15,7 @@ const Login = () => {
 
   const toggleActive = () => {
     setIsActive(!isActive);
-    setErrorMessage(""); // Reset error message when switching
+    setErrorMessage(""); 
   };
 
   const handleChange = (e) => {

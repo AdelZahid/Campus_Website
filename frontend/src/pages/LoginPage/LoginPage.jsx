@@ -1,29 +1,46 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { FaGoogle, FaGithub, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import axios from "axios";
 import "./LoginPage.css";
 
 const LoginPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle login/signup logic here
-    console.log(formData);
-  };
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      const userInfo = {
+        username: data.name, // Changed to match backend
+        email: data.email,
+        password: data.password,
+      };
+
+      const endpoint = isLogin ? "login" : "signup";
+      const res = await axios.post(
+        `http://localhost:5002/user/${endpoint}`,
+        userInfo,
+        { withCredentials: true } // Ensure cookies are handled
+      );
+
+      if (res.data) {
+        alert(res.data.message);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        navigate("/");
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "An error occurred");
+    }
   };
 
   return (
@@ -52,18 +69,18 @@ const LoginPage = () => {
             <span>OR</span>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {!isLogin && (
               <div className="input-group">
                 <FaUser className="input-icon" />
                 <input
                   type="text"
-                  name="name"
                   placeholder="Full Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required={!isLogin}
+                  {...register("name", { required: "Name is required" })}
                 />
+                {errors.name && (
+                  <span className="text-red-600">{errors.name.message}</span>
+                )}
               </div>
             )}
 
@@ -71,24 +88,24 @@ const LoginPage = () => {
               <FaEnvelope className="input-icon" />
               <input
                 type="email"
-                name="email"
                 placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
-                required
+                {...register("email", { required: "Email is required" })}
               />
+              {errors.email && (
+                <span className="text-red-600">{errors.email.message}</span>
+              )}
             </div>
 
             <div className="input-group">
               <FaLock className="input-icon" />
               <input
                 type="password"
-                name="password"
                 placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
+                {...register("password", { required: "Password is required" })}
               />
+              {errors.password && (
+                <span className="text-red-600">{errors.password.message}</span>
+              )}
             </div>
 
             {isLogin && (
@@ -106,7 +123,7 @@ const LoginPage = () => {
           </form>
 
           <p className="form-switch">
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
+            {isLogin ? "Don't have an account?" : "Already have an account?"}
             <button onClick={toggleForm} className="switch-btn">
               {isLogin ? "Sign Up" : "Sign In"}
             </button>

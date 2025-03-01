@@ -67,6 +67,7 @@ import AskQuestionPage from "./pages/HelpdeskPage/AskQuestionPage";
 import QuestionDetailPage from "./pages/HelpdeskPage/QuestionDetailPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ClubsPage from "./pages/ClubsPage/ClubsPage";
+import ChatHome from "./pages/Chatpage/chat2/home/chathome.jsx";
 //LibraryPage already imported elsewhere
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
       <Navbar user={user} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/chat" element={<ChatHome />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />

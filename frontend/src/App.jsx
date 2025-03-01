@@ -41,17 +41,21 @@ const Navbar = ({ user, onLogout }) => {
   return (
     <nav className="main-navbar">
       <div className="logo">
-        <img src="/logo.png" alt="Campus Logo" />
+        {/*Removed image import*/}
         <span>Campus</span>
       </div>
-      <div className="nav-links">
-        {user ? (
-          <>
+
+      {user ? (
+        // Full navigation when logged in
+        <>
+          <div className="nav-links">
             <Link to="/">Home</Link>
             <Link to="/university">Universities</Link>
             <Link to="/clubs">Clubs</Link>
             <Link to="/library">Library</Link>
             <Link to="/helpdesk">Helpdesk</Link>
+          </div>
+          <div className="user-actions">
             <button
               className="notification-btn"
               onClick={() => setShowNotifications(true)}
@@ -62,7 +66,7 @@ const Navbar = ({ user, onLogout }) => {
               className="profile-img"
               src={
                 user.avatar ||
-                "https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
+                "https://ui-avatars.com/api/?name=User&background=21a663&color=fff"
               }
               alt="Profile"
               onClick={() => navigate("/profile")}
@@ -70,18 +74,23 @@ const Navbar = ({ user, onLogout }) => {
             <button className="logout-btn" onClick={onLogout}>
               Logout
             </button>
-          </>
-        ) : (
+          </div>
+        </>
+      ) : (
+        // Simplified navigation when logged out - just links and sign in button
+        <>
+          <div className="nav-links">
+            <Link to="/">Home</Link>
+            <Link to="/university">Universities</Link>
+            <Link to="/clubs">Clubs</Link>
+          </div>
           <div className="auth-buttons">
-            <Link to="/login" className="login-btn">
-              Sign In
-            </Link>
-            <Link to="/register" className="register-btn">
-              Sign Up
+            <Link to="/login" className="signin-btn">
+              Sign in
             </Link>
           </div>
-        )}
-      </div>
+        </>
+      )}
       {showNotifications && (
         <div
           className="notifications-overlay"

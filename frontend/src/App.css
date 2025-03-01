@@ -3,9 +3,9 @@
 
 /* Global Variables */
 :root {
-  --primary-color: #0D8ABC;
-  --primary-light: rgba(13, 138, 188, 0.1);
-  --primary-dark: #0A6D9B;
+  --primary-color: #21a663;
+  --primary-light: rgba(33, 166, 99, 0.1);
+  --primary-dark: #0d4a2a;
   --secondary-color: #3E4555;
   --accent-color: #FF6B6B;
   --text-primary: #333333;
@@ -206,25 +206,43 @@ body {
   transform: translateY(-2px);
 }
 
+.main-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--spacing-lg);
+  background-color: var(--background-white);
+  box-shadow: var(--shadow-sm);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  z-index: 1000;
+}
+
+.main-navbar .user-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
 .main-navbar .auth-buttons {
   display: flex;
   gap: 15px;
 }
 
-.main-navbar .login-btn {
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-.main-navbar .register-btn {
+.main-navbar .signin-btn {
   background-color: var(--primary-color);
-  color: white !important;
+  color: white;
   padding: 8px 20px;
   border-radius: var(--border-radius-lg);
   transition: all var(--transition-normal);
+  text-decoration: none;
+  font-weight: 600;
 }
 
-.main-navbar .register-btn:hover {
+.main-navbar .signin-btn:hover {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
 }

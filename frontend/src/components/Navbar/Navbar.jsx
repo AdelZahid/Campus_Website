@@ -1,8 +1,7 @@
-
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
-import logo from '../../assets/logo.png';
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
+// import logo from '../../assets/logo.png'; // Removed logo import
 
 const Navbar = () => {
   const [sticky, setSticky] = useState(false);
@@ -19,7 +18,10 @@ const Navbar = () => {
 
     // Close notifications when clicking outside
     const handleClickOutside = (event) => {
-      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
         setShowNotifications(false);
       }
     };
@@ -47,21 +49,32 @@ const Navbar = () => {
     <nav className={`navbar ${sticky ? "navbar-sticky" : ""}`}>
       <div className="navbar-container">
         <div className="navbar-logo">
-          <Link to="/">
-            <img src={logo} alt="Campus Connect Logo" />
-          </Link>
+          {/* Logo removed */}
+          <Link to="/">Campus Connect</Link> {/* Placeholder text for logo */}
         </div>
 
-        <div className={`navbar-links ${mobileMenu ? 'active' : ''}`}>
+        <div className={`navbar-links ${mobileMenu ? "active" : ""}`}>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/university">Universities</Link></li>
-            <li><Link to="/clubs">Clubs</Link></li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/university">Universities</Link>
+            </li>
+            <li>
+              <Link to="/clubs">Clubs</Link>
+            </li>
             {isLoggedIn && (
               <>
-                <li><Link to="/library">Library</Link></li>
-                <li><Link to="/helpdesk">Helpdesk</Link></li>
-                <li><Link to="/messages">Messages</Link></li>
+                <li>
+                  <Link to="/library">Library</Link>
+                </li>
+                <li>
+                  <Link to="/helpdesk">Helpdesk</Link>
+                </li>
+                <li>
+                  <Link to="/messages">Messages</Link>
+                </li>
               </>
             )}
           </ul>
@@ -71,21 +84,21 @@ const Navbar = () => {
           {isLoggedIn ? (
             <>
               <div className="notification-wrapper" ref={notificationRef}>
-                <button 
-                  className="notification-btn" 
+                <button
+                  className="notification-btn"
                   onClick={toggleNotifications}
                   aria-label="Notifications"
                 >
                   <i className="fas fa-bell"></i>
                   <span className="notification-badge">3</span>
                 </button>
-                
+
                 {showNotifications && (
                   <div className="notification-panel">
                     <div className="notification-header">
                       <h3>Notifications</h3>
-                      <button 
-                        className="close-btn" 
+                      <button
+                        className="close-btn"
                         onClick={toggleNotifications}
                       >
                         <i className="fas fa-times"></i>
@@ -98,7 +111,9 @@ const Navbar = () => {
                         </div>
                         <div className="notification-content">
                           <p>John Smith accepted your friend request</p>
-                          <span className="notification-time">2 minutes ago</span>
+                          <span className="notification-time">
+                            2 minutes ago
+                          </span>
                         </div>
                       </div>
                       <div className="notification-item unread">
@@ -126,10 +141,13 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-              
+
               <Link to="/profile" className="profile-link">
                 <div className="profile-avatar">
-                  <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="Profile" />
+                  <img
+                    src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
+                    alt="Profile"
+                  />
                 </div>
               </Link>
             </>
@@ -140,7 +158,7 @@ const Navbar = () => {
           )}
 
           <button className="menu-toggle" onClick={toggleMenu}>
-            <i className={`fas ${mobileMenu ? 'fa-times' : 'fa-bars'}`}></i>
+            <i className={`fas ${mobileMenu ? "fa-times" : "fa-bars"}`}></i>
           </button>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Footer from "../../components/Footer/Footer"; // Added import for Footer component
 import "./ClubsPage.css";
 
 const ClubsPage = () => {
@@ -264,6 +265,7 @@ const ClubsPage = () => {
           <div className="create-club-image"></div>
         </div>
       </div>
+      <Footer /> {/* Added Footer component */}
     </div>
   );
 };

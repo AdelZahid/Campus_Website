@@ -1,11 +1,38 @@
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./frontend/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: [
+          "Poppins",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
+      },
       colors: {
+        "green-600": "#21a663",
         "green-700": "#14643b",
         "green-800": "#0d4a2a",
-        "green-600": "#21a663",
+        "green-500": "#2ebb74",
+        "green-400": "#4acf89",
+        "green-300": "#7adfa8",
+        "green-200": "#a9eac6",
+        "green-100": "#e0f7ea",
+        primary: {
+          DEFAULT: "#21a663",
+          hover: "#14643b",
+          dark: "#0d4a2a",
+          light: "rgba(33, 166, 99, 0.1)",
+          lighter: "#a9eac6",
+          lightest: "#e0f7ea",
+        },
       },
       animation: {
         gradientBG: "gradientBG 15s ease infinite",
@@ -28,8 +55,8 @@ module.exports = {
           "60%": { transform: "translateY(-5px)" },
         },
         glow: {
-          "0%, 100%": { "box-shadow": "0 0 5px #14643b" },
-          "50%": { "box-shadow": "0 0 20px #14643b" },
+          "0%, 100%": { "box-shadow": "0 0 5px #21a663" },
+          "50%": { "box-shadow": "0 0 20px #21a663" },
         },
         rotate: {
           from: { transform: "rotate(0deg)" },

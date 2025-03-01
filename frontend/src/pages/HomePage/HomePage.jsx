@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
+import Navbar from '../../components/Navbar/Navbar';
 
 const POSTS_PER_PAGE = 6;
 
@@ -239,88 +240,112 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
+      <Navbar />
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">Connect with Your Campus Community</h1>
-          <p className="hero-subtitle">Join thousands of students, clubs, and universities on the ultimate campus platform.</p>
+          <p className="hero-subtitle">
+            Join thousands of students, clubs, and universities on the ultimate
+            campus platform.
+          </p>
           <div className="hero-buttons">
             <button className="hero-btn">Get Started</button>
             <button className="hero-btn secondary">Learn More</button>
           </div>
         </div>
       </section>
-      
+
       <div className="features-section">
         <div className="section-heading">
           <h2>Everything You Need for Campus Life</h2>
-          <p>Discover features designed to enhance your university experience</p>
+          <p>
+            Discover features designed to enhance your university experience
+          </p>
         </div>
-        
+
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">
               <i className="fas fa-university"></i>
             </div>
             <h3>Universities</h3>
-            <p>Explore universities, connect with alumni, and access resources.</p>
-            <Link to="/university" className="feature-link">Learn more <i className="fas fa-arrow-right"></i></Link>
+            <p>
+              Explore universities, connect with alumni, and access resources.
+            </p>
+            <Link to="/university" className="feature-link">
+              Learn more <i className="fas fa-arrow-right"></i>
+            </Link>
           </div>
-          
+
           <div className="feature-card">
             <div className="feature-icon">
               <i className="fas fa-users"></i>
             </div>
             <h3>Clubs & Organizations</h3>
-            <p>Join student organizations, participate in events, and build your network.</p>
-            <Link to="/clubs" className="feature-link">Learn more <i className="fas fa-arrow-right"></i></Link>
+            <p>
+              Join student organizations, participate in events, and build your
+              network.
+            </p>
+            <Link to="/clubs" className="feature-link">
+              Learn more <i className="fas fa-arrow-right"></i>
+            </Link>
           </div>
-          
+
           <div className="feature-card">
             <div className="feature-icon">
               <i className="fas fa-book"></i>
             </div>
             <h3>Library</h3>
-            <p>Access digital resources, borrow books, and find study materials.</p>
-            <Link to="/library" className="feature-link">Learn more <i className="fas fa-arrow-right"></i></Link>
+            <p>
+              Access digital resources, borrow books, and find study materials.
+            </p>
+            <Link to="/library" className="feature-link">
+              Learn more <i className="fas fa-arrow-right"></i>
+            </Link>
           </div>
-          
+
           <div className="feature-card">
             <div className="feature-icon">
               <i className="fas fa-question-circle"></i>
             </div>
             <h3>Helpdesk</h3>
-            <p>Ask questions, get answers, and share knowledge with peers and experts.</p>
-            <Link to="/helpdesk" className="feature-link">Learn more <i className="fas fa-arrow-right"></i></Link>
+            <p>
+              Ask questions, get answers, and share knowledge with peers and
+              experts.
+            </p>
+            <Link to="/helpdesk" className="feature-link">
+              Learn more <i className="fas fa-arrow-right"></i>
+            </Link>
           </div>
         </div>
       </div>
-      
+
       <div className="activity-feed-section">
         <div className="feed-container">
           <div className="section-header">
             <h2>Campus Activity Feed</h2>
             <div className="feed-tabs">
-              <button 
-                className={activeTab === 'trending' ? 'active' : ''} 
-                onClick={() => setActiveTab('trending')}
+              <button
+                className={activeTab === "trending" ? "active" : ""}
+                onClick={() => setActiveTab("trending")}
               >
                 Trending
               </button>
               <button
-                className={activeTab === 'latest' ? 'active' : ''} 
-                onClick={() => setActiveTab('latest')}
+                className={activeTab === "latest" ? "active" : ""}
+                onClick={() => setActiveTab("latest")}
               >
                 Latest
               </button>
-              <button 
-                className={activeTab === 'nearby' ? 'active' : ''} 
-                onClick={() => setActiveTab('nearby')}
+              <button
+                className={activeTab === "nearby" ? "active" : ""}
+                onClick={() => setActiveTab("nearby")}
               >
                 Nearby
               </button>
             </div>
           </div>
-          
+
           {isLoading ? (
             <div className="loading-container">
               <div className="loading-spinner"></div>
@@ -328,7 +353,7 @@ const HomePage = () => {
             </div>
           ) : (
             <div className="feed-grid">
-              {visiblePosts.map(post => (
+              {visiblePosts.map((post) => (
                 <div className="feed-card" key={post.id}>
                   <div className="feed-header">
                     <div className="user-info">
@@ -337,7 +362,9 @@ const HomePage = () => {
                       </div>
                       <div>
                         <h4>{post.user.name}</h4>
-                        <span>{post.user.department} • {post.user.university}</span>
+                        <span>
+                          {post.user.department} • {post.user.university}
+                        </span>
                       </div>
                     </div>
                     <span className="post-time">{post.time}</span>
@@ -365,15 +392,17 @@ const HomePage = () => {
               ))}
             </div>
           )}
-          
+
           {!isLoading && hasMore && (
             <div className="view-more-container">
-              <button className="view-more-btn" onClick={loadMorePosts}>Load More</button>
+              <button className="view-more-btn" onClick={loadMorePosts}>
+                Load More
+              </button>
             </div>
           )}
         </div>
       </div>
-      
+
       <div className="stats-section">
         <div className="stat-card">
           <h3>1000+</h3>
@@ -392,59 +421,94 @@ const HomePage = () => {
           <p>Resources</p>
         </div>
       </div>
-      
+
       <footer className="homepage-footer">
         <div className="footer-content">
           <div className="footer-logo">
             <img src="/logo.png" alt="Campus Connect Logo" />
             <p>Connecting students and universities around the world.</p>
           </div>
-          
+
           <div className="footer-links">
             <div className="footer-column">
               <h4>Platform</h4>
               <ul>
-                <li><Link to="/university">Universities</Link></li>
-                <li><Link to="/clubs">Clubs</Link></li>
-                <li><Link to="/library">Library</Link></li>
-                <li><Link to="/helpdesk">Helpdesk</Link></li>
+                <li>
+                  <Link to="/university">Universities</Link>
+                </li>
+                <li>
+                  <Link to="/clubs">Clubs</Link>
+                </li>
+                <li>
+                  <Link to="/library">Library</Link>
+                </li>
+                <li>
+                  <Link to="/helpdesk">Helpdesk</Link>
+                </li>
               </ul>
             </div>
-            
+
             <div className="footer-column">
               <h4>Company</h4>
               <ul>
-                <li><Link to="/about">About Us</Link></li>
-                <li><Link to="/careers">Careers</Link></li>
-                <li><Link to="/blog">Blog</Link></li>
-                <li><Link to="/contact">Contact</Link></li>
+                <li>
+                  <Link to="/about">About Us</Link>
+                </li>
+                <li>
+                  <Link to="/careers">Careers</Link>
+                </li>
+                <li>
+                  <Link to="/blog">Blog</Link>
+                </li>
+                <li>
+                  <Link to="/contact">Contact</Link>
+                </li>
               </ul>
             </div>
-            
+
             <div className="footer-column">
               <h4>Resources</h4>
               <ul>
-                <li><Link to="/help">Help Center</Link></li>
-                <li><Link to="/community">Community</Link></li>
-                <li><Link to="/developers">Developers</Link></li>
-                <li><Link to="/partners">Partners</Link></li>
+                <li>
+                  <Link to="/help">Help Center</Link>
+                </li>
+                <li>
+                  <Link to="/community">Community</Link>
+                </li>
+                <li>
+                  <Link to="/developers">Developers</Link>
+                </li>
+                <li>
+                  <Link to="/partners">Partners</Link>
+                </li>
               </ul>
             </div>
-            
+
             <div className="footer-column">
               <h4>Legal</h4>
               <ul>
-                <li><Link to="/terms">Terms of Service</Link></li>
-                <li><Link to="/privacy">Privacy Policy</Link></li>
-                <li><Link to="/cookies">Cookie Policy</Link></li>
-                <li><Link to="/guidelines">Guidelines</Link></li>
+                <li>
+                  <Link to="/terms">Terms of Service</Link>
+                </li>
+                <li>
+                  <Link to="/privacy">Privacy Policy</Link>
+                </li>
+                <li>
+                  <Link to="/cookies">Cookie Policy</Link>
+                </li>
+                <li>
+                  <Link to="/guidelines">Guidelines</Link>
+                </li>
               </ul>
             </div>
           </div>
         </div>
-        
+
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Campus Connect. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Campus Connect. All rights
+            reserved.
+          </p>
         </div>
       </footer>
     </div>

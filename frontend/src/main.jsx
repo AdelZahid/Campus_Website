@@ -1,29 +1,20 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
 import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-
 import App from "./App.jsx";
-import Home from "./pages/HomePage/HomePage.jsx";
-import Login from "./pages/LoginPage/LoginPage.jsx";
-import Library from "./pages/LibraryPage/LibraryPage.jsx";
-import Messages from "./pages/Chatpage/Pages/home.jsx"
+
+// Import styles in the correct order
+import "./styles/reset.css";
 import "./index.css";
+import "./styles/utilities.css";
+import "./App.css";
 
 console.log("Rendering application...");
-const queryClient = new QueryClient();
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
+      <App />
     </BrowserRouter>
-  </StrictMode>
+  </React.StrictMode>
 );
-
-
-
-

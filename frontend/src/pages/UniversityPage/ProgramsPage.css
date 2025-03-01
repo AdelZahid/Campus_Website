@@ -1,0 +1,287 @@
+
+/* Programs Page Styles - Scoped with .programs-page prefix to prevent conflicts */
+.programs-page {
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f7fa;
+}
+
+.programs-page .programs-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://via.placeholder.com/1920x800?text=University+Programs');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.programs-page .hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.programs-page .hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.programs-page .hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.programs-page .search-container {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.programs-page .search-container input {
+  flex: 1;
+  padding: 15px 25px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+}
+
+.programs-page .search-container button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0 25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+}
+
+.programs-page .search-container button:hover {
+  background-color: #2980b9;
+}
+
+.programs-page .programs-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.programs-page .section-title {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin: 30px 0;
+  text-align: center;
+}
+
+/* Filters Section */
+.programs-page .filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  justify-content: center;
+}
+
+.programs-page .filter {
+  display: flex;
+  align-items: center;
+}
+
+.programs-page .filter label {
+  margin-right: 10px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+.programs-page .filter select {
+  padding: 8px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Programs Grid */
+.programs-page .programs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.programs-page .program-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.programs-page .program-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.programs-page .program-level {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #3498db;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+
+.programs-page .program-name {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin: 25px 0 10px;
+}
+
+.programs-page .program-university {
+  color: #7f8c8d;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.programs-page .program-duration {
+  color: #7f8c8d;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.programs-page .program-description {
+  color: #34495e;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.programs-page .program-details {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.programs-page .detail {
+  flex: 1;
+}
+
+.programs-page .detail-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 5px;
+}
+
+.programs-page .detail-value {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.programs-page .career-title {
+  font-size: 1rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.programs-page .career-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.programs-page .career-list li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 5px;
+  color: #34495e;
+}
+
+.programs-page .career-list li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #3498db;
+}
+
+.programs-page .program-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.programs-page .view-button,
+.programs-page .apply-button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.programs-page .view-button {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+}
+
+.programs-page .view-button:hover {
+  background-color: #dfe6e9;
+}
+
+.programs-page .apply-button {
+  background-color: #3498db;
+  color: white;
+}
+
+.programs-page .apply-button:hover {
+  background-color: #2980b9;
+}
+
+.programs-page .no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.programs-page .no-results h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.programs-page .no-results p {
+  color: #7f8c8d;
+}
+
+@media (max-width: 768px) {
+  .programs-page .hero-content h1 {
+    font-size: 2.2rem;
+  }
+  
+  .programs-page .filters-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .programs-page .filter {
+    justify-content: space-between;
+  }
+  
+  .programs-page .programs-grid {
+    grid-template-columns: 1fr;
+  }
+}

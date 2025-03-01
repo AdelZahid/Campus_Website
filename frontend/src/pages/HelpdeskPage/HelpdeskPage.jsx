@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../../components/Navbar/Navbar';
-import './HelpdeskPage.css';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
+import "./HelpdeskPage.css";
 
 const HelpdeskPage = () => {
   const [questions, setQuestions] = useState([]);
@@ -10,7 +11,14 @@ const HelpdeskPage = () => {
   const navigate = useNavigate();
 
   // Categories for filtering
-  const categories = ["All", "Academic", "Campus Life", "Career", "Technical", "Other"];
+  const categories = [
+    "All",
+    "Academic",
+    "Campus Life",
+    "Career",
+    "Technical",
+    "Other",
+  ];
 
   // Dummy data - in a real app, you'd fetch this from an API
   useEffect(() => {
@@ -25,7 +33,7 @@ const HelpdeskPage = () => {
         category: "Academic",
         votes: 15,
         answers: 3,
-        views: 120
+        views: 120,
       },
       {
         id: 2,
@@ -36,7 +44,7 @@ const HelpdeskPage = () => {
         category: "Technical",
         votes: 25,
         answers: 8,
-        views: 310
+        views: 310,
       },
       {
         id: 3,
@@ -47,7 +55,7 @@ const HelpdeskPage = () => {
         category: "Campus Life",
         votes: 9,
         answers: 5,
-        views: 89
+        views: 89,
       },
       {
         id: 4,
@@ -58,7 +66,7 @@ const HelpdeskPage = () => {
         category: "Career",
         votes: 18,
         answers: 4,
-        views: 205
+        views: 205,
       },
       {
         id: 5,
@@ -69,17 +77,19 @@ const HelpdeskPage = () => {
         category: "Academic",
         votes: 12,
         answers: 2,
-        views: 78
-      }
+        views: 78,
+      },
     ];
 
     setQuestions(dummyQuestions);
   }, []);
 
   // Filter questions based on search term and category
-  const filteredQuestions = questions.filter(question => {
-    const matchesCategory = activeCategory === "All" || question.category === activeCategory;
-    const matchesSearch = searchTerm === "" || 
+  const filteredQuestions = questions.filter((question) => {
+    const matchesCategory =
+      activeCategory === "All" || question.category === activeCategory;
+    const matchesSearch =
+      searchTerm === "" ||
       question.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       question.body.toLowerCase().includes(searchTerm.toLowerCase());
 
@@ -88,25 +98,39 @@ const HelpdeskPage = () => {
 
   // Handle asking a new question
   const handleAskQuestion = () => {
-    navigate('/helpdesk/ask');
+    navigate("/helpdesk/ask");
+  };
+
+  // Handle search submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // In a real app, you might want to trigger an API call here
+    console.log("Searching for:", searchTerm);
   };
 
   return (
-    <div className="helpdesk-page">
+    <div className="helpdesk-container">
       <Navbar />
+
       <div className="helpdesk-hero">
         <div className="hero-content">
           <h1>University Knowledge Base</h1>
           <p>Ask questions, share knowledge, find answers</p>
-          <div className="search-box">
-            <input 
-              type="text" 
-              placeholder="Search questions..." 
+
+          <form className="search-box" onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Search questions..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Search questions"
             />
-            <button><i className="fas fa-search"></i>Search</button>
-          </div>
+            <button type="submit" className="search-button">
+              <i className="fas fa-search"></i>
+              <span>Search</span>
+            </button>
+          </form>
+
           <button className="ask-question-btn" onClick={handleAskQuestion}>
             Ask a Question
           </button>
@@ -117,10 +141,10 @@ const HelpdeskPage = () => {
         <div className="sidebar">
           <h3>Categories</h3>
           <ul className="category-list">
-            {categories.map(category => (
-              <li 
-                key={category} 
-                className={activeCategory === category ? 'active' : ''}
+            {categories.map((category) => (
+              <li
+                key={category}
+                className={activeCategory === category ? "active" : ""}
                 onClick={() => setActiveCategory(category)}
               >
                 {category}
@@ -131,10 +155,16 @@ const HelpdeskPage = () => {
 
         <div className="content">
           <div className="content-header">
-            <h2>{activeCategory === "All" ? "All Questions" : `${activeCategory} Questions`}</h2>
+            <h2>
+              {activeCategory === "All"
+                ? "All Questions"
+                : `${activeCategory} Questions`}
+            </h2>
             <div className="header-right">
               <span>{filteredQuestions.length} questions</span>
-              <button className="ask-question-btn" onClick={handleAskQuestion}>Ask Question</button>
+              <button className="ask-question-btn" onClick={handleAskQuestion}>
+                Ask Question
+              </button>
             </div>
           </div>
 
@@ -143,10 +173,15 @@ const HelpdeskPage = () => {
               <div className="no-questions">
                 <h3>No questions found</h3>
                 <p>Be the first to ask a question in this category!</p>
-                <button className="ask-question-btn" onClick={handleAskQuestion}>Ask Question</button>
+                <button
+                  className="ask-question-btn"
+                  onClick={handleAskQuestion}
+                >
+                  Ask Question
+                </button>
               </div>
             ) : (
-              filteredQuestions.map(question => (
+              filteredQuestions.map((question) => (
                 <div className="question-card" key={question.id}>
                   <div className="question-stats">
                     <div className="stat">
@@ -165,12 +200,18 @@ const HelpdeskPage = () => {
 
                   <div className="question-content">
                     <h3>
-                      <Link to={`/helpdesk/question/${question.id}`}>{question.title}</Link>
+                      <Link to={`/helpdesk/question/${question.id}`}>
+                        {question.title}
+                      </Link>
                     </h3>
-                    <p className="question-excerpt">{question.body.substring(0, 150)}...</p>
+                    <p className="question-excerpt">
+                      {question.body.substring(0, 150)}...
+                    </p>
                     <div className="question-meta">
                       <span className="category">{question.category}</span>
-                      <span className="author">Posted by {question.author}</span>
+                      <span className="author">
+                        Posted by {question.author}
+                      </span>
                       <span className="date">on {question.date}</span>
                     </div>
                   </div>
@@ -180,6 +221,7 @@ const HelpdeskPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

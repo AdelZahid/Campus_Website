@@ -96,7 +96,7 @@ const VirtualTourPage = () => {
     <div className="virtual-tour-page">
       <Navbar />
       <div className="tour-hero">
-        <div className="hero-content">
+        <div className="tour-hero-content">
           <h1>Virtual Campus Tour</h1>
           <p>Explore our beautiful campus from anywhere in the world</p>
           <button className="schedule-tour-button">

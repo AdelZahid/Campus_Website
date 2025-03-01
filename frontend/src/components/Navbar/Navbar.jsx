@@ -138,9 +138,6 @@ const Navbar = ({ user, onLogout }) => {
               <Link to="/login" className="signin-btn">
                 Sign in
               </Link>
-              <Link to="/register" className="signup-btn">
-                Sign up
-              </Link>
             </div>
           </>
         )}

@@ -81,21 +81,25 @@ const UniversityDetailPage = () => {
             <ul>
               <li>
                 <Link to={`/university/${university.id}/details`}>
+                  <i className="fas fa-info-circle"></i>
                   Detailed View
                 </Link>
               </li>
               <li>
                 <Link to={`/university/${university.id}/programs`}>
+                  <i className="fas fa-book"></i>
                   Programs & Courses
                 </Link>
               </li>
               <li>
                 <Link to={`/university/${university.id}/faculty`}>
+                  <i className="fas fa-chalkboard-teacher"></i>
                   Faculty & Staff
                 </Link>
               </li>
               <li>
                 <Link to={`/university/${university.id}/virtual-tour`}>
+                  <i className="fas fa-vr-cardboard"></i>
                   Virtual Campus Tour
                 </Link>
               </li>
@@ -163,7 +167,7 @@ const UniversityDetailPage = () => {
           </div>
         </div>
 
-        <div className="university-detail-content">
+        <div className="university-detail-main">
           <div className="university-tabs">
             <button
               className={`tab-button ${
@@ -171,7 +175,7 @@ const UniversityDetailPage = () => {
               }`}
               onClick={() => setActiveTab("overview")}
             >
-              Overview
+              <i className="fas fa-info-circle"></i> Overview
             </button>
             <button
               className={`tab-button ${
@@ -179,7 +183,7 @@ const UniversityDetailPage = () => {
               }`}
               onClick={() => setActiveTab("programs")}
             >
-              Programs
+              <i className="fas fa-graduation-cap"></i> Programs
             </button>
             <button
               className={`tab-button ${
@@ -187,19 +191,19 @@ const UniversityDetailPage = () => {
               }`}
               onClick={() => setActiveTab("admissions")}
             >
-              Admissions
+              <i className="fas fa-file-alt"></i> Admissions
             </button>
             <button
               className={`tab-button ${activeTab === "campus" ? "active" : ""}`}
               onClick={() => setActiveTab("campus")}
             >
-              Campus Life
+              <i className="fas fa-university"></i> Campus Life
             </button>
             <button
               className={`tab-button ${activeTab === "events" ? "active" : ""}`}
               onClick={() => setActiveTab("events")}
             >
-              Events
+              <i className="fas fa-calendar-alt"></i> Events
             </button>
           </div>
 

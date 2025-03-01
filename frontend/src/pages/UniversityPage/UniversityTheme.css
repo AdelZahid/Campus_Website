@@ -1,14 +1,89 @@
 
 :root {
-  --university-primary: #3498db;
-  --university-primary-dark: #2980b9;
-  --university-secondary: #2c3e50;
-  --university-light: #f8f9fa;
-  --university-text: #34495e;
-  --university-text-light: #7f8c8d;
-  --university-accent: #e74c3c;
+  --university-primary: #21a663;
+  --university-primary-dark: #14643b;
+  --university-secondary: #0d4a2a;
+  --university-light: #f5f7fa;
+  --university-text: #333;
+  --university-text-light: #666;
+  --university-accent: #27ae60;
   --university-success: #27ae60;
   --university-warning: #f39c12;
-  --university-info: #3498db;
+  --university-info: #21a663;
   --university-shadow: rgba(0, 0, 0, 0.1);
+}
+:root {
+  /* Primary Theme Colors */
+  --university-primary: #21a663;
+  --university-primary-dark: #14643b;
+  --university-primary-darker: #0d4a2a;
+  --university-primary-light: rgba(33, 166, 99, 0.1);
+  --university-primary-rgb: 33, 166, 99;
+  
+  /* Secondary Colors */
+  --university-secondary: #2c3e50;
+  --university-secondary-light: #34495e;
+  --university-secondary-lighter: #7f8c8d;
+  
+  /* Background Colors */
+  --university-light: #f8f9fa;
+  --university-lighter: #fcfcfc;
+  
+  /* UI Effect Colors */
+  --university-shadow: rgba(33, 166, 99, 0.2);
+  --university-hover-light: rgba(33, 166, 99, 0.05);
+  --university-active: rgba(33, 166, 99, 0.15);
+  
+  /* Status Colors */
+  --university-success: #2ecc71;
+  --university-warning: #f39c12;
+  --university-error: #e74c3c;
+  --university-info: var(--university-primary);
+}
+
+/* Utility Classes */
+.university-text-primary {
+  color: var(--university-primary);
+}
+
+.university-bg-primary {
+  background-color: var(--university-primary);
+  color: white;
+}
+
+.university-border-primary {
+  border-color: var(--university-primary);
+}
+
+.university-btn {
+  background-color: var(--university-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.university-btn:hover {
+  background-color: var(--university-primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px var(--university-shadow);
+}
+
+.university-btn-outline {
+  background-color: transparent;
+  color: var(--university-primary);
+  border: 1px solid var(--university-primary);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.university-btn-outline:hover {
+  background-color: var(--university-primary);
+  color: white;
 }

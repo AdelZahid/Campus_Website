@@ -32,12 +32,13 @@ const UniversityPage = () => {
     let filtered = universities;
 
     // Apply search term
-    if (searchTerm) {
+    if (searchTerm && searchTerm.trim() !== "") {
+      const searchTermLower = searchTerm.toLowerCase().trim();
       filtered = filtered.filter(
         (uni) =>
-          uni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          uni.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          uni.description.toLowerCase().includes(searchTerm.toLowerCase())
+          uni.name.toLowerCase().includes(searchTermLower) ||
+          uni.location.toLowerCase().includes(searchTermLower) ||
+          uni.description.toLowerCase().includes(searchTermLower)
       );
     }
 
@@ -233,10 +234,17 @@ const UniversityPage = () => {
               </div>
             </div>
 
-            <UniversityList
-              universities={filteredUniversities}
-              navigate={navigate}
-            />
+            {filteredUniversities.length > 0 ? (
+              <UniversityList
+                universities={filteredUniversities}
+                navigate={navigate}
+              />
+            ) : (
+              <div className="no-results">
+                <h3>No universities match your criteria</h3>
+                <p>Try adjusting your filters or search term</p>
+              </div>
+            )}
           </>
         )}
 

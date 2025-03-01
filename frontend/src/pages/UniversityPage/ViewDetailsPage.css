@@ -40,13 +40,13 @@
 }
 
 .breadcrumbs a {
-  color: #3498db;
+  color: var(--university-primary);
   text-decoration: none;
   transition: color 0.3s;
 }
 
 .breadcrumbs a:hover {
-  color: #2980b9;
+  color: var(--university-primary-dark);
   text-decoration: underline;
 }
 
@@ -108,17 +108,17 @@
 
 .sidebar-nav button:hover {
   background-color: #f8f9fa;
-  color: #3498db;
+  color: var(--university-primary);
 }
 
 .sidebar-nav button.active {
   background-color: #f8f9fa;
-  color: #3498db;
+  color: var(--university-primary);
   font-weight: 600;
 }
 
 .sidebar-nav button.active::before {
-  background-color: #3498db;
+  background-color: var(--university-primary);
 }
 
 .quick-links {
@@ -144,7 +144,7 @@
   left: 0;
   width: 50px;
   height: 3px;
-  background-color: #3498db;
+  background-color: var(--university-primary);
 }
 
 .quick-links a {
@@ -161,7 +161,7 @@
 }
 
 .quick-links a:hover {
-  color: #3498db;
+  color: var(--university-primary);
   transform: translateX(5px);
 }
 
@@ -198,7 +198,7 @@
   left: 0;
   width: 70px;
   height: 3px;
-  background-color: #3498db;
+  background-color: var(--university-primary);
 }
 
 .section-content {
@@ -225,7 +225,7 @@
   bottom: 0;
   left: 20px;
   width: 2px;
-  background-color: #3498db;
+  background-color: var(--university-primary);
 }
 
 .timeline-item {
@@ -245,9 +245,9 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #3498db;
+  background-color: var(--university-primary);
   border: 4px solid white;
-  box-shadow: 0 0 0 2px #3498db;
+  box-shadow: 0 0 0 2px var(--university-primary);
 }
 
 .timeline-content {
@@ -258,7 +258,7 @@
 }
 
 .timeline-content h3 {
-  color: #3498db;
+  color: var(--university-primary);
   font-size: 1.3rem;
   margin-bottom: 5px;
 }
@@ -289,7 +289,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   display: flex;
   align-items: center;
@@ -325,7 +325,7 @@
 .campus-size p {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #3498db;
+  color: var(--university-primary);
 }
 
 .campus-buildings h3 {
@@ -348,7 +348,7 @@
 
 .campus-buildings ul li::before {
   content: '•';
-  color: #3498db;
+  color: var(--university-primary);
   font-weight: bold;
   margin-right: 10px;
 }
@@ -409,14 +409,14 @@
 
 .learn-more {
   display: inline-block;
-  color: #3498db;
+  color: var(--university-primary);
   font-weight: 500;
   text-decoration: none;
   transition: color 0.3s;
 }
 
 .learn-more:hover {
-  color: #2980b9;
+  color: var(--university-primary-dark);
   text-decoration: underline;
 }
 
@@ -443,7 +443,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   display: flex;
   align-items: center;
@@ -475,7 +475,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   border: none;
   padding: 12px 25px;
@@ -488,7 +488,7 @@
 }
 
 .back-button:hover {
-  background-color: #2980b9;
+  background-color: var(--university-primary-dark);
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
@@ -506,7 +506,7 @@
   width: 50px;
   height: 50px;
   border: 5px solid #f3f3f3;
-  border-top: 5px solid #3498db;
+  border-top: 5px solid var(--university-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

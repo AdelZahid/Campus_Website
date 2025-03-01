@@ -1,4 +1,3 @@
-
 /* University Page Styles - Scoped with .university-page prefix to prevent conflicts */
 @import './UniversityTheme.css';
 
@@ -135,7 +134,7 @@
 }
 
 .university-page .tab-button:hover:not(.active) {
-  color: var(--university-secondary);
+  color: var(--university-primary);
 }
 
 /* Filters Section */
@@ -176,8 +175,8 @@
 }
 
 .university-page .filter select:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  border-color: var(--university-primary);
+  box-shadow: 0 0 0 3px rgba(33, 166, 99, 0.2);
   outline: none;
 }
 
@@ -302,12 +301,12 @@
 }
 
 .university-page .view-details-btn {
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
 }
 
 .university-page .view-details-btn:hover {
-  background-color: #2980b9;
+  background-color: var(--university-primary-dark);
   transform: translateY(-2px);
 }
 
@@ -350,13 +349,13 @@
   position: absolute;
   top: 15px;
   right: 15px;
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   padding: 6px 12px;
   border-radius: 30px;
   font-size: 0.85rem;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px var(--university-shadow, rgba(33, 166, 99, 0.2));
 }
 
 .university-page .program-name {
@@ -508,7 +507,7 @@
 .university-page .event-register-button {
   width: 100%;
   padding: 12px 0;
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -524,7 +523,7 @@
 }
 
 .university-page .event-register-button:hover {
-  background-color: #2980b9;
+  background-color: var(--university-primary-dark);
   transform: translateY(-2px);
 }
 
@@ -554,7 +553,7 @@
   .university-page .university-container {
     padding: 30px 20px;
   }
-  
+
   .university-page .events-grid,
   .university-page .programs-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -565,12 +564,12 @@
   .university-page .university-card {
     flex-direction: column;
   }
-  
+
   .university-page .university-image {
     height: 200px;
     flex-basis: auto;
   }
-  
+
   .university-page .university-actions {
     justify-content: flex-start;
   }
@@ -585,33 +584,33 @@
   .university-page .hero-content h1 {
     font-size: 2.2rem;
   }
-  
+
   .university-page .search-container {
     flex-direction: column;
     border-radius: 12px;
   }
-  
+
   .university-page .search-container button {
     border-radius: 0;
     padding: 15px;
   }
-  
+
   .university-page .programs-grid,
   .university-page .events-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .university-page .tabs-container {
     justify-content: flex-start;
     overflow-x: auto;
     padding-bottom: 5px;
   }
-  
+
   .university-page .event-title {
     padding-right: 0;
     margin-top: 50px;
   }
-  
+
   .university-page .university-content h3 {
     font-size: 1.5rem;
   }
@@ -621,29 +620,29 @@
   .university-page .university-hero {
     padding: 80px 20px;
   }
-  
+
   .university-page .university-meta {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .university-page .university-actions {
     flex-direction: column;
     width: 100%;
   }
-  
+
   .university-page .university-actions button {
     width: 100%;
   }
-  
+
   .university-page .filters-container {
     padding: 15px;
   }
-  
+
   .university-page .filter {
     flex: 1 1 100%;
   }
-  
+
   .university-page .university-content {
     padding: 20px;
   }

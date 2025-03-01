@@ -9,14 +9,15 @@
 }
 
 .tour-hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 
               url('https://images.unsplash.com/photo-1592494904270-53ee7a31458d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center;
   color: white;
-  padding: 120px 20px;
+  padding: 130px 20px;
   text-align: center;
   position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .tour-hero-content {
@@ -27,15 +28,42 @@
 }
 
 .tour-hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  font-weight: 700;
+  font-size: clamp(2.8rem, 5vw, 3.5rem);
+  margin-bottom: 25px;
+  font-weight: 800;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.5px;
 }
 
 .tour-hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-  opacity: 0.9;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  margin-bottom: 35px;
+  opacity: 0.95;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.schedule-tour-button {
+  background-color: var(--university-primary);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(33, 166, 99, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.schedule-tour-button:hover {
+  background-color: var(--university-primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(33, 166, 99, 0.4);
 }
 
 .tour-container {
@@ -248,30 +276,54 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 30px;
+  gap: 12px;
+  margin: 40px 0;
 }
 
 .virtual-tour-page .location-navigation button {
-  padding: 10px 20px;
+  padding: 12px 24px;
   background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 0.95rem;
-  color: #34495e;
+  border: 2px solid transparent;
+  border-radius: 30px;
+  font-size: 1rem;
+  color: var(--university-secondary);
   cursor: pointer;
   transition: all 0.3s;
+  font-weight: 500;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
 }
 
 .virtual-tour-page .location-navigation button:hover {
-  background-color: #f8f9fa;
-  border-color: #bdc3c7;
+  background-color: var(--university-hover-light);
+  border-color: var(--university-primary);
+  transform: translateY(-2px);
 }
 
 .virtual-tour-page .location-navigation button.active {
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
-  border-color: #3498db;
+  border-color: var(--university-primary);
+  box-shadow: 0 5px 15px var(--university-shadow);
+}
+
+.tour-description {
+  max-width: 850px;
+  margin: 0 auto 40px;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.tour-description h2 {
+  font-size: 2.2rem;
+  color: var(--university-secondary);
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.tour-description p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--university-text-light);
 }
 
 
@@ -330,7 +382,7 @@
 }
 
 .virtual-tour-page .map-marker.active {
-  background-color: #3498db;
+  background-color: var(--university-primary);
 }
 
 .virtual-tour-page .marker-number {
@@ -383,48 +435,73 @@
 
 .virtual-tour-page .tour-info-card {
   background-color: white;
-  border-radius: 10px;
-  padding: 30px;
+  border-radius: 15px;
+  padding: 35px 30px;
   text-align: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--university-primary);
+  position: relative;
+  overflow: hidden;
 }
 
 .virtual-tour-page .tour-info-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(33, 166, 99, 0.15);
 }
 
 .virtual-tour-page .tour-info-card i {
-  font-size: 2.5rem;
-  color: #3498db;
-  margin-bottom: 20px;
+  font-size: 2.8rem;
+  color: var(--university-primary);
+  margin-bottom: 25px;
+  background-color: var(--university-primary-light);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 25px;
+  transition: all 0.3s ease;
+}
+
+.virtual-tour-page .tour-info-card:hover i {
+  transform: scale(1.1);
+  background-color: var(--university-primary);
+  color: white;
 }
 
 .virtual-tour-page .tour-info-card h4 {
-  font-size: 1.3rem;
-  color: #2c3e50;
-  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: var(--university-secondary);
+  margin-bottom: 18px;
+  font-weight: 700;
 }
 
 .virtual-tour-page .tour-info-card p {
-  color: #7f8c8d;
-  margin-bottom: 20px;
-  line-height: 1.5;
+  color: var(--university-text-light);
+  margin-bottom: 25px;
+  line-height: 1.6;
+  font-size: 1.05rem;
 }
 
 .virtual-tour-page .tour-info-card button {
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 12px 25px;
+  border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
   font-weight: 600;
+  box-shadow: 0 4px 10px var(--university-shadow);
+  width: 80%;
 }
 
 .virtual-tour-page .tour-info-card button:hover {
-  background-color: #2980b9;
+  background-color: var(--university-primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px var(--university-shadow);
 }
 
 @media (max-width: 768px) {

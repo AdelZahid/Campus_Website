@@ -1,75 +1,246 @@
+/* Virtual Tour Page Styles */
+@import './UniversityTheme.css';
 
-/* Virtual Tour Page Styles - Scoped with .virtual-tour-page prefix to prevent conflicts */
 .virtual-tour-page {
   min-height: 100vh;
-  font-family: 'Arial', sans-serif;
-  background-color: #f5f7fa;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  background-color: var(--university-light);
+  color: var(--university-text);
 }
 
-.virtual-tour-page .tour-hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://via.placeholder.com/1920x800?text=University+Campus');
+.tour-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+              url('https://images.unsplash.com/photo-1592494904270-53ee7a31458d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center;
   color: white;
-  padding: 100px 20px;
+  padding: 120px 20px;
   text-align: center;
+  position: relative;
 }
 
-.virtual-tour-page .hero-content {
+.tour-hero-content {
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
-.virtual-tour-page .hero-content h1 {
+.tour-hero-content h1 {
   font-size: 3rem;
   margin-bottom: 20px;
   font-weight: 700;
 }
 
-.virtual-tour-page .hero-content p {
+.tour-hero-content p {
   font-size: 1.2rem;
   margin-bottom: 30px;
   opacity: 0.9;
 }
 
-.virtual-tour-page .schedule-tour-button {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-weight: 600;
-}
-
-.virtual-tour-page .schedule-tour-button:hover {
-  background-color: #2980b9;
-}
-
-.virtual-tour-page .tour-container {
+.tour-container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 30px 20px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-.virtual-tour-page .tour-description {
-  text-align: center;
+.tour-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.tour-nav-button {
+  padding: 12px 25px;
+  background-color: white;
+  border: 1px solid #e1e8ed;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--university-secondary);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tour-nav-button:hover, .tour-nav-button.active {
+  background-color: var(--university-primary);
+  color: white;
+  border-color: var(--university-primary);
+}
+
+.tour-content {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px var(--university-shadow);
+  overflow: hidden;
   margin-bottom: 40px;
 }
 
-.virtual-tour-page .tour-description h2 {
-  font-size: 2rem;
-  color: #2c3e50;
-  margin-bottom: 15px;
+.tour-viewer {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: #000;
 }
 
-.virtual-tour-page .tour-description p {
-  font-size: 1.1rem;
-  color: #7f8c8d;
-  max-width: 800px;
-  margin: 0 auto;
+.tour-viewer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tour-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 10;
+}
+
+.control-button {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.control-button:hover {
+  background-color: var(--university-primary);
+}
+
+.tour-info {
+  padding: 25px;
+}
+
+.tour-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: var(--university-secondary);
+}
+
+.tour-info p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.tour-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--university-text-light);
+  margin-bottom: 20px;
+}
+
+.tour-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.gallery-item {
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px var(--university-shadow);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tour-features {
+  padding: 30px 20px;
+  background-color: var(--university-light);
+}
+
+.tour-features h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--university-secondary);
+  text-align: center;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 20px;
+}
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  background-color: var(--university-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 15px;
+}
+
+.feature-item h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--university-secondary);
+}
+
+.feature-item p {
+  color: var(--university-text-light);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .tour-navigation {
+    justify-content: center;
+  }
+
+  .tour-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .control-button {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 576px) {
+  .tour-hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .tour-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Location Navigation */
@@ -103,108 +274,6 @@
   border-color: #3498db;
 }
 
-/* Tour Viewer */
-.virtual-tour-page .tour-viewer {
-  background-color: white;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 40px;
-}
-
-.virtual-tour-page .tour-image-container {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 50%;
-  overflow: hidden;
-}
-
-.virtual-tour-page .tour-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.virtual-tour-page .location-title {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-  color: white;
-  padding: 20px;
-  margin: 0;
-  font-size: 1.8rem;
-}
-
-.virtual-tour-page .location-details {
-  padding: 25px;
-}
-
-.virtual-tour-page .location-description {
-  color: #34495e;
-  margin-bottom: 20px;
-  line-height: 1.6;
-  font-size: 1.05rem;
-}
-
-.virtual-tour-page .location-features {
-  margin-bottom: 25px;
-}
-
-.virtual-tour-page .location-features h4 {
-  font-size: 1.2rem;
-  color: #2c3e50;
-  margin-bottom: 10px;
-}
-
-.virtual-tour-page .location-features ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
-  padding-left: 20px;
-}
-
-.virtual-tour-page .location-features li {
-  color: #34495e;
-}
-
-.virtual-tour-page .tour-actions {
-  display: flex;
-  gap: 15px;
-}
-
-.virtual-tour-page .view-360-button,
-.virtual-tour-page .view-gallery-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.virtual-tour-page .view-360-button {
-  background-color: #3498db;
-  color: white;
-}
-
-.virtual-tour-page .view-360-button:hover {
-  background-color: #2980b9;
-}
-
-.virtual-tour-page .view-gallery-button {
-  background-color: #ecf0f1;
-  color: #2c3e50;
-}
-
-.virtual-tour-page .view-gallery-button:hover {
-  background-color: #dfe6e9;
-}
 
 /* Campus Map */
 .virtual-tour-page .tour-map {
@@ -362,11 +431,11 @@
   .virtual-tour-page .hero-content h1 {
     font-size: 2.2rem;
   }
-  
+
   .virtual-tour-page .tour-actions {
     flex-direction: column;
   }
-  
+
   .virtual-tour-page .location-features ul {
     grid-template-columns: 1fr;
   }

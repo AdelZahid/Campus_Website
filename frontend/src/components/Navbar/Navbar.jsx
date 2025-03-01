@@ -1,167 +1,249 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
-// import logo from '../../assets/logo.png'; // Removed logo import
 
-const Navbar = () => {
-  const [sticky, setSticky] = useState(false);
-  const [mobileMenu, setMobileMenu] = useState(false);
+const Navbar = ({ user, onLogout }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // For demo, you'd use actual auth
-  const notificationRef = useRef(null);
+  const location = useLocation();
+  const mobileMenuRef = useRef(null);
 
-  // Check if user has scrolled for sticky navbar
+  // Handle scrolling effect
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      setSticky(window.scrollY > 50);
-    });
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
 
-    // Close notifications when clicking outside
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        notificationRef.current &&
-        !notificationRef.current.contains(event.target)
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
       ) {
-        setShowNotifications(false);
+        setIsMobileMenuOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const toggleMenu = () => {
-    setMobileMenu(!mobileMenu);
-  };
-
-  const toggleNotifications = () => {
-    setShowNotifications(!showNotifications);
-  };
-
-  // For demo purposes - in real app you'd have authentication
-  const toggleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
-  };
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
 
   return (
-    <nav className={`navbar ${sticky ? "navbar-sticky" : ""}`}>
+    <nav className={`navbar ${isScrolled ? "navbar-sticky" : ""}`}>
       <div className="navbar-container">
-        <div className="navbar-logo">
-          {/* Logo removed */}
-          <Link to="/">Campus Connect</Link> {/* Placeholder text for logo */}
-        </div>
+        <Link to="/" className="navbar-logo">
+          <span>Campus</span>
+        </Link>
 
-        <div className={`navbar-links ${mobileMenu ? "active" : ""}`}>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/university">Universities</Link>
-            </li>
-            <li>
-              <Link to="/clubs">Clubs</Link>
-            </li>
-            {isLoggedIn && (
-              <>
-                <li>
-                  <Link to="/library">Library</Link>
-                </li>
-                <li>
-                  <Link to="/helpdesk">Helpdesk</Link>
-                </li>
-                <li>
-                  <Link to="/messages">Messages</Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-
-        <div className="navbar-actions">
-          {isLoggedIn ? (
-            <>
-              <div className="notification-wrapper" ref={notificationRef}>
-                <button
-                  className="notification-btn"
-                  onClick={toggleNotifications}
-                  aria-label="Notifications"
-                >
-                  <i className="fas fa-bell"></i>
-                  <span className="notification-badge">3</span>
-                </button>
-
-                {showNotifications && (
-                  <div className="notification-panel">
-                    <div className="notification-header">
-                      <h3>Notifications</h3>
-                      <button
-                        className="close-btn"
-                        onClick={toggleNotifications}
-                      >
-                        <i className="fas fa-times"></i>
-                      </button>
-                    </div>
-                    <div className="notification-list">
-                      <div className="notification-item unread">
-                        <div className="notification-icon">
-                          <i className="fas fa-user-circle"></i>
-                        </div>
-                        <div className="notification-content">
-                          <p>John Smith accepted your friend request</p>
-                          <span className="notification-time">
-                            2 minutes ago
-                          </span>
-                        </div>
-                      </div>
-                      <div className="notification-item unread">
-                        <div className="notification-icon">
-                          <i className="fas fa-comment-alt"></i>
-                        </div>
-                        <div className="notification-content">
-                          <p>New comment on your question about CS courses</p>
-                          <span className="notification-time">1 hour ago</span>
-                        </div>
-                      </div>
-                      <div className="notification-item">
-                        <div className="notification-icon">
-                          <i className="fas fa-calendar-check"></i>
-                        </div>
-                        <div className="notification-content">
-                          <p>Reminder: Campus tour tomorrow at 2 PM</p>
-                          <span className="notification-time">5 hours ago</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="notification-footer">
-                      <Link to="/notifications">View All Notifications</Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <Link to="/profile" className="profile-link">
-                <div className="profile-avatar">
-                  <img
-                    src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
-                    alt="Profile"
-                  />
-                </div>
+        {/* Desktop Navigation */}
+        {user ? (
+          <>
+            <div className="navbar-links desktop-only">
+              <Link
+                to="/"
+                className={location.pathname === "/" ? "active" : ""}
+              >
+                Home
               </Link>
+              <Link
+                to="/university"
+                className={
+                  location.pathname.includes("/university") ? "active" : ""
+                }
+              >
+                Universities
+              </Link>
+              <Link
+                to="/clubs"
+                className={location.pathname.includes("/clubs") ? "active" : ""}
+              >
+                Clubs
+              </Link>
+              <Link
+                to="/library"
+                className={
+                  location.pathname.includes("/library") ? "active" : ""
+                }
+              >
+                Library
+              </Link>
+              <Link
+                to="/helpdesk"
+                className={
+                  location.pathname.includes("/helpdesk") ? "active" : ""
+                }
+              >
+                Helpdesk
+              </Link>
+            </div>
+            <div className="navbar-actions desktop-only">
+              <button
+                className="notification-btn"
+                onClick={() => setShowNotifications(!showNotifications)}
+                aria-label="Notifications"
+              >
+                <i className="fas fa-bell"></i>
+              </button>
+              <Link to="/profile" className="profile-link">
+                <img
+                  className="profile-img"
+                  src={
+                    user.avatar ||
+                    "https://ui-avatars.com/api/?name=User&background=21a663&color=fff"
+                  }
+                  alt="Profile"
+                />
+              </Link>
+              <button className="logout-btn" onClick={onLogout}>
+                Logout
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="navbar-links desktop-only">
+              <Link
+                to="/"
+                className={location.pathname === "/" ? "active" : ""}
+              >
+                Home
+              </Link>
+              <Link
+                to="/university"
+                className={
+                  location.pathname.includes("/university") ? "active" : ""
+                }
+              >
+                Universities
+              </Link>
+              <Link
+                to="/clubs"
+                className={location.pathname.includes("/clubs") ? "active" : ""}
+              >
+                Clubs
+              </Link>
+            </div>
+            <div className="auth-buttons desktop-only">
+              <Link to="/login" className="signin-btn">
+                Sign in
+              </Link>
+              <Link to="/register" className="signup-btn">
+                Sign up
+              </Link>
+            </div>
+          </>
+        )}
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className="navbar-menu-toggle"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <i className={`fas ${isMobileMenuOpen ? "fa-times" : "fa-bars"}`}></i>
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="navbar-mobile show" ref={mobileMenuRef}>
+          {user ? (
+            <>
+              <Link
+                to="/"
+                className={location.pathname === "/" ? "active" : ""}
+              >
+                Home
+              </Link>
+              <Link
+                to="/university"
+                className={
+                  location.pathname.includes("/university") ? "active" : ""
+                }
+              >
+                Universities
+              </Link>
+              <Link
+                to="/clubs"
+                className={location.pathname.includes("/clubs") ? "active" : ""}
+              >
+                Clubs
+              </Link>
+              <Link
+                to="/library"
+                className={
+                  location.pathname.includes("/library") ? "active" : ""
+                }
+              >
+                Library
+              </Link>
+              <Link
+                to="/helpdesk"
+                className={
+                  location.pathname.includes("/helpdesk") ? "active" : ""
+                }
+              >
+                Helpdesk
+              </Link>
+              <Link to="/profile" className="mobile-profile">
+                <img
+                  src={
+                    user.avatar ||
+                    "https://ui-avatars.com/api/?name=User&background=21a663&color=fff"
+                  }
+                  alt="Profile"
+                />
+                <span>My Profile</span>
+              </Link>
+              <button className="mobile-logout-btn" onClick={onLogout}>
+                <i className="fas fa-sign-out-alt"></i> Logout
+              </button>
             </>
           ) : (
-            <button className="signin-btn" onClick={toggleLogin}>
-              Sign In
-            </button>
+            <>
+              <Link
+                to="/"
+                className={location.pathname === "/" ? "active" : ""}
+              >
+                Home
+              </Link>
+              <Link
+                to="/university"
+                className={
+                  location.pathname.includes("/university") ? "active" : ""
+                }
+              >
+                Universities
+              </Link>
+              <Link
+                to="/clubs"
+                className={location.pathname.includes("/clubs") ? "active" : ""}
+              >
+                Clubs
+              </Link>
+              <div className="mobile-auth-buttons">
+                <Link to="/login" className="mobile-signin-btn">
+                  <i className="fas fa-sign-in-alt"></i> Sign in
+                </Link>
+                <Link to="/register" className="mobile-signup-btn">
+                  <i className="fas fa-user-plus"></i> Sign up
+                </Link>
+              </div>
+            </>
           )}
-
-          <button className="menu-toggle" onClick={toggleMenu}>
-            <i className={`fas ${mobileMenu ? "fa-times" : "fa-bars"}`}></i>
-          </button>
         </div>
-      </div>
+      )}
     </nav>
   );
 };

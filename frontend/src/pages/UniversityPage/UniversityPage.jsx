@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
 import "./UniversityPage.css";
 
 const UniversityPage = () => {
@@ -295,6 +296,7 @@ const UniversityPage = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

@@ -1,10 +1,12 @@
 
 /* University Detail Page Styles */
+@import './UniversityTheme.css';
+
 .university-detail-page {
   min-height: 100vh;
   font-family: 'Poppins', 'Arial', sans-serif;
-  background-color: #f8f9fa;
-  color: #2c3e50;
+  background-color: var(--university-light);
+  color: var(--university-secondary);
 }
 
 .university-header {
@@ -57,12 +59,12 @@
 }
 
 .university-header-meta i {
-  color: #3498db;
+  color: var(--university-primary);
   font-size: 1.2rem;
 }
 
 .apply-now-button {
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   border: none;
   padding: 14px 30px;
@@ -75,7 +77,7 @@
 }
 
 .apply-now-button:hover {
-  background-color: #2980b9;
+  background-color: var(--university-primary-dark);
   box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
   transform: translateY(-3px);
 }

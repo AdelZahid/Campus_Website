@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import "./UniversityDetailPage.css";
+import Footer from "../../components/Footer/Footer"; //Import Footer component
 
 const UniversityDetailPage = () => {
   const { id } = useParams();
@@ -51,7 +52,6 @@ const UniversityDetailPage = () => {
   return (
     <div className="university-detail-page">
       <Navbar />
-
       <div
         className="university-header"
         style={{
@@ -74,7 +74,6 @@ const UniversityDetailPage = () => {
           <button className="apply-now-button">Apply Now</button>
         </div>
       </div>
-
       <div className="university-detail-container">
         <div className="university-detail-sidebar">
           <div className="detail-navigation">
@@ -528,6 +527,7 @@ const UniversityDetailPage = () => {
           </div>
         </div>
       </div>
+      <Footer /> {/* Added Footer component */}
     </div>
   );
 };

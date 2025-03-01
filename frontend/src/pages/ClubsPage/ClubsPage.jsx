@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Footer from "../../components/Footer/Footer"; // Added import for Footer component
+import Footer from "../../components/Footer/Footer";
 import "./ClubsPage.css";
 import Navbar from "../../components/Navbar/Navbar";
 
@@ -152,7 +152,7 @@ const ClubsPage = () => {
 
   return (
     <div className="clubs-page page-container">
-      <Navbar /> {/* Added Navbar component */}
+      <Navbar />
       <div className="container">
         <div className="clubs-hero">
           <div className="clubs-hero-content">
@@ -267,7 +267,7 @@ const ClubsPage = () => {
           <div className="create-club-image"></div>
         </div>
       </div>
-      <Footer /> {/* Added Footer component */}
+      <Footer />
     </div>
   );
 };

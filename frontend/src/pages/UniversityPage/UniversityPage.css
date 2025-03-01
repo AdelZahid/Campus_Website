@@ -1,9 +1,11 @@
 
 /* University Page Styles - Scoped with .university-page prefix to prevent conflicts */
+@import './UniversityTheme.css';
+
 .university-page {
   min-height: 100vh;
   font-family: 'Poppins', 'Arial', sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--university-light);
 }
 
 .university-page .university-hero {
@@ -70,7 +72,7 @@
 }
 
 .university-page .search-container button {
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   border: none;
   padding: 0 30px;
@@ -83,7 +85,7 @@
 }
 
 .university-page .search-container button:hover {
-  background-color: #2980b9;
+  background-color: var(--university-primary-dark);
 }
 
 .university-page .university-container {
@@ -124,16 +126,16 @@
 }
 
 .university-page .tab-button.active {
-  color: #3498db;
+  color: var(--university-primary);
   font-weight: 600;
 }
 
 .university-page .tab-button.active:after {
-  background-color: #3498db;
+  background-color: var(--university-primary);
 }
 
 .university-page .tab-button:hover:not(.active) {
-  color: #2c3e50;
+  color: var(--university-secondary);
 }
 
 /* Filters Section */
@@ -231,13 +233,13 @@
   position: absolute;
   top: 15px;
   left: 15px;
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 0.85rem;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px var(--university-shadow);
 }
 
 .university-page .university-content {

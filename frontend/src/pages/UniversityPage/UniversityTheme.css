@@ -1,0 +1,14 @@
+
+:root {
+  --university-primary: #3498db;
+  --university-primary-dark: #2980b9;
+  --university-secondary: #2c3e50;
+  --university-light: #f8f9fa;
+  --university-text: #34495e;
+  --university-text-light: #7f8c8d;
+  --university-accent: #e74c3c;
+  --university-success: #27ae60;
+  --university-warning: #f39c12;
+  --university-info: #3498db;
+  --university-shadow: rgba(0, 0, 0, 0.1);
+}

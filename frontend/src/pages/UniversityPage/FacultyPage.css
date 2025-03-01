@@ -1,9 +1,11 @@
 
 /* Faculty Page Styles - Scoped with .faculty-page prefix to prevent conflicts */
+@import './UniversityTheme.css';
+
 .faculty-page {
   min-height: 100vh;
-  font-family: 'Arial', sans-serif;
-  background-color: #f5f7fa;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  background-color: var(--university-light);
 }
 
 .faculty-page .faculty-hero {
@@ -50,7 +52,7 @@
 }
 
 .faculty-page .search-container button {
-  background-color: #3498db;
+  background-color: var(--university-primary);
   color: white;
   border: none;
   padding: 0 25px;
@@ -60,7 +62,7 @@
 }
 
 .faculty-page .search-container button:hover {
-  background-color: #2980b9;
+  background-color: var(--university-primary-dark);
 }
 
 .faculty-page .faculty-container {

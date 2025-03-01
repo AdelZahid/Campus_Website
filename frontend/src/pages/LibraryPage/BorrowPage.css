@@ -1,0 +1,269 @@
+
+.borrow-page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.borrow-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 90px 20px 40px;
+}
+
+.breadcrumb {
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.breadcrumb a {
+  color: #21a663;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.borrow-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+}
+
+.borrow-container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+}
+
+.borrow-details {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.book-preview {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.book-thumbnail {
+  width: 120px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-info-preview {
+  flex: 1;
+}
+
+.book-info-preview h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.book-author {
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.book-meta-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.meta-item {
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 15px;
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+.borrow-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-control {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #21a663;
+  box-shadow: 0 0 0 2px rgba(33, 166, 99, 0.2);
+}
+
+.borrow-summary {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.borrow-summary h4 {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.terms-checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.terms-checkbox input {
+  margin-top: 3px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.cancel-button {
+  flex: 1;
+  padding: 12px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.cancel-button:hover {
+  background-color: #eaeaea;
+}
+
+.submit-button {
+  flex: 2;
+  padding: 12px;
+  background-color: #21a663;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #188f52;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error-message {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.error-message h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.error-message p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  display: inline-block;
+  background-color: #21a663;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #188f52;
+}
+
+.success-message {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.success-message i {
+  font-size: 4rem;
+  color: #21a663;
+  margin-bottom: 20px;
+}
+
+.success-message h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.success-message p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .book-preview {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+}

@@ -128,78 +128,7 @@ body {
   height: 32px;
 }
 
-.main-navbar .logo span {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--primary-color);
-}
-
-.main-navbar .nav-links {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.main-navbar .nav-links a {
-  color: var(--text-primary);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color var(--transition-normal);
-  position: relative;
-  padding: 5px 0;
-}
-
-.main-navbar .nav-links a:after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--primary-color);
-  transition: width var(--transition-normal);
-}
-
-.main-navbar .nav-links a:hover {
-  color: var(--primary-color);
-}
-
-.main-navbar .nav-links a:hover:after {
-  width: 100%;
-}
-
-.main-navbar .notification-btn {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 5px;
-  transition: color var(--transition-normal);
-}
-
-.main-navbar .notification-btn:hover {
-  color: var(--primary-color);
-}
-
-.main-navbar .profile-img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  cursor: pointer;
-  object-fit: cover;
-  border: 2px solid var(--primary-color);
-}
-
-.main-navbar .logout-btn {
-  background-color: transparent;
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
-  padding: 6px 15px;
-  border-radius: var(--border-radius-lg);
-  cursor: pointer;
-  transition: all var(--transition-normal);
-}
+/* Navbar styles moved to components/Navbar/Navbar.css */
 
 .main-navbar .logout-btn:hover {
   background-color: var(--primary-light);

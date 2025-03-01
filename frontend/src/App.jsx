@@ -1,9 +1,14 @@
-import React, { useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import "./App.css";
 
 // Import components and pages
 import HomePage from "./pages/HomePage/HomePage";
+import LibraryPage from "./pages/LibraryPage/LibraryPage";
+import BookDetailPage from "./pages/LibraryPage/BookDetailPage";
+import BorrowPage from "./pages/LibraryPage/BorrowPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import ProjectDetailPage from "./pages/ProfilePage/ProjectDetailPage";
 
 // Dummy data for notifications and profile (replace with actual data fetching)
 const notifications = [
@@ -25,112 +30,10 @@ const notifications = [
   },
 ];
 
-// Navbar Component
-const Navbar = ({ user, onLogout }) => {
-  const [showNotifications, setShowNotifications] = useState(false);
-  const navigate = useNavigate();
+// Navbar Component is imported from components/Navbar/Navbar.jsx
+import Navbar from "./components/Navbar/Navbar";
 
-  // Don't show navbar on login/register pages
-  const location = window.location.pathname;
-  const isAuthPage = location === "/login" || location === "/register";
-
-  if (isAuthPage) {
-    return null;
-  }
-
-  return (
-    <nav className="main-navbar">
-      <div className="logo">
-        {/*Removed image import*/}
-        <span>Campus</span>
-      </div>
-
-      {user ? (
-        // Full navigation when logged in
-        <>
-          <div className="nav-links">
-            <Link to="/">Home</Link>
-            <Link to="/university">Universities</Link>
-            <Link to="/clubs">Clubs</Link>
-            <Link to="/library">Library</Link>
-            <Link to="/helpdesk">Helpdesk</Link>
-          </div>
-          <div className="user-actions">
-            <button
-              className="notification-btn"
-              onClick={() => setShowNotifications(true)}
-            >
-              <i className="fas fa-bell"></i>
-            </button>
-            <img
-              className="profile-img"
-              src={
-                user.avatar ||
-                "https://ui-avatars.com/api/?name=User&background=21a663&color=fff"
-              }
-              alt="Profile"
-              onClick={() => navigate("/profile")}
-            />
-            <button className="logout-btn" onClick={onLogout}>
-              Logout
-            </button>
-          </div>
-        </>
-      ) : (
-        // Simplified navigation when logged out - just links and sign in button
-        <>
-          <div className="nav-links">
-            <Link to="/">Home</Link>
-            <Link to="/university">Universities</Link>
-            <Link to="/clubs">Clubs</Link>
-          </div>
-          <div className="auth-buttons">
-            <Link to="/login" className="signin-btn">
-              Sign in
-            </Link>
-          </div>
-        </>
-      )}
-      {showNotifications && (
-        <div
-          className="notifications-overlay"
-          onClick={() => setShowNotifications(false)}
-        >
-          <div className="notifications" onClick={(e) => e.stopPropagation()}>
-            <h3>Notifications</h3>
-            <ul>
-              {notifications.map((notification) => (
-                <li key={notification.id}>
-                  <div className="notification-content">
-                    <p>{notification.message}</p>
-                    <span className="notification-time">
-                      {notification.time}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <button onClick={() => setShowNotifications(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-      )}
-    </nav>
-  );
-};
-
-// Simple page components
-const ProfilePage = () => {
-  return (
-    <div className="page-container">
-      <div className="container">
-        <h1>Profile Page</h1>
-        <p>Profile information will go here.</p>
-      </div>
-    </div>
-  );
-};
+// Other simple page components
 
 const NotificationsPage = () => {
   return (
@@ -164,6 +67,7 @@ import AskQuestionPage from "./pages/HelpdeskPage/AskQuestionPage";
 import QuestionDetailPage from "./pages/HelpdeskPage/QuestionDetailPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ClubsPage from "./pages/ClubsPage/ClubsPage";
+//LibraryPage already imported elsewhere
 
 function App() {
   const [user, setUser] = useState(null); // Simulate user login state
@@ -178,6 +82,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/university" element={<UniversityPage />} />
         <Route path="/university/:id" element={<UniversityDetailPage />} />
@@ -193,6 +98,9 @@ function App() {
         <Route path="/helpdesk/question/:id" element={<QuestionDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/clubs" element={<ClubsPage />} />
+        <Route path="/library" element={<LibraryPage />} />
+        <Route path="/library/:bookId" element={<BookDetailPage />} />
+        <Route path="/library/borrow/:bookId" element={<BorrowPage />} />
       </Routes>
     </>
   );

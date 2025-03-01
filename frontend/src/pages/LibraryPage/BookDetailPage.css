@@ -1,0 +1,265 @@
+
+.book-detail-page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.book-detail-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 90px 20px 40px;
+}
+
+.breadcrumb {
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.breadcrumb a {
+  color: #21a663;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.book-detail-main {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.book-image-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.book-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.borrow-button {
+  background-color: #21a663;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.borrow-button:hover {
+  background-color: #188f52;
+  transform: translateY(-2px);
+}
+
+.unavailable-label {
+  background-color: #f2f2f2;
+  color: #888;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.wishlist-button {
+  background-color: transparent;
+  border: 1px solid #21a663;
+  color: #21a663;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.wishlist-button:hover {
+  background-color: rgba(33, 166, 99, 0.1);
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.book-author {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.book-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.meta-value {
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.book-description h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.book-description p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.book-reviews {
+  margin-top: 40px;
+}
+
+.book-reviews h3 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-item {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.review-user {
+  font-weight: 600;
+  color: #333;
+}
+
+.review-rating {
+  color: #f8ce0b;
+}
+
+.review-rating .fas.fa-star.filled {
+  color: #f8ce0b;
+}
+
+.review-rating .fas.fa-star:not(.filled) {
+  color: #ddd;
+}
+
+.review-comment {
+  color: #555;
+  line-height: 1.5;
+}
+
+.no-reviews {
+  color: #888;
+  font-style: italic;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error-message {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.error-message h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.error-message p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  display: inline-block;
+  background-color: #21a663;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #188f52;
+}
+
+@media (max-width: 768px) {
+  .book-detail-main {
+    grid-template-columns: 1fr;
+  }
+  
+  .book-image-container {
+    margin: 0 auto;
+    max-width: 280px;
+  }
+  
+  .book-title {
+    font-size: 1.5rem;
+  }
+}

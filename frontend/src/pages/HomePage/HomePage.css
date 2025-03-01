@@ -26,31 +26,56 @@ body {
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(to right, rgba(20, 100, 59, 0.9), rgba(33, 166, 99, 0.8)), url('/hero-bg.jpg');
+  padding: 120px 20px;
+  position: relative;
+  background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
   background-size: cover;
   background-position: center;
   color: white;
-  padding: 100px 20px;
-  text-align: center;
 }
 
-.hero-content {
-  max-width: 800px;
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(33, 166, 99, 0.7), rgba(20, 100, 59, 0.75));
+  z-index: 1;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
-.hero-title {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  animation: fadeIn 0.5s ease-in-out;
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.hero-subtitle {
+.hero-content h1 {
+  font-size: 3rem;
+  color: white;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-content p {
   font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.95);
   margin-bottom: 30px;
-  opacity: 0.9;
-  animation: fadeIn 0.5s ease-in-out 0.2s both;
+  max-width: 700px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-buttons {

@@ -1,286 +1,198 @@
-
 .profile-page {
-  min-height: 100vh;
-  background-color: #f8f9fa;
-  padding-top: 70px;
   font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-container {
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 1280px;
+  margin: 80px auto 40px;
   padding: 0 20px;
+  width: 100%;
 }
 
 /* Profile Header */
 .profile-header {
-  margin-bottom: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-  overflow: hidden;
   background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+  overflow: hidden;
+  position: relative;
 }
 
 .profile-cover {
-  height: 260px;
+  height: 200px;
   background-size: cover;
   background-position: center;
+  background-color: #e1e7f0;
+}
+
+.profile-user-info {
+  padding: 25px;
+  display: flex;
   position: relative;
-  background-color: #0D8ABC;
 }
 
 .profile-avatar {
-  position: absolute;
-  bottom: -50px;
-  left: 30px;
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  background-color: white;
-  padding: 5px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.profile-avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.profile-info {
+  background-color: #0D8ABC;
+  color: white;
   display: flex;
-  justify-content: space-between;
-  padding: 60px 30px 20px;
-}
-
-.profile-meta h1 {
-  font-size: 2rem;
-  color: #333;
-  margin: 0 0 5px;
-  font-weight: 700;
-}
-
-.profile-headline {
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 15px;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-top: -60px;
+  border: 4px solid white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .profile-details {
+  margin-left: 25px;
+  flex: 1;
+}
+
+.profile-details h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 5px;
+}
+
+.profile-tagline {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0 0 15px;
+}
+
+.profile-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  margin-top: 15px;
+  margin-bottom: 20px;
 }
 
-.detail-item {
+.profile-meta-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #555;
+  color: #666;
+  font-size: 0.95rem;
 }
 
-.detail-item i {
+.profile-meta-item i {
   color: #0D8ABC;
 }
 
 .profile-actions {
   display: flex;
   gap: 10px;
-  align-items: flex-start;
 }
 
 .edit-profile-btn,
 .add-friend-btn,
 .message-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   padding: 8px 16px;
-  border-radius: 5px;
-  font-size: 0.95rem;
-  font-weight: 500;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   border: none;
 }
 
 .edit-profile-btn {
-  background-color: #0D8ABC;
-  color: white;
+  background-color: #f1f1f1;
+  color: #333;
 }
 
 .edit-profile-btn:hover {
-  background-color: #0A6D9B;
+  background-color: #e5e5e5;
 }
 
 .add-friend-btn {
-  background-color: #f8f9fa;
-  color: #333;
-}
-
-.add-friend-btn:hover {
-  background-color: #e9ecef;
-}
-
-.message-btn {
-  background-color: #f8f9fa;
-  color: #333;
-}
-
-.message-btn:hover {
-  background-color: #e9ecef;
-}
-
-/* Profile Navigation */
-.profile-navigation {
-  display: flex;
-  gap: 10px;
-  background-color: white;
-  padding: 15px 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
-  overflow-x: auto;
-}
-
-.nav-tab {
-  background: none;
-  border: none;
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  color: #555;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  border-radius: 5px;
-  white-space: nowrap;
-}
-
-.nav-tab.active {
   background-color: #0D8ABC;
   color: white;
 }
 
-.nav-tab:not(.active):hover {
-  background-color: rgba(13, 138, 188, 0.1);
+.add-friend-btn:hover {
+  background-color: #0a6d94;
+}
+
+.message-btn {
+  background-color: #21a663;
+  color: white;
+}
+
+.message-btn:hover {
+  background-color: #188f52;
+}
+
+/* Profile Tabs */
+.profile-tabs {
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+  overflow-x: auto;
+}
+
+.profile-tab {
+  padding: 15px 25px;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.profile-tab:hover {
   color: #0D8ABC;
+}
+
+.profile-tab.active {
+  color: #0D8ABC;
+  box-shadow: inset 0 -3px 0 #0D8ABC;
 }
 
 /* Profile Content */
 .profile-content {
   background-color: white;
-  border-radius: 10px;
-  padding: 30px;
+  border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  margin-bottom: 40px;
-}
-
-/* Profile Edit Form */
-.profile-edit-form h2 {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 0.95rem;
-  transition: border-color 0.3s ease;
-  background-color: #f8f9fa;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #0D8ABC;
-  box-shadow: 0 0 0 3px rgba(13, 138, 188, 0.1);
-}
-
-.form-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 30px;
-}
-
-.save-btn,
-.cancel-btn {
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: none;
-}
-
-.save-btn {
-  background-color: #0D8ABC;
-  color: white;
-}
-
-.save-btn:hover {
-  background-color: #0A6D9B;
-}
-
-.cancel-btn {
-  background-color: #f8f9fa;
-  color: #555;
-}
-
-.cancel-btn:hover {
-  background-color: #e9ecef;
-}
-
-/* Profile Overview Tab */
-.profile-overview {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+  padding: 30px;
 }
 
 .profile-section {
-  padding-bottom: 30px;
+  margin-bottom: 35px;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 20px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
 
-.profile-section:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.profile-section h2 {
-  font-size: 1.4rem;
-  color: #333;
-  margin-bottom: 15px;
-  font-weight: 600;
-}
-
-.profile-section p {
+.about-text {
   font-size: 1rem;
-  color: #555;
   line-height: 1.6;
+  color: #555;
 }
 
+/* Interests Section */
 .interests-list {
   display: flex;
   flex-wrap: wrap;
@@ -288,81 +200,103 @@
 }
 
 .interest-tag {
-  background-color: rgba(13, 138, 188, 0.1);
+  padding: 5px 12px;
+  background-color: #f0f7ff;
   color: #0D8ABC;
-  padding: 8px 15px;
-  border-radius: 30px;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: inline-block;
 }
 
-.interest-tag:hover {
-  background-color: rgba(13, 138, 188, 0.2);
-  transform: translateY(-2px);
+/* Projects Section */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
 }
 
-.activity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.project-card {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.activity-item {
-  display: flex;
-  gap: 15px;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.activity-item:hover {
-  background-color: rgba(13, 138, 188, 0.05);
+.project-image {
+  height: 180px;
+  overflow: hidden;
 }
 
-.activity-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: rgba(13, 138, 188, 0.1);
-  color: #0D8ABC;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-.activity-content {
-  flex: 1;
+.project-card:hover .project-image img {
+  transform: scale(1.05);
 }
 
-.activity-content p {
-  margin: 0 0 5px;
-  font-size: 0.95rem;
+.project-info {
+  padding: 20px;
+}
+
+.project-info h3 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+}
+
+.project-info h3 a {
   color: #333;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.activity-time {
-  font-size: 0.85rem;
+.project-info h3 a:hover {
+  color: #0D8ABC;
+}
+
+.project-date {
   color: #777;
+  font-size: 0.9rem;
+  margin: 0 0 12px;
+}
+
+.project-description {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 15px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.project-tag {
+  padding: 4px 10px;
+  background-color: #f5f5f5;
+  color: #555;
+  border-radius: 15px;
+  font-size: 0.8rem;
 }
 
 /* Education Tab */
-.profile-education {
+.education-list, .courses-list {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 25px;
 }
 
-.education-list,
-.courses-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.education-item,
-.course-item {
+.education-item, .course-item {
   display: flex;
   gap: 20px;
   padding: 20px;
@@ -371,54 +305,47 @@
   transition: all 0.3s ease;
 }
 
-.education-item:hover,
-.course-item:hover {
+.education-item:hover, .course-item:hover {
   background-color: rgba(13, 138, 188, 0.05);
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-.education-icon,
-.course-icon {
+.education-icon, .course-icon {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
   background-color: rgba(13, 138, 188, 0.1);
   color: #0D8ABC;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 1.3rem;
   flex-shrink: 0;
 }
 
-.education-content,
-.course-content {
+.education-content, .course-content {
   flex: 1;
 }
 
-.education-content h3,
-.course-content h3 {
-  margin: 0 0 5px;
+.education-content h3, .course-content h3 {
+  margin: 0 0 8px;
   font-size: 1.2rem;
   color: #333;
   font-weight: 600;
 }
 
-.education-degree,
-.course-code,
-.course-instructor,
-.course-semester {
+.education-degree, .course-code {
   margin: 0 0 5px;
-  font-size: 0.95rem;
-  color: #555;
-}
-
-.education-date {
+  font-size: 1rem;
   color: #0D8ABC;
   font-weight: 500;
+}
+
+.education-period, .course-period, .course-institution {
   margin: 0 0 10px;
   font-size: 0.9rem;
+  color: #777;
 }
 
 .education-description {
@@ -427,17 +354,29 @@
   line-height: 1.5;
 }
 
-/* Achievements Tab */
-.profile-achievements {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+.course-grade {
+  margin: 0 0 5px;
+  font-size: 0.9rem;
+  color: #555;
 }
 
+.course-certificate {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 15px;
+  background-color: rgba(33, 166, 99, 0.1);
+  color: #21a663;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Achievements Tab */
 .achievements-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .achievement-item {
@@ -450,7 +389,7 @@
 }
 
 .achievement-item:hover {
-  background-color: rgba(13, 138, 188, 0.05);
+  background-color: rgba(231, 76, 60, 0.05);
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
@@ -458,13 +397,13 @@
 .achievement-icon {
   width: 50px;
   height: 50px;
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
   border-radius: 50%;
-  background-color: rgba(13, 138, 188, 0.1);
-  color: #0D8ABC;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 1.3rem;
   flex-shrink: 0;
 }
 
@@ -473,17 +412,23 @@
 }
 
 .achievement-content h3 {
-  margin: 0 0 5px;
+  margin: 0 0 8px;
   font-size: 1.2rem;
   color: #333;
   font-weight: 600;
 }
 
-.achievement-date {
-  color: #0D8ABC;
+.achievement-organization {
+  margin: 0 0 5px;
+  font-size: 1rem;
+  color: #e74c3c;
   font-weight: 500;
+}
+
+.achievement-date {
   margin: 0 0 10px;
   font-size: 0.9rem;
+  color: #777;
 }
 
 .achievement-description {
@@ -493,16 +438,11 @@
 }
 
 /* Activities Tab */
-.profile-activities {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
 .clubs-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
+  margin-bottom: 30px;
 }
 
 .club-item {
@@ -515,7 +455,7 @@
 }
 
 .club-item:hover {
-  background-color: rgba(13, 138, 188, 0.05);
+  background-color: rgba(52, 152, 219, 0.05);
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
@@ -523,13 +463,13 @@
 .club-icon {
   width: 50px;
   height: 50px;
+  background-color: rgba(52, 152, 219, 0.1);
+  color: #3498db;
   border-radius: 50%;
-  background-color: rgba(13, 138, 188, 0.1);
-  color: #0D8ABC;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 1.3rem;
   flex-shrink: 0;
 }
 
@@ -538,20 +478,20 @@
 }
 
 .club-content h3 {
-  margin: 0 0 5px;
+  margin: 0 0 8px;
   font-size: 1.2rem;
   color: #333;
   font-weight: 600;
 }
 
 .club-role {
-  font-weight: 500;
   margin: 0 0 5px;
-  font-size: 0.95rem;
-  color: #0D8ABC;
+  font-size: 1rem;
+  color: #3498db;
+  font-weight: 500;
 }
 
-.club-duration {
+.club-period {
   margin: 0 0 10px;
   font-size: 0.9rem;
   color: #777;
@@ -566,7 +506,7 @@
 .events-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .event-item {
@@ -579,7 +519,7 @@
 }
 
 .event-item:hover {
-  background-color: rgba(13, 138, 188, 0.05);
+  background-color: rgba(231, 76, 60, 0.05);
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
@@ -630,7 +570,7 @@
 }
 
 .event-location i {
-  color: #0D8ABC;
+  color: #e74c3c;
 }
 
 .event-description {
@@ -640,44 +580,33 @@
 }
 
 /* Friends Tab */
-.profile-friends h2 {
-  margin-bottom: 25px;
-}
-
-.profile-friends h2 span {
-  font-size: 1rem;
-  color: #666;
-  font-weight: normal;
-}
-
 .friends-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
 }
 
 .friend-card {
   background-color: #f8f9fa;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
+  border-radius: 12px;
+  overflow: hidden;
   transition: all 0.3s ease;
+  display: flex;
+  padding: 20px;
 }
 
 .friend-card:hover {
-  background-color: white;
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .friend-avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  margin: 0 auto 15px;
   overflow: hidden;
-  border: 3px solid white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-right: 15px;
+  flex-shrink: 0;
 }
 
 .friend-avatar img {
@@ -686,158 +615,131 @@
   object-fit: cover;
 }
 
-.friend-card h3 {
+.friend-info {
+  flex: 1;
+}
+
+.friend-info h3 {
   margin: 0 0 5px;
   font-size: 1.1rem;
   color: #333;
   font-weight: 600;
 }
 
-.friend-headline {
-  font-size: 0.85rem;
-  color: #666;
-  margin: 0 0 10px;
-  height: 40px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+.friend-username {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: #777;
 }
 
-.friend-university {
+.mutual-friends {
+  margin: 0 0 15px;
+  font-size: 0.85rem;
+  color: #0D8ABC;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.friend-university i {
-  color: #0D8ABC;
+  gap: 5px;
 }
 
 .friend-actions {
   display: flex;
-  flex-direction: column;
   gap: 10px;
 }
 
-.message-friend,
-.view-profile {
-  width: 100%;
-  padding: 8px 0;
-  font-size: 0.9rem;
-  border: none;
-  border-radius: 5px;
+.message-friend-btn, .view-profile-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  transition: all 0.2s ease;
+  border: none;
+  text-align: center;
 }
 
-.message-friend {
-  background-color: #0D8ABC;
+.message-friend-btn {
+  background-color: #21a663;
   color: white;
 }
 
-.message-friend:hover {
-  background-color: #0A6D9B;
+.message-friend-btn:hover {
+  background-color: #188f52;
 }
 
-.view-profile {
-  background-color: rgba(13, 138, 188, 0.1);
-  color: #0D8ABC;
+.view-profile-btn {
+  background-color: #f5f5f5;
+  color: #333;
 }
 
-.view-profile:hover {
-  background-color: rgba(13, 138, 188, 0.2);
-}
-
-/* Loading Container */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 100px 20px;
-}
-
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(13, 138, 188, 0.2);
-  border-radius: 50%;
-  border-top-color: #0D8ABC;
-  animation: spin 1s ease-in-out infinite;
-  margin-bottom: 15px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.view-profile-btn:hover {
+  background-color: #e5e5e5;
 }
 
 /* Responsive Styles */
 @media (max-width: 992px) {
-  .profile-info {
+  .profile-user-info {
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    text-align: center;
   }
-  
+
+  .profile-avatar {
+    margin-top: -60px;
+    margin-bottom: 15px;
+  }
+
+  .profile-details {
+    margin-left: 0;
+  }
+
+  .profile-meta {
+    justify-content: center;
+  }
+
   .profile-actions {
-    width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .friends-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
-  .profile-header {
-    margin-top: 20px;
+  .profile-container {
+    padding: 0 15px;
+    margin-top: 70px;
   }
-  
-  .profile-cover {
-    height: 200px;
+
+  .profile-tabs {
+    padding: 0 10px;
   }
-  
-  .profile-avatar {
-    width: 120px;
-    height: 120px;
-    bottom: -40px;
-    left: 20px;
-  }
-  
-  .profile-info {
-    padding: 50px 20px 20px;
-  }
-  
-  .profile-meta h1 {
-    font-size: 1.8rem;
-  }
-  
-  .profile-headline {
-    font-size: 1rem;
-  }
-  
-  .profile-navigation {
-    padding: 10px 15px;
-  }
-  
-  .nav-tab {
-    padding: 8px 15px;
+
+  .profile-tab {
+    padding: 15px 15px;
     font-size: 0.9rem;
   }
-  
+
   .profile-content {
     padding: 20px;
   }
-  
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
   .friends-list {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: 1fr;
+  }
+
+  .education-item, .course-item, .achievement-item, .club-item, .event-item {
+    padding: 15px;
+    gap: 15px;
   }
 }
 
@@ -845,49 +747,49 @@
   .profile-cover {
     height: 160px;
   }
-  
+
   .profile-avatar {
     width: 100px;
     height: 100px;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
   }
-  
-  .profile-info {
-    padding-top: 80px;
+
+  .profile-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .edit-profile-btn, .add-friend-btn, .message-btn {
+    width: 100%;
+  }
+
+  .profile-meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .education-item, .course-item, .achievement-item, .club-item, .event-item {
+    flex-direction: column;
+  }
+
+  .education-icon, .course-icon, .achievement-icon, .club-icon, .event-date {
+    margin: 0 auto 15px;
+  }
+
+  .education-content, .course-content, .achievement-content, .club-content, .event-content {
     text-align: center;
   }
-  
-  .profile-details {
-    justify-content: center;
-  }
-  
-  .education-item,
-  .course-item,
-  .achievement-item,
-  .club-item,
-  .event-item {
+
+  .friend-card {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 15px;
   }
-  
-  .education-content,
-  .course-content,
-  .achievement-content,
-  .club-content,
-  .event-content {
-    text-align: center;
-  }
-  
-  .friend-card {
-    max-width: 280px;
-    margin: 0 auto;
-  }
-  
-  .friends-list {
-    grid-template-columns: 1fr;
+
+  .friend-avatar {
+    margin: 0 0 15px;
   }
 }

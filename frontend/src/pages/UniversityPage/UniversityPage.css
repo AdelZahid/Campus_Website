@@ -647,3 +647,24 @@
     padding: 20px;
   }
 }
+
+.university-page .view-details-btn {
+  background-color: var(--university-primary);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: inline-block;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.university-page .view-details-btn:hover {
+  background-color: var(--university-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}

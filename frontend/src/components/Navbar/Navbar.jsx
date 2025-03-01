@@ -1,15 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import {
+  IoNotifications,
+  IoLogOut,
+  IoMenu,
+  IoClose,
+  IoHome,
+  IoBusiness,
+  IoBook,
+  IoHelpCircle,
+  IoPeople,
+} from "react-icons/io5";
 import "./Navbar.css";
 
 const Navbar = ({ user, onLogout }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
-  const mobileMenuRef = useRef(null);
 
-  // Handle scrolling effect
+  // Don't show navbar on login/register pages
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/register";
+  if (isAuthPage) return null;
+
+  // Handle scroll event for sticky navbar
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -19,225 +35,234 @@ const Navbar = ({ user, onLogout }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target)
-      ) {
-        setIsMobileMenuOpen(false);
-      }
-    };
+  const handleLogout = () => {
+    if (onLogout) onLogout();
+    navigate("/login");
+  };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location]);
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
+  };
 
   return (
     <nav className={`navbar ${isScrolled ? "navbar-sticky" : ""}`}>
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          <span>Campus</span>
+          <span>🎓 Campus</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        {user ? (
-          <>
-            <div className="navbar-links desktop-only">
-              <Link
-                to="/"
-                className={location.pathname === "/" ? "active" : ""}
-              >
-                Home
-              </Link>
-              <Link
-                to="/university"
-                className={
-                  location.pathname.includes("/university") ? "active" : ""
-                }
-              >
-                Universities
-              </Link>
-              <Link
-                to="/clubs"
-                className={location.pathname.includes("/clubs") ? "active" : ""}
-              >
-                Clubs
-              </Link>
-              <Link
-                to="/library"
-                className={
-                  location.pathname.includes("/library") ? "active" : ""
-                }
-              >
-                Library
-              </Link>
-              <Link
-                to="/helpdesk"
-                className={
-                  location.pathname.includes("/helpdesk") ? "active" : ""
-                }
-              >
-                Helpdesk
-              </Link>
-            </div>
-            <div className="navbar-actions desktop-only">
-              <button
-                className="notification-btn"
-                onClick={() => setShowNotifications(!showNotifications)}
-                aria-label="Notifications"
-              >
-                <i className="fas fa-bell"></i>
-              </button>
-              <Link to="/profile" className="profile-link">
-                <img
-                  className="profile-img"
-                  src={
-                    user.avatar ||
-                    "https://ui-avatars.com/api/?name=User&background=21a663&color=fff"
-                  }
-                  alt="Profile"
-                />
-              </Link>
-              <button className="logout-btn" onClick={onLogout}>
-                Logout
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="navbar-links desktop-only">
-              <Link
-                to="/"
-                className={location.pathname === "/" ? "active" : ""}
-              >
-                Home
-              </Link>
-              <Link
-                to="/university"
-                className={
-                  location.pathname.includes("/university") ? "active" : ""
-                }
-              >
-                Universities
-              </Link>
-              <Link
-                to="/clubs"
-                className={location.pathname.includes("/clubs") ? "active" : ""}
-              >
-                Clubs
-              </Link>
-            </div>
-            <div className="auth-buttons desktop-only">
-              <Link to="/login" className="signin-btn">
-                Sign in
-              </Link>
-            </div>
-          </>
-        )}
+        <div className="navbar-links desktop-only">
+          <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+            <IoHome
+              className={
+                location.pathname === "/" ? "icon-green" : "icon-black"
+              }
+            />{" "}
+            Home
+          </Link>
+          <Link
+            to="/university"
+            className={
+              location.pathname.includes("/university") ? "active" : ""
+            }
+          >
+            <IoBusiness
+              className={
+                location.pathname.includes("/university")
+                  ? "icon-green"
+                  : "icon-black"
+              }
+            />{" "}
+            University
+          </Link>
+          <Link
+            to="/clubs"
+            className={location.pathname.includes("/clubs") ? "active" : ""}
+          >
+            <IoPeople
+              className={
+                location.pathname.includes("/clubs")
+                  ? "icon-green"
+                  : "icon-black"
+              }
+            />{" "}
+            Clubs
+          </Link>
+          <Link
+            to="/library"
+            className={location.pathname.includes("/library") ? "active" : ""}
+          >
+            <IoBook
+              className={
+                location.pathname.includes("/library")
+                  ? "icon-green"
+                  : "icon-black"
+              }
+            />{" "}
+            Library
+          </Link>
+          <Link
+            to="/helpdesk"
+            className={location.pathname.includes("/helpdesk") ? "active" : ""}
+          >
+            <IoHelpCircle
+              className={
+                location.pathname.includes("/helpdesk")
+                  ? "icon-green"
+                  : "icon-black"
+              }
+            />{" "}
+            Help Desk
+          </Link>
+        </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="navbar-menu-toggle"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <i className={`fas ${isMobileMenuOpen ? "fa-times" : "fa-bars"}`}></i>
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="navbar-mobile show" ref={mobileMenuRef}>
+        <div className="navbar-actions">
           {user ? (
             <>
-              <Link
-                to="/"
-                className={location.pathname === "/" ? "active" : ""}
+              <button
+                className="notification-btn desktop-only"
+                onClick={() => setShowNotifications(!showNotifications)}
               >
-                Home
-              </Link>
-              <Link
-                to="/university"
-                className={
-                  location.pathname.includes("/university") ? "active" : ""
-                }
-              >
-                Universities
-              </Link>
-              <Link
-                to="/clubs"
-                className={location.pathname.includes("/clubs") ? "active" : ""}
-              >
-                Clubs
-              </Link>
-              <Link
-                to="/library"
-                className={
-                  location.pathname.includes("/library") ? "active" : ""
-                }
-              >
-                Library
-              </Link>
-              <Link
-                to="/helpdesk"
-                className={
-                  location.pathname.includes("/helpdesk") ? "active" : ""
-                }
-              >
-                Helpdesk
-              </Link>
-              <Link to="/profile" className="mobile-profile">
+                <IoNotifications className="icon-green" />
+              </button>
+
+              <Link to="/profile" className="profile-link desktop-only">
                 <img
                   src={
-                    user.avatar ||
-                    "https://ui-avatars.com/api/?name=User&background=21a663&color=fff"
+                    user.profilePicture ||
+                    "https://ui-avatars.com/api/?name=" + user.name
                   }
                   alt="Profile"
+                  className="profile-img"
                 />
-                <span>My Profile</span>
               </Link>
-              <button className="mobile-logout-btn" onClick={onLogout}>
-                <i className="fas fa-sign-out-alt"></i> Logout
+
+              <button
+                onClick={handleLogout}
+                className="logout-btn desktop-only"
+              >
+                <IoLogOut /> Logout
               </button>
             </>
           ) : (
+            <div className="auth-buttons desktop-only">
+              <Link to="/login" className="signin-btn">
+                Sign In
+              </Link>
+            </div>
+          )}
+
+          <button className="navbar-menu-toggle" onClick={toggleMobileMenu}>
+            {showMobileMenu ? (
+              <IoClose className="icon-green" />
+            ) : (
+              <IoMenu className="icon-green" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {showMobileMenu && (
+        <div className="navbar-mobile">
+          <Link
+            to="/"
+            onClick={() => setShowMobileMenu(false)}
+            className={location.pathname === "/" ? "active" : ""}
+          >
+            <IoHome
+              className={
+                location.pathname === "/" ? "icon-green" : "icon-black"
+              }
+            />{" "}
+            Home
+          </Link>
+          <Link
+            to="/university"
+            onClick={() => setShowMobileMenu(false)}
+            className={
+              location.pathname.includes("/university") ? "active" : ""
+            }
+          >
+            <IoBusiness
+              className={
+                location.pathname.includes("/university")
+                  ? "icon-green"
+                  : "icon-black"
+              }
+            />{" "}
+            University
+          </Link>
+          <Link
+            to="/clubs"
+            onClick={() => setShowMobileMenu(false)}
+            className={location.pathname.includes("/clubs") ? "active" : ""}
+          >
+            <IoPeople
+              className={
+                location.pathname.includes("/clubs")
+                  ? "icon-green"
+                  : "icon-black"
+              }
+            />{" "}
+            Clubs
+          </Link>
+          <Link
+            to="/library"
+            onClick={() => setShowMobileMenu(false)}
+            className={location.pathname.includes("/library") ? "active" : ""}
+          >
+            <IoBook
+              className={
+                location.pathname.includes("/library")
+                  ? "icon-green"
+                  : "icon-black"
+              }
+            />{" "}
+            Library
+          </Link>
+          <Link
+            to="/helpdesk"
+            onClick={() => setShowMobileMenu(false)}
+            className={location.pathname.includes("/helpdesk") ? "active" : ""}
+          >
+            <IoHelpCircle
+              className={
+                location.pathname.includes("/helpdesk")
+                  ? "icon-green"
+                  : "icon-black"
+              }
+            />{" "}
+            Help Desk
+          </Link>
+
+          {user ? (
             <>
-              <Link
-                to="/"
-                className={location.pathname === "/" ? "active" : ""}
-              >
-                Home
-              </Link>
-              <Link
-                to="/university"
-                className={
-                  location.pathname.includes("/university") ? "active" : ""
-                }
-              >
-                Universities
-              </Link>
-              <Link
-                to="/clubs"
-                className={location.pathname.includes("/clubs") ? "active" : ""}
-              >
-                Clubs
-              </Link>
-              <div className="mobile-auth-buttons">
-                <Link to="/login" className="mobile-signin-btn">
-                  <i className="fas fa-sign-in-alt"></i> Sign in
-                </Link>
-                <Link to="/register" className="mobile-signup-btn">
-                  <i className="fas fa-user-plus"></i> Sign up
-                </Link>
+              <div className="mobile-profile">
+                <img
+                  src={
+                    user.profilePicture ||
+                    "https://ui-avatars.com/api/?name=" + user.name
+                  }
+                  alt="Profile"
+                />
+                <span>{user.name}</span>
               </div>
+
+              <button onClick={handleLogout} className="mobile-logout-btn">
+                <IoLogOut /> Logout
+              </button>
             </>
+          ) : (
+            <div className="mobile-auth-buttons">
+              <Link
+                to="/login"
+                className="mobile-signin-btn"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                Sign In
+              </Link>
+            </div>
           )}
         </div>
       )}

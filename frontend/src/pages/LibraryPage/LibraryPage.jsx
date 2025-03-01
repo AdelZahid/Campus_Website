@@ -1,227 +1,208 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
 import "./LibraryPage.css";
-import NavBar from "../../components/Navbar/Navbar";
-
-// Sample resource data - in a real app, this would come from an API
-const sampleResources = [
-  {
-    id: 1,
-    title: "Introduction to Artificial Intelligence",
-    category: "Technology",
-    type: "Book",
-    author: "John Smith",
-    publishDate: "2023-05-15",
-    description: "A comprehensive guide to AI concepts and applications",
-    coverImage: "https://via.placeholder.com/150",
-  },
-  {
-    id: 2,
-    title: "Molecular Biology",
-    category: "Science",
-    type: "Journal",
-    author: "Sarah Johnson",
-    publishDate: "2023-04-20",
-    description: "Advanced research on molecular biology principles",
-    coverImage: "https://via.placeholder.com/150",
-  },
-  {
-    id: 3,
-    title: "Modern Economic Theory",
-    category: "Commerce",
-    type: "Book",
-    author: "Robert Williams",
-    publishDate: "2023-06-10",
-    description: "Analysis of contemporary economic models and practices",
-    coverImage: "https://via.placeholder.com/150",
-  },
-  {
-    id: 4,
-    title: "Renaissance Art History",
-    category: "Arts",
-    type: "Book",
-    author: "Maria Garcia",
-    publishDate: "2023-03-05",
-    description: "Exploring the masterpieces of the Renaissance period",
-    coverImage: "https://via.placeholder.com/150",
-  },
-  {
-    id: 5,
-    title: "Quantum Computing Advances",
-    category: "Technology",
-    type: "Research Paper",
-    author: "David Chen",
-    publishDate: "2023-07-01",
-    description: "Latest developments in quantum computing technology",
-    coverImage: "https://via.placeholder.com/150",
-  },
-  {
-    id: 6,
-    title: "Global Climate Change",
-    category: "Science",
-    type: "Journal",
-    author: "Emily Wilson",
-    publishDate: "2023-02-28",
-    description: "Comprehensive analysis of climate change effects worldwide",
-    coverImage: "https://via.placeholder.com/150",
-  },
-];
-
-// Categories for filter buttons
-const categories = [
-  "All",
-  "Technology",
-  "Science",
-  "Arts",
-  "Commerce",
-  "History",
-  "Research",
-];
-
-// Resource types for filter buttons
-const resourceTypes = ["All", "Book", "Journal", "Research Paper", "Article"];
 
 const LibraryPage = () => {
-  const [resources, setResources] = useState(sampleResources);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedType, setSelectedType] = useState("All");
-  const [filteredResources, setFilteredResources] = useState(sampleResources);
 
-  // Filter resources based on search term and selected filters
-  useEffect(() => {
-    let filtered = [...resources];
+  // Sample data for resources
+  const resources = [
+    {
+      id: 1,
+      title: "Introduction to Artificial Intelligence",
+      type: "Book",
+      category: "Technology",
+      image: "/images/ai-book.jpg",
+      author: "John Smith",
+      publishedYear: 2021,
+      available: true,
+    },
+    {
+      id: 2,
+      title: "Molecular Biology",
+      type: "Journal",
+      category: "Science",
+      image: "/images/biology.jpg",
+      author: "Maria Johnson",
+      publishedYear: 2020,
+      available: true,
+    },
+    {
+      id: 3,
+      title: "Modern Economic Theory",
+      type: "Research Paper",
+      category: "Commerce",
+      image: "/images/economics.jpg",
+      author: "Robert Williams",
+      publishedYear: 2022,
+      available: false,
+    },
+    {
+      id: 4,
+      title: "Renaissance Art History",
+      type: "Book",
+      category: "Arts",
+      image: "/images/art.jpg",
+      author: "Emma Thompson",
+      publishedYear: 2019,
+      available: true,
+    },
+    {
+      id: 5,
+      title: "World War II: A Comprehensive Analysis",
+      type: "Article",
+      category: "History",
+      image: "/images/history.jpg",
+      author: "David Brown",
+      publishedYear: 2022,
+      available: true,
+    },
+    {
+      id: 6,
+      title: "Quantum Physics Applications",
+      type: "Research Paper",
+      category: "Research",
+      image: "/images/physics.jpg",
+      author: "Alan Davidson",
+      publishedYear: 2023,
+      available: false,
+    },
+  ];
 
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (resource) =>
-          resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          resource.description
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          resource.author.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+  // Filter resources based on search, category, and type
+  const filteredResources = resources.filter((resource) => {
+    const matchesSearch =
+      resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      resource.author.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "All" || resource.category === selectedCategory;
+    const matchesType =
+      selectedType === "All" || resource.type === selectedType;
 
-    // Filter by category
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter(
-        (resource) => resource.category === selectedCategory
-      );
-    }
+    return matchesSearch && matchesCategory && matchesType;
+  });
 
-    // Filter by resource type
-    if (selectedType !== "All") {
-      filtered = filtered.filter((resource) => resource.type === selectedType);
-    }
+  // Categories and resource types
+  const categories = [
+    "All",
+    "Technology",
+    "Science",
+    "Arts",
+    "Commerce",
+    "History",
+    "Research",
+  ];
+  const resourceTypes = ["All", "Book", "Journal", "Research Paper", "Article"];
 
-    setFilteredResources(filtered);
-  }, [searchTerm, selectedCategory, selectedType, resources]);
-
-  // Handle search input change
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  // Handle category filter change
-  const handleCategoryFilter = (category) => {
-    setSelectedCategory(category);
-  };
-
-  // Handle resource type filter change
-  const handleTypeFilter = (type) => {
-    setSelectedType(type);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // In a real app, you might trigger an API call here
   };
 
   return (
     <div className="library-page">
-      <NavBar />
+      <Navbar />
       <div className="library-container">
-        <h1 className="library-title">Digital Library</h1>
-        <p className="library-subtitle">
-          Discover a world of knowledge with our extensive collection of
-          resources
-        </p>
+        <header className="library-header">
+          <h1>Digital Library</h1>
+          <p>
+            Discover a world of knowledge with our extensive collection of
+            resources
+          </p>
+        </header>
 
-        {/* Search Bar */}
-        <div className="search-container">
+        <form onSubmit={handleSearch} className="search-container">
           <input
             type="text"
-            className="search-bar"
             placeholder="Search by title, author, or keywords..."
-            value={searchTerm}
-            onChange={handleSearchChange}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-input"
           />
-          <button className="search-button">
-            <i className="fa fa-search"></i>
-            Search
+          <button type="submit" className="search-button">
+            <i className="fas fa-search"></i> Search
           </button>
-        </div>
+        </form>
 
-        {/* Filter Sections */}
-        <div className="filter-container">
-          <div className="filter-section">
-            <h3>Categories</h3>
-            <div className="filter-buttons">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  className={`filter-button ${
-                    selectedCategory === category ? "active" : ""
-                  }`}
-                  onClick={() => handleCategoryFilter(category)}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="filter-section">
-            <h3>Resource Type</h3>
-            <div className="filter-buttons">
-              {resourceTypes.map((type) => (
-                <button
-                  key={type}
-                  className={`filter-button ${
-                    selectedType === type ? "active" : ""
-                  }`}
-                  onClick={() => handleTypeFilter(type)}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
+        <div className="categories-section">
+          <h3>Categories</h3>
+          <div className="categories-list">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={`category-pill ${
+                  selectedCategory === category ? "active" : ""
+                }`}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Resource Feed */}
-        <div className="resource-feed">
-          <h2 className="feed-title">
-            {filteredResources.length === 0
-              ? "No resources found"
-              : `Found ${filteredResources.length} resources`}
-          </h2>
+        <div className="resource-type-section">
+          <h3>Resource Type</h3>
+          <div className="resource-type-list">
+            {resourceTypes.map((type) => (
+              <button
+                key={type}
+                className={`resource-type-pill ${
+                  selectedType === type ? "active" : ""
+                }`}
+                onClick={() => setSelectedType(type)}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
 
-          <div className="resource-grid">
+        <div className="results-section">
+          <h2>Found {filteredResources.length} resources</h2>
+          <div className="resources-grid">
             {filteredResources.map((resource) => (
-              <div className="resource-card" key={resource.id}>
+              <div key={resource.id} className="resource-card">
                 <div className="resource-image">
-                  <img src={resource.coverImage} alt={resource.title} />
+                  <img src={resource.image} alt={resource.title} />
                 </div>
-                <div className="resource-details">
-                  <h3 className="resource-title">{resource.title}</h3>
-                  <p className="resource-author">By {resource.author}</p>
-                  <div className="resource-meta">
-                    <span className="resource-type">{resource.type}</span>
-                    <span className="resource-category">
+                <div className="resource-info">
+                  <Link
+                    to={`/library/${resource.id}`}
+                    className="resource-title"
+                  >
+                    {resource.title}
+                  </Link>
+                  <p className="resource-author">
+                    By {resource.author}, {resource.publishedYear}
+                  </p>
+                  <div className="resource-tags">
+                    <span className="resource-type-tag">{resource.type}</span>
+                    <span className="resource-category-tag">
                       {resource.category}
                     </span>
                   </div>
-                  <p className="resource-description">{resource.description}</p>
                   <div className="resource-actions">
-                    <button className="action-button view">View Details</button>
-                    <button className="action-button borrow">Borrow</button>
+                    <Link
+                      to={`/library/${resource.id}`}
+                      className="view-details-btn"
+                    >
+                      View Details
+                    </Link>
+                    {resource.available ? (
+                      <Link
+                        to={`/library/borrow/${resource.id}`}
+                        className="borrow-btn"
+                      >
+                        Borrow
+                      </Link>
+                    ) : (
+                      <span className="unavailable-badge">Unavailable</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -229,6 +210,7 @@ const LibraryPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

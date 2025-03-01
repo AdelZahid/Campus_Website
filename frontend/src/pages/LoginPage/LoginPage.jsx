@@ -1,145 +1,130 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaGoogle, FaGithub, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import "./LoginPage.css";
-import campusLogo from "../../assets/logos/campus-icon.png";
-import axios from "axios";
-import Navbar from "../../components/Navbar/Navbar";
 
-const Login = () => {
-  const [isActive, setIsActive] = useState(false);
+const LoginPage = () => {
+  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const toggleActive = () => {
-    setIsActive(!isActive);
-    setErrorMessage(""); 
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-    if (name === "email" && !value.endsWith("@gmail.com")) {
-      setErrorMessage("Please enter a valid Gmail address.");
-    } else {
-      setErrorMessage("");
-    }
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e, type) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setErrorMessage("");
-    const url = `http://localhost:5000/api/auth/${type}`;
-    const data =
-      type === "register"
-        ? formData
-        : { email: formData.email, password: formData.password };
+    // Handle login/signup logic here
+    console.log(formData);
+  };
 
-    try {
-      const res = await axios.post(url, data);
-      console.log(res.data);
-      if (type === "register") alert("Registration successful!");
-      setFormData({ name: "", email: "", password: "" }); // Clear fields on success
-    } catch (err) {
-      setErrorMessage(
-        err.response?.data?.message || "Something went wrong. Try again."
-      );
-    }
+  const toggleForm = () => {
+    setIsLogin(!isLogin);
   };
 
   return (
-    <div>
-      <Navbar />
-      <body className="login-page">
-        <div className={`container ${isActive ? "active" : ""}`} id="container">
-          <div className="form-container sign-up">
-            <form onSubmit={(e) => handleSubmit(e, "register")}>
-              <img src={campusLogo} alt="Campus Logo" className="logo" />
-              <h1>Create Account</h1>
-              <div className="social-icons">
-                {["google", "facebook-f", "github", "linkedin-in"].map(
-                  (icon) => (
-                    <a key={icon} href="#" className="icon">
-                      <i className={`fab fa-${icon}`}></i>
-                    </a>
-                  )
-                )}
-              </div>
-              <span>or use your email for registration</span>
-              {["name", "email", "password"].map((field) => (
-                <input
-                  key={field}
-                  type={field === "password" ? "password" : "text"}
-                  name={field}
-                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                  value={formData[field]}
-                  onChange={handleChange}
-                />
-              ))}
-              {errorMessage && <p className="error-message">{errorMessage}</p>}
-              <button type="submit">Sign Up</button>
-            </form>
+    <div className="login-container">
+      <div className="login-card">
+        <div className="form-container">
+          <h1 className="form-title">
+            {isLogin ? "Welcome Back" : "Create Account"}
+          </h1>
+          <p className="form-subtitle">
+            {isLogin
+              ? "Sign in to access your account"
+              : "Register to get started"}
+          </p>
+
+          <div className="social-login">
+            <button className="social-btn google">
+              <FaGoogle /> Continue with Google
+            </button>
+            <button className="social-btn github">
+              <FaGithub /> Continue with GitHub
+            </button>
           </div>
 
-          <div className="form-container sign-in">
-            <form onSubmit={(e) => handleSubmit(e, "login")}>
-              <img src={campusLogo} alt="Campus Logo" className="logo" />
-              <h1>Sign In</h1>
-              <div className="social-icons">
-                {["google", "facebook-f", "github", "linkedin-in"].map(
-                  (icon) => (
-                    <a key={icon} href="#" className="icon">
-                      <i className={`fab fa-${icon}`}></i>
-                    </a>
-                  )
-                )}
-              </div>
-              <span>or use your email password</span>
-              {["email", "password"].map((field) => (
-                <input
-                  key={field}
-                  type={field}
-                  name={field}
-                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                  value={formData[field]}
-                  onChange={handleChange}
-                />
-              ))}
-              {errorMessage && <p className="error-message">{errorMessage}</p>}
-              <a href="#">Forget Your Password?</a>
-              <button type="submit">Sign In</button>
-            </form>
+          <div className="divider">
+            <span>OR</span>
           </div>
 
-          <div className="toggle-container">
-            <div className="toggle">
-              <div className="toggle-panel toggle-left">
-                <h1>Welcome Back!</h1>
-                <p>
-                  Enter your personal details to use all of the site features
-                </p>
-                <button className="hidden" id="login" onClick={toggleActive}>
-                  Sign In
-                </button>
+          <form onSubmit={handleSubmit}>
+            {!isLogin && (
+              <div className="input-group">
+                <FaUser className="input-icon" />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required={!isLogin}
+                />
               </div>
-              <div className="toggle-panel toggle-right">
-                <h1>Hello, Friend!</h1>
-                <p>
-                  Register with your personal details to use all of the site
-                  features
-                </p>
-                <button className="hidden" id="register" onClick={toggleActive}>
-                  Sign Up
-                </button>
-              </div>
+            )}
+
+            <div className="input-group">
+              <FaEnvelope className="input-icon" />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
             </div>
+
+            <div className="input-group">
+              <FaLock className="input-icon" />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {isLogin && (
+              <div className="remember-forgot">
+                <label>
+                  <input type="checkbox" /> Remember me
+                </label>
+                <Link to="/forgot-password">Forgot password?</Link>
+              </div>
+            )}
+
+            <button type="submit" className="submit-btn">
+              {isLogin ? "Sign In" : "Create Account"}
+            </button>
+          </form>
+
+          <p className="form-switch">
+            {isLogin ? "Don't have an account? " : "Already have an account? "}
+            <button onClick={toggleForm} className="switch-btn">
+              {isLogin ? "Sign Up" : "Sign In"}
+            </button>
+          </p>
+        </div>
+
+        <div className="image-container">
+          <div className="overlay"></div>
+          <div className="content">
+            <h2>Campus</h2>
+            <p>
+              Connect with universities and find your perfect educational path
+            </p>
           </div>
         </div>
-      </body>
+      </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginPage;

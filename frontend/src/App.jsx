@@ -30,11 +30,19 @@ const Navbar = ({ user, onLogout }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const navigate = useNavigate();
 
+  // Don't show navbar on login/register pages
+  const location = window.location.pathname;
+  const isAuthPage = location === "/login" || location === "/register";
+
+  if (isAuthPage) {
+    return null;
+  }
+
   return (
     <nav className="main-navbar">
       <div className="logo">
-        <img src="/logo.png" alt="Campus Connect Logo" />
-        <span>Campus Connect</span>
+        <img src="/logo.png" alt="Campus Logo" />
+        <span>Campus</span>
       </div>
       <div className="nav-links">
         {user ? (

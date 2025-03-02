@@ -5,7 +5,7 @@ import { FaGoogle, FaGithub, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import axios from "axios";
 import "./LoginPage.css";
 
-const LoginPage = () => {
+const LoginPage = ({ onLogin }) => {
   const {
     register,
     handleSubmit,
@@ -35,8 +35,13 @@ const LoginPage = () => {
 
       if (res.data) {
         alert(res.data.message);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        navigate("/");
+        if (isLogin) {
+          onLogin(res.data.user); // Update user state in App.jsx
+          navigate("/");
+        } else {
+          alert("SignUp successful! Please sign in.");
+          setIsLogin(true); // Switch to login form after successful signup
+        }
       }
     } catch (err) {
       alert(err.response?.data?.message || "An error occurred");

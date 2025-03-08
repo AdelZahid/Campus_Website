@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 
 // Import components and pages
@@ -23,19 +23,25 @@ import QuestionDetailPage from "./pages/HelpdeskPage/QuestionDetailPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ClubsPage from "./pages/ClubsPage/ClubsPage";
 import ChatHome from "./pages/Chatpage/chat2/home/chathome.jsx";
+import { useAuth } from "./context/AuthProvider";
 
 function App() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const { authUser, setAuthUser } = useAuth();
 
   const handleLogin = (userData) => {
     setUser(userData);
+    setAuthUser(userData);
     navigate("/");
+    window.location.reload(); // Reload the page to reflect changes
   };
 
   const handleLogout = () => {
     setUser(null);
-    navigate("/login");
+    setAuthUser(null);
+    navigate("/");
+    window.location.reload(); // Reload the page to reflect changes
   };
 
   return (
@@ -43,7 +49,10 @@ function App() {
       <Navbar user={user} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/chat" element={<ChatHome />} />
+        <Route
+          path="/chat"
+          element={authUser ? <ChatHome /> : <Navigate to="/login" />}
+        />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />

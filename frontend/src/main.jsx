@@ -9,13 +9,16 @@ import "./styles/reset.css";
 //import "./index.css"; //This line is already imported above. Removing to avoid duplication.
 import "./styles/utilities.css";
 import "./App.css";
+import { AuthProvider } from "./context/AuthProvider";
 
 console.log("Rendering application...");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

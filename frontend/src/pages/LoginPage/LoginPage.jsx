@@ -1,27 +1,30 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaGoogle, FaGithub, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import axios from "axios";
 import "./LoginPage.css";
+import { useAuth } from "../../context/AuthProvider";
 
 const LoginPage = ({ onLogin }) => {
+  const { authUser, setAuthUser } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
 
   const toggleForm = () => {
-    setIsLogin(!isLogin);
+    setIsLogin((prev) => !prev);
   };
 
   const onSubmit = async (data) => {
     try {
       const userInfo = {
-        username: data.name, // Changed to match backend
+        username: data.name || "", // Always include to avoid hook mismatch
         email: data.email,
         password: data.password,
       };
@@ -30,21 +33,32 @@ const LoginPage = ({ onLogin }) => {
       const res = await axios.post(
         `http://localhost:5002/user/${endpoint}`,
         userInfo,
-        { withCredentials: true } // Ensure cookies are handled
+        {
+          withCredentials: true,
+        }
       );
 
       if (res.data) {
         alert(res.data.message);
         if (isLogin) {
-          onLogin(res.data.user); // Update user state in App.jsx
+          setAuthUser(res.data.user); // Update global auth state
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+          alert("Login successful!");
+          onLogin(res.data.user);
           navigate("/");
+          window.location.reload(); // Reload the page to reflect changes
         } else {
           alert("SignUp successful! Please sign in.");
-          setIsLogin(true); // Switch to login form after successful signup
+          setIsLogin(true);
         }
       }
     } catch (err) {
-      alert(err.response?.data?.message || "An error occurred");
+      console.error("Error response:", err.response); // ✅ Debugging
+      if (err.response?.data?.message) {
+        alert(err.response.data.message); // ✅ Shows correct backend message
+      } else {
+        alert("An error occurred, please try again.");
+      }
     }
   };
 
@@ -75,16 +89,21 @@ const LoginPage = ({ onLogin }) => {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Always include name field even if hidden to avoid hook issues */}
+            <input type="hidden" {...register("name")} />
+
             {!isLogin && (
               <div className="input-group">
                 <FaUser className="input-icon" />
                 <input
                   type="text"
                   placeholder="Full Name"
-                  {...register("name", { required: "Name is required" })}
+                  {...register("name", { required: !isLogin })}
                 />
                 {errors.name && (
-                  <span className="text-red-600">{errors.name.message}</span>
+                  <span className="text-red-600 text-sm font-semibold">
+                    **Name is Required**
+                  </span>
                 )}
               </div>
             )}
@@ -94,10 +113,12 @@ const LoginPage = ({ onLogin }) => {
               <input
                 type="email"
                 placeholder="Email Address"
-                {...register("email", { required: "Email is required" })}
+                {...register("email", { required: true })}
               />
               {errors.email && (
-                <span className="text-red-600">{errors.email.message}</span>
+                <span className="text-red-600 text-sm font-semibold">
+                  **Email is required**
+                </span>
               )}
             </div>
 
@@ -106,10 +127,12 @@ const LoginPage = ({ onLogin }) => {
               <input
                 type="password"
                 placeholder="Password"
-                {...register("password", { required: "Password is required" })}
+                {...register("password", { required: true })}
               />
               {errors.password && (
-                <span className="text-red-600">{errors.password.message}</span>
+                <span className="text-red-600 text-sm font-semibold">
+                  **Password is required**
+                </span>
               )}
             </div>
 

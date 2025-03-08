@@ -10,11 +10,13 @@ import {
   IoBook,
   IoHelpCircle,
   IoPeople,
+  IoChatbubbleEllipses, // Add a chat icon
 } from "react-icons/io5";
+import { useAuth } from "../../context/AuthProvider";
 import "./Navbar.css";
 
 const Navbar = ({ user, onLogout }) => {
-  const [showNotifications, setShowNotifications] = useState(false);
+  const { authUser, setAuthUser } = useAuth();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
@@ -31,11 +33,19 @@ const Navbar = ({ user, onLogout }) => {
 
   const handleLogout = () => {
     if (onLogout) onLogout();
-    navigate("/login");
+    localStorage.removeItem("user");
+    setAuthUser(null);
+    navigate("/");
+    window.location.reload(); // Reload the page to reflect changes
   };
 
   const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);
 
+  const handleNotificationsClick = () => {
+    navigate("/notifications"); // Navigate to the notifications page
+  };
+
+  // Define the navigation links
   const navLinks = [
     { to: "/", icon: <IoHome />, label: "Home" },
     { to: "/university", icon: <IoBusiness />, label: "University" },
@@ -43,6 +53,15 @@ const Navbar = ({ user, onLogout }) => {
     { to: "/library", icon: <IoBook />, label: "Library" },
     { to: "/helpdesk", icon: <IoHelpCircle />, label: "Help Desk" },
   ];
+
+  // Add the Chat link if the user is logged in
+  if (authUser) {
+    navLinks.push({
+      to: "/chat",
+      icon: <IoChatbubbleEllipses />,
+      label: "Chat",
+    });
+  }
 
   return (
     <nav className={`navbar ${isScrolled ? "navbar-sticky" : ""}`}>
@@ -69,11 +88,11 @@ const Navbar = ({ user, onLogout }) => {
         </div>
 
         <div className="navbar-actions">
-          {user ? (
+          {authUser ? (
             <>
               <button
                 className="notification-btn desktop-only"
-                onClick={() => setShowNotifications(!showNotifications)}
+                onClick={handleNotificationsClick} // Navigate to notifications page
               >
                 <IoNotifications className="icon-green" />
               </button>
@@ -81,8 +100,8 @@ const Navbar = ({ user, onLogout }) => {
               <Link to="/profile" className="profile-link desktop-only">
                 <img
                   src={
-                    user.profilePicture ||
-                    `https://ui-avatars.com/api/?name=${user.name}`
+                    authUser.profilePicture ||
+                    `https://ui-avatars.com/api/?name=${authUser.username}`
                   }
                   alt="Profile"
                   className="profile-img"
@@ -130,17 +149,17 @@ const Navbar = ({ user, onLogout }) => {
             </Link>
           ))}
 
-          {user ? (
+          {authUser ? (
             <>
               <div className="mobile-profile">
                 <img
                   src={
-                    user.profilePicture ||
-                    `https://ui-avatars.com/api/?name=${user.name}`
+                    authUser.profilePicture ||
+                    `https://ui-avatars.com/api/?name=${authUser.username}`
                   }
                   alt="Profile"
                 />
-                <span>{user.name}</span>
+                <span>{authUser.username}</span>
               </div>
               <button onClick={handleLogout} className="mobile-logout-btn">
                 <IoLogOut /> Logout

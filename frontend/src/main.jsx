@@ -10,6 +10,7 @@ import "./styles/reset.css";
 import "./styles/utilities.css";
 import "./App.css";
 import { AuthProvider } from "./context/AuthProvider";
+import AppQueryClientProvider from "./context/QueryClientProvider";
 
 console.log("Rendering application...");
 
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <AppQueryClientProvider>
+          <App />
+        </AppQueryClientProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

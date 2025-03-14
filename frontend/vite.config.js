@@ -4,6 +4,16 @@ import react from "@vitejs/plugin-react-swc";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    port: 5173,
+    proxy: {
+      "/api": {
+        target: "http://localhost:5002",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   optimizeDeps: {
     include: ["express", "dotenv", "mongoose", "cors"],
   },

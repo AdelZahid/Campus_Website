@@ -6,8 +6,10 @@ const createTonkenAndSaveCookie = (userId, res) => {
   });
   res.cookie("jwt", token, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production", // Only set secure in production
     sameSite: "strict",
+    domain: "localhost",
+    maxAge: 10 * 24 * 60 * 60 * 1000,
   });
 };
 

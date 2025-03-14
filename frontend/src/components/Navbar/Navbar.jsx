@@ -14,6 +14,7 @@ import {
 } from "react-icons/io5";
 import { useAuth } from "../../context/AuthProvider";
 import "./Navbar.css";
+import chat from "../../pages/Chatpage/Pages/home.jsx";
 
 const Navbar = ({ user, onLogout }) => {
   const { authUser, setAuthUser } = useAuth();

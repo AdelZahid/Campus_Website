@@ -14,10 +14,17 @@ export default function ChatView({ user, onClose }) {
 
   const { data: messages = [] } = useQuery({
     queryKey: ["/api/messages", user.id],
+    queryFn: async () => {
+      const res = await fetch(`/api/messages/${user.id}`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch messages");
+      }
+      return res.json();
+    },
   });
 
   const { sendMessage } = useWebSocket((data) => {
-    if (data.type === "new_message") {
+    if (data.type === "new_message" && data.message.toId === user.id) {
       queryClient.invalidateQueries({ queryKey: ["/api/messages", user.id] });
     }
   });
@@ -35,6 +42,7 @@ export default function ChatView({ user, onClose }) {
 
     sendMessage({
       type: "message",
+      fromId: currentUserId, // Replace with the current user's ID
       toId: user.id,
       content: newMessage,
     });

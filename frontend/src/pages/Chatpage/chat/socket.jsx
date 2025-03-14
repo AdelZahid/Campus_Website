@@ -1,11 +1,6 @@
+// frontend/src/chat/socket.jsx
 import { useEffect, useRef, useCallback } from "react";
 
-/**
- * Custom hook for WebSocket functionality
- * @param {function} onMessage - Callback function to handle incoming messages
- * @param {Object} options - Optional configuration for the WebSocket
- * @returns {Object} WebSocket utilities including sendMessage function
- */
 export default function useWebSocket(onMessage, options = {}) {
   const {
     reconnectAttempts = 5,
@@ -20,7 +15,7 @@ export default function useWebSocket(onMessage, options = {}) {
   // Initialize WebSocket connection
   const connect = useCallback(() => {
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${window.location.host}/ws`;
+    const wsUrl = `${protocol}//${window.location.hostname}:8080`; // Connect to WebSocket server
 
     socketRef.current = new WebSocket(wsUrl);
 
@@ -54,15 +49,6 @@ export default function useWebSocket(onMessage, options = {}) {
     };
   }, [onMessage, reconnectAttempts, reconnectDelay, autoReconnect]);
 
-  // Send message through WebSocket
-  const sendMessage = useCallback((message) => {
-    if (socketRef.current?.readyState === WebSocket.OPEN) {
-      socketRef.current.send(JSON.stringify(message));
-    } else {
-      console.warn("WebSocket is not connected. Message not sent:", message);
-    }
-  }, []);
-
   // Connect on mount and cleanup on unmount
   useEffect(() => {
     connect();
@@ -77,55 +63,23 @@ export default function useWebSocket(onMessage, options = {}) {
     };
   }, [connect]);
 
-  // Utility function to check connection status
-  const isConnected = useCallback(() => {
-    return socketRef.current?.readyState === WebSocket.OPEN;
-  }, []);
-
-  // Return WebSocket utilities
-  return {
-    sendMessage,
-    isConnected,
-    reconnect: connect,
-    currentAttempt: reconnectTriesRef.current,
-  };
-}
-
-// Example usage:
-/*
-const MyComponent = () => {
-  const { sendMessage, isConnected } = useWebSocket((data) => {
-    // Handle incoming messages
-    switch (data.type) {
-      case 'new_message':
-        // Handle new chat message
-        break;
-      case 'status_update':
-        // Handle user status update
-        break;
-      default:
-        console.log('Unknown message type:', data);
+  const { sendMessage } = useWebSocket((data) => {
+    if (data.type === "new_message" && data.message.toId === user.id) {
+      queryClient.invalidateQueries({ queryKey: ["/api/messages", user.id] });
     }
-  }, {
-    reconnectAttempts: 3,
-    reconnectDelay: 2000
   });
 
-  // Send a message
-  const handleSend = () => {
-    if (isConnected()) {
-      sendMessage({
-        type: 'message',
-        content: 'Hello!',
-        toId: 'user123'
-      });
-    }
-  };
+  // Send message through WebSocket
+  // const sendMessage = useCallback((message) => {
+  //   if (socketRef.current?.readyState === WebSocket.OPEN) {
+  //     socketRef.current.send(JSON.stringify(message));
+  //   } else {
+  //     console.warn("WebSocket is not connected. Message not sent:", message);
+  //   }
+  // }, []);
 
-  return (
-    <div>
-      <button onClick={handleSend}>Send Message</button>
-    </div>
-  );
-};
-*/
+  return {
+    sendMessage,
+    reconnect: connect,
+  };
+}

@@ -1,36 +1,33 @@
 import { useState } from "react";
 import { Users, MessageSquare, Users2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import ChatUserCard from "../chat/ChatUserCard";
 import AddFriendButton from "../chat/AddFriendDialog";
 import ChatView from "../chat/ChatView";
 import "./Home.css";
 import Navbar from "../../../components/Navbar/Navbar";
 
-const demoUsers = [
-  {
-    id: "1",
-    name: "John Doe",
-    email: "john@example.com",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-    about: "Hey there! I'm using this chat app",
-    createdAt: new Date().toISOString(),
-    isOnline: true,
-    lastActive: new Date().toISOString(),
-    pushToken: "",
-  },
-];
-
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const filteredUsers =
-    demoUsers.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+  const { data: users = [], isLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      const res = await fetch("/api/user");
+      if (!res.ok) {
+        throw new Error("Failed to fetch users");
+      }
+      return res.json();
+    },
+  });
+
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="chat-container">
@@ -76,34 +73,42 @@ export default function Home() {
             </button>
           </div>
           <div className="chat-list">
-            {activeTab === "all" && (
+            {isLoading ? (
+              <div className="empty-state">
+                <p>Loading...</p>
+              </div>
+            ) : (
               <>
-                {filteredUsers.length > 0 ? (
-                  filteredUsers.map((user) => (
-                    <ChatUserCard
-                      key={user.id}
-                      user={user}
-                      onClick={() => setSelectedUser(user)}
-                    />
-                  ))
-                ) : (
+                {activeTab === "all" && (
+                  <>
+                    {filteredUsers.length > 0 ? (
+                      filteredUsers.map((user) => (
+                        <ChatUserCard
+                          key={user.id}
+                          user={user}
+                          onClick={() => setSelectedUser(user)}
+                        />
+                      ))
+                    ) : (
+                      <div className="empty-state">
+                        <p>No users found</p>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {activeTab === "connected" && (
                   <div className="empty-state">
-                    <p>No users found</p>
+                    <p>Connected users will appear here</p>
+                  </div>
+                )}
+
+                {activeTab === "community" && (
+                  <div className="empty-state">
+                    <p>Community features coming soon</p>
                   </div>
                 )}
               </>
-            )}
-
-            {activeTab === "connected" && (
-              <div className="empty-state">
-                <p>Connected users will appear here</p>
-              </div>
-            )}
-
-            {activeTab === "community" && (
-              <div className="empty-state">
-                <p>Community features coming soon</p>
-              </div>
             )}
           </div>
         </div>

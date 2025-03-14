@@ -13,7 +13,7 @@
 }
 
 .chat-header {
-  background: #ffc107;
+  background: #22c55e;
   padding: 16px;
   display: flex;
   align-items: center;
@@ -76,11 +76,11 @@
 
 .chat-input:focus {
   outline: none;
-  border-color: #ffc107;
+  border-color: #22c55e;
 }
 
 .chat-send-button {
-  background: #ffc107;
+  background: #22c55e;
   border: none;
   width: 40px;
   height: 40px;
@@ -94,7 +94,7 @@
 }
 
 .chat-send-button:hover {
-  background: #ffb300;
+  background: #22c55e;
 }
 
 .chat-date-divider {

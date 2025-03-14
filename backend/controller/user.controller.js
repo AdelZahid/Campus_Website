@@ -72,3 +72,40 @@ export const logout = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const getUserProfile = async (req, res) => {
+  try {
+    const loggedInUser = req.user._id;
+    const fillteredusers = await User.find({
+      _id: { $ne: loggedInUser },
+    }).select("-password");
+    res.status(200).json(fillteredusers);
+  } catch (error) {
+    console.log("Error in allUser Controller:" + error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const addFriend = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const currentUser = await User.findById(req.user._id);
+    if (currentUser.friends.includes(user._id)) {
+      return res.status(400).json({ message: "User already added" });
+    }
+
+    currentUser.friends.push(user._id);
+    await currentUser.save();
+    console.lot("Friend added successfully: ", user);
+    res.status(200).json({ message: "Friend added successfully", user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};

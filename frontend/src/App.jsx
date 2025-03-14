@@ -23,6 +23,7 @@ import QuestionDetailPage from "./pages/HelpdeskPage/QuestionDetailPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ClubsPage from "./pages/ClubsPage/ClubsPage";
 import ChatHome from "./pages/Chatpage/chat2/home/chathome.jsx";
+import Message from "./pages/Chatpage/Pages/home.jsx";
 import { useAuth } from "./context/AuthProvider";
 
 function App() {
@@ -51,8 +52,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/chat"
-          element={authUser ? <ChatHome /> : <Navigate to="/login" />}
+          element={authUser ? <Message /> : <Navigate to="/login" />}
         />
+        <Route path="/message" element={<Message />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />

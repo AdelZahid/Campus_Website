@@ -10,7 +10,7 @@
 }
 
 .header-card {
-  background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+  background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 24px;
@@ -18,6 +18,7 @@
 }
 
 .header-title {
+  top: 500px;
   font-size: 1.75rem;
   font-weight: 600;
   color: white;
@@ -75,7 +76,7 @@
 }
 
 .tab-button.active {
-  background: #ffc107;
+  background: #22c55e;
   color: white;
 }
 
@@ -95,7 +96,7 @@
 }
 
 .chat-list::-webkit-scrollbar-thumb {
-  background: #ffc107;
+  background: #22c55e;
   border-radius: 3px;
 }
 

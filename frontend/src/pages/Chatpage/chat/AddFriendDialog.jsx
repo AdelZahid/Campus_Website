@@ -35,33 +35,41 @@ export function AddFriendDialog({ isOpen, onClose }) {
     if (!email) return;
 
     try {
-      const newUser = {
-        id: crypto.randomUUID(),
-        email,
-        name: email.split("@")[0], // Use part before @ as temporary name
-        image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
-        about: "Hey there! I'm using this chat app",
-        createdAt: new Date().toISOString(),
-        isOnline: false,
-        lastActive: new Date().toISOString(),
-        pushToken: "",
-      };
+      const token = localStorage.getItem("jwt");
 
-      await fetch("/api/users", {
+      const response = await fetch("api/user/addFriend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newUser),
+        body: JSON.stringify({ email }),
       });
 
-      // Invalidate and refetch users list
-      await queryClient.invalidateQueries({ queryKey: ["/api/users"] });
+      // Log the raw response
+      const rawResponse = await response.text();
+      console.log("Raw response:", rawResponse);
 
+      // Try to parse the response as JSON
+      let data;
+      try {
+        data = JSON.parse(rawResponse);
+      } catch (error) {
+        throw new Error("Invalid JSON response from server");
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to add friend");
+      }
+
+      await queryClient.invalidateQueries({ queryKey: ["users"] });
       alert("Friend added successfully!");
       onClose();
     } catch (error) {
-      alert("Failed to add friend. They might already be added.");
+      console.error("Error adding friend:", error.message);
+      alert(
+        error.message || "Failed to add friend. They might already be added."
+      );
     }
   };
 

@@ -27,12 +27,20 @@
   flex-shrink: 0;
 }
 
-.chat-user-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.chat-user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%; /* Ensures the avatar is circular */
+  background-color: #22c55e; /* Background color for the avatar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Text color for the avatar */
+  font-weight: 600; /* Bold text */
+  font-size: 1.25rem; /* Adjust font size as needed */
+  flex-shrink: 0;
+  overflow: hidden; /* Ensures the content stays within the circle */
 }
-
 .chat-user-info {
   flex: 1;
   min-width: 0;

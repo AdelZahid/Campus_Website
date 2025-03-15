@@ -1,3 +1,4 @@
+// In socket.jsx
 import { useEffect, useRef, useCallback } from "react";
 
 export default function useWebSocket(onMessage, options = {}) {
@@ -14,8 +15,9 @@ export default function useWebSocket(onMessage, options = {}) {
   // Initialize WebSocket connection
   const connect = useCallback(() => {
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${window.location.hostname}:5173`; // WebSocket server URL
+    const wsUrl = `${protocol}//${window.location.hostname}:5002`; // Correct WebSocket URL
     console.log("Connecting to WebSocket:", wsUrl);
+
     socketRef.current = new WebSocket(wsUrl);
 
     socketRef.current.onopen = () => {
@@ -37,10 +39,15 @@ export default function useWebSocket(onMessage, options = {}) {
       console.log("WebSocket disconnected");
 
       if (autoReconnect && reconnectTriesRef.current < reconnectAttempts) {
+        const delay = Math.min(
+          reconnectDelay * reconnectTriesRef.current,
+          30000
+        ); // Max delay of 30 seconds
         reconnectTimeoutRef.current = setTimeout(() => {
           reconnectTriesRef.current += 1;
+          console.log(`Reconnecting... Attempt ${reconnectTriesRef.current}`);
           connect(); // Reconnect
-        }, reconnectDelay);
+        }, delay);
       }
     };
 
@@ -58,19 +65,23 @@ export default function useWebSocket(onMessage, options = {}) {
         clearTimeout(reconnectTimeoutRef.current);
       }
       if (socketRef.current) {
-        socketRef.current.close();
+        socketRef.current.close(1000, "Component unmounted");
       }
     };
   }, [connect]);
 
   // Send message through WebSocket
-  const sendMessage = useCallback((message) => {
-    if (socketRef.current?.readyState === WebSocket.OPEN) {
-      socketRef.current.send(JSON.stringify(message));
-    } else {
-      console.warn("WebSocket is not connected. Message not sent:", message);
-    }
-  }, []);
+  const sendMessage = useCallback(
+    (message) => {
+      if (socketRef.current?.readyState === WebSocket.OPEN) {
+        socketRef.current.send(JSON.stringify(message));
+      } else {
+        console.warn("WebSocket is not connected. Message not sent:", message);
+        connect(); // Attempt to reconnect before sending the message
+      }
+    },
+    [connect]
+  );
 
   return {
     sendMessage,

@@ -1,5 +1,5 @@
 import React from "react";
-import Left from "./left/left"; // Change to uppercase 'Left'
+import Left from "./left/Left.jsx"; // Change to uppercase 'Left'
 import Right from "./right/right"; // Change to uppercase 'Right'
 
 export default function ChatHome() {

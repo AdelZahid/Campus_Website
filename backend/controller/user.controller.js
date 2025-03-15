@@ -76,12 +76,19 @@ export const logout = async (req, res) => {
 export const getUserProfile = async (req, res) => {
   try {
     const loggedInUser = req.user._id;
-    const fillteredusers = await User.find({
-      _id: { $ne: loggedInUser },
-    }).select("-password");
-    res.status(200).json(fillteredusers);
+    const user = await User.findById(loggedInUser).populate(
+      "friends",
+      "username email"
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return the list of friends
+    res.status(200).json(user.friends);
   } catch (error) {
-    console.log("Error in allUser Controller:" + error);
+    console.log("Error in getUserProfile:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -89,23 +96,78 @@ export const getUserProfile = async (req, res) => {
 export const addFriend = async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ email });
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    // Check if req.user._id is defined
+    if (!req.user?._id) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: User not authenticated" });
     }
 
     const currentUser = await User.findById(req.user._id);
-    if (currentUser.friends.includes(user._id)) {
+    console.log("Current User:", currentUser);
+
+    if (!currentUser) {
+      return res.status(404).json({ message: "Current user not found" });
+    }
+
+    // Check if email is provided
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    // Find the user to add as a friend
+    const userToAdd = await User.findOne({ email });
+    console.log("User to add:", userToAdd);
+
+    if (!userToAdd) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user is already a friend
+    if (currentUser.friends.includes(userToAdd._id)) {
       return res.status(400).json({ message: "User already added" });
     }
 
-    currentUser.friends.push(user._id);
+    // Add the user to the friends list
+    currentUser.friends.push(userToAdd._id);
     await currentUser.save();
-    console.lot("Friend added successfully: ", user);
-    res.status(200).json({ message: "Friend added successfully", user });
+
+    console.log("Friend added successfully:", userToAdd);
+    res
+      .status(200)
+      .json({ message: "Friend added successfully", user: userToAdd });
   } catch (error) {
-    console.log(error);
+    console.log("Error in addFriend:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const deleteFriend = async (req, res) => {
+  try {
+    const { friendId } = req.body;
+
+    // Check if req.user._id is defined
+    if (!req.user?._id) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: User not authenticated" });
+    }
+
+    const currentUser = await User.findById(req.user._id);
+    if (!currentUser) {
+      return res.status(404).json({ message: "Current user not found" });
+    }
+
+    // Remove the friend from the friends list
+    currentUser.friends = currentUser.friends.filter(
+      (id) => id.toString() !== friendId
+    );
+    await currentUser.save();
+
+    res.status(200).json({ message: "Friend deleted successfully" });
+  } catch (error) {
+    console.log("Error in deleteFriend:", error);
     res.status(500).json({ error: "Server error" });
   }
 };

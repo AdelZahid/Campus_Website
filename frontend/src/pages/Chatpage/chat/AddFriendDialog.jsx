@@ -36,35 +36,30 @@ export function AddFriendDialog({ isOpen, onClose }) {
 
     try {
       const token = localStorage.getItem("jwt");
-
-      const response = await fetch("api/user/addFriend", {
+      const response = await fetch("/api/user/addFriend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ email }),
+        credentials: "include",
       });
 
-      // Log the raw response
-      const rawResponse = await response.text();
-      console.log("Raw response:", rawResponse);
-
-      // Try to parse the response as JSON
-      let data;
-      try {
-        data = JSON.parse(rawResponse);
-      } catch (error) {
-        throw new Error("Invalid JSON response from server");
-      }
-
       if (!response.ok) {
-        throw new Error(data.message || "Failed to add friend");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to add friend");
       }
 
-      await queryClient.invalidateQueries({ queryKey: ["users"] });
+      const data = await response.json();
+      console.log("Friend added successfully:", data);
+
+      // Update the UI or refetch the friends list
       alert("Friend added successfully!");
       onClose();
+
+      // Optionally, refetch the friends list
+      queryClient.invalidateQueries(["friends"]); // Invalidate the friends query to refetch data
     } catch (error) {
       console.error("Error adding friend:", error.message);
       alert(

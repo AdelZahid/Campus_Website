@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { ArrowLeft, Send } from "lucide-react";
-import MessageCard from "../chat/MessageCard"; // Adjust path as needed
-import useWebSocket from "../chat/socket"; // Adjust path as needed
+import MessageCard from "../chat/MessageCard";
+import useWebSocket from "../chat/socket";
 import "./ChatView.css";
 import Navbar from "../../../components/Navbar/Navbar";
 
@@ -15,10 +15,18 @@ export default function ChatView({ user, onClose }) {
   const { data: messages = [] } = useQuery({
     queryKey: ["/api/messages", user.id],
     queryFn: async () => {
-      const res = await fetch(`/api/messages/${user.id}`);
+      if (!user.id) {
+        throw new Error("User ID is undefined");
+      }
+
+      const res = await fetch(`/api/message/get/${user.id}`, {
+        credentials: "include",
+      });
+
       if (!res.ok) {
         throw new Error("Failed to fetch messages");
       }
+
       return res.json();
     },
   });
@@ -42,7 +50,7 @@ export default function ChatView({ user, onClose }) {
 
     sendMessage({
       type: "message",
-      fromId: currentUserId, // Replace with the current user's ID
+      fromId: "currentUserId", // Replace with the current user's ID
       toId: user.id,
       content: newMessage,
     });
@@ -54,11 +62,15 @@ export default function ChatView({ user, onClose }) {
     const groups = {};
 
     messages.forEach((message) => {
-      const date = format(new Date(message.sent), "PP");
-      if (!groups[date]) {
-        groups[date] = [];
+      try {
+        const date = format(new Date(message.sent), "PP"); // Format the date
+        if (!groups[date]) {
+          groups[date] = [];
+        }
+        groups[date].push(message);
+      } catch (error) {
+        console.error("Invalid date in message:", message.sent);
       }
-      groups[date].push(message);
     });
 
     return groups;
@@ -73,11 +85,13 @@ export default function ChatView({ user, onClose }) {
           <ArrowLeft />
         </button>
         <div className="chat-user-info">
-          <h2 className="chat-user-name">{user.name}</h2>
+          <h2 className="chat-user-name">{user.username}</h2>
           <div className="chat-user-status">
             {user.isOnline
               ? "Online"
-              : `Last seen ${format(new Date(user.lastActive), "p")}`}
+              : user.lastActive
+              ? `Last seen ${format(new Date(user.lastActive), "p")}`
+              : "Offline"}
           </div>
         </div>
       </div>

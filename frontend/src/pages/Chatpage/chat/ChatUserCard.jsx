@@ -1,21 +1,65 @@
-import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { User as UserIcon } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { User as UserIcon, Trash2 } from "lucide-react";
 import "./ChatUserCard.css";
 
 export default function ChatUserCard({ user, onClick }) {
-  const { data: messages = [] } = useQuery({
-    queryKey: ["/api/messages", "lastMessage", user.id],
+  const queryClient = useQueryClient();
+
+  // Fetch the list of friends for the current user
+  const { data: friends = [] } = useQuery({
+    queryKey: ["friends"],
     queryFn: async () => {
-      const res = await fetch(`/api/messages/${user.id}`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch messages");
+      const token = localStorage.getItem("jwt");
+      const response = await fetch(
+        "http://localhost:5002/api/user/getUserProfile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch friends");
       }
-      return res.json();
+
+      const data = await response.json();
+      return data; // Assuming the response is an array of friends
     },
   });
 
-  const lastMessage = messages?.[0];
+  // Mutation to delete a friend
+  const deleteFriendMutation = useMutation({
+    mutationFn: async (friendId) => {
+      const token = localStorage.getItem("jwt");
+      const response = await fetch("/api/user/deleteFriend", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ friendId }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete friend");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      // Invalidate the friends query to refetch the updated list
+      queryClient.invalidateQueries(["friends"]);
+    },
+  });
+
+  // Handle delete button click
+  const handleDelete = (e) => {
+    e.stopPropagation(); // Prevent the card's onClick from firing
+    deleteFriendMutation.mutate(user._id); // Call the delete mutation
+  };
 
   return (
     <div className="chat-user-card" onClick={onClick}>
@@ -31,27 +75,14 @@ export default function ChatUserCard({ user, onClick }) {
         </div>
 
         <div className="chat-user-info">
-          <div className="chat-user-header">
-            <h3 className="chat-user-name">{user.name}</h3>
-            {lastMessage && (
-              <span className="chat-user-time">
-                {format(new Date(lastMessage.sent), "p")}
-              </span>
-            )}
-          </div>
-
-          <p className="chat-user-message">
-            {lastMessage
-              ? lastMessage.type === "image"
-                ? "📷 Image"
-                : lastMessage.msg
-              : user.about}
-          </p>
+          <h3 className="chat-user-name">{user.username}</h3>
+          <p className="chat-user-message">{user.about}</p>
         </div>
 
-        {lastMessage && !lastMessage.read && (
-          <div className="chat-user-unread" />
-        )}
+        {/* Delete button */}
+        <button className="delete-friend-button" onClick={handleDelete}>
+          <Trash2 size={16} /> {/* Use the Trash2 icon */}
+        </button>
       </div>
     </div>
   );

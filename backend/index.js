@@ -41,10 +41,11 @@ import http from "http"; // Import the http module
 import { WebSocketServer } from "ws"; // Import the WebSocket library
 import userRoutes from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
+import messageRoutes from "./routes/message.route.js";
 const app = express();
 dotenv.config();
 
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 5002;
 const URI = process.env.MONGO_URI;
 
 app.use(express.json());
@@ -82,6 +83,7 @@ app.set("wss", wss);
 
 // WebSocket connection handler
 // WebSocket connection handler
+// In index.js
 wss.on("connection", (ws) => {
   console.log("New WebSocket connection");
 
@@ -90,7 +92,7 @@ wss.on("connection", (ws) => {
     const data = JSON.parse(message);
     console.log("Received message:", data);
 
-    // Broadcast the message to all connected clients
+    // Broadcast the message to the receiver
     wss.clients.forEach((client) => {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify(data));
@@ -98,7 +100,7 @@ wss.on("connection", (ws) => {
     });
   });
 
-  // Handle WebSocket connection close
+  // Handle connection close
   ws.on("close", () => {
     console.log("WebSocket connection closed");
   });
@@ -106,6 +108,7 @@ wss.on("connection", (ws) => {
 
 // Routes
 app.use("/api/user", userRoutes);
+app.use("/api/message", messageRoutes);
 
 // Start the server
 server.listen(PORT, () => {

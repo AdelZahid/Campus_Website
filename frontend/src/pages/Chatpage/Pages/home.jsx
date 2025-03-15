@@ -12,21 +12,27 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("all");
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const { data: users = [], isLoading } = useQuery({
-    queryKey: ["user"],
+  const { data: friends = [], isLoading } = useQuery({
+    queryKey: ["friends"],
     queryFn: async () => {
-      const res = await fetch("/api/user");
+      const res = await fetch("/api/user/getUserProfile", {
+        credentials: "include",
+      });
       if (!res.ok) {
-        throw new Error("Failed to fetch users");
+        throw new Error("Failed to fetch friends");
       }
-      return res.json();
+      const data = await res.json();
+      console.log("Friends data:", data); // Log the response
+      return data;
     },
   });
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFriends = friends.filter(
+    (friend) =>
+      (friend.username || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (friend.email || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -79,33 +85,17 @@ export default function Home() {
               </div>
             ) : (
               <>
-                {activeTab === "all" && (
-                  <>
-                    {filteredUsers.length > 0 ? (
-                      filteredUsers.map((user) => (
-                        <ChatUserCard
-                          key={user.id}
-                          user={user}
-                          onClick={() => setSelectedUser(user)}
-                        />
-                      ))
-                    ) : (
-                      <div className="empty-state">
-                        <p>No users found</p>
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {activeTab === "connected" && (
+                {filteredFriends.length > 0 ? (
+                  filteredFriends.map((friend) => (
+                    <ChatUserCard
+                      key={friend._id}
+                      user={friend}
+                      onClick={() => setSelectedUser(friend)}
+                    />
+                  ))
+                ) : (
                   <div className="empty-state">
-                    <p>Connected users will appear here</p>
-                  </div>
-                )}
-
-                {activeTab === "community" && (
-                  <div className="empty-state">
-                    <p>Community features coming soon</p>
+                    <p>No friends found</p>
                   </div>
                 )}
               </>

@@ -15,7 +15,8 @@ import {
 import { useAuth } from "../../context/AuthProvider";
 import "./Navbar.css";
 import chat from "../../pages/Chatpage/Pages/home.jsx";
-
+import Cookies from "js-cookie";
+import axios from "axios";
 const Navbar = ({ user, onLogout }) => {
   const { authUser, setAuthUser } = useAuth();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -32,12 +33,37 @@ const Navbar = ({ user, onLogout }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLogout = () => {
-    if (onLogout) onLogout();
-    localStorage.removeItem("user");
-    setAuthUser(null);
-    navigate("/");
-    window.location.reload(); // Reload the page to reflect changes
+  // Logout the user
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setLoading(true); // Set loading to true at the start
+    try {
+      // Make the logout request to the backend
+      const res = await axios.post("/api/user/logout", null, {
+        withCredentials: true, // Include credentials (cookies)
+      });
+
+      // Clear local storage and cookies
+      localStorage.removeItem("user");
+      Cookies.remove("jwt");
+
+      // Update the auth state
+      if (onLogout) onLogout();
+      setAuthUser(null);
+
+      // Show success message
+      alert("Logged out successfully");
+      navigate("/");
+
+      // Reload the page to reflect changes
+      window.location.reload();
+    } catch (error) {
+      console.log("Error in Logout", error);
+      toast.error("Error in logging out");
+    } finally {
+      setLoading(false); // Set loading to false when done
+    }
   };
 
   const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);

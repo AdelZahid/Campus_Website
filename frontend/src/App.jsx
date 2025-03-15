@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"; // Import QueryClient and QueryClientProvider
 import "./App.css";
 
 // Import components and pages
@@ -26,6 +27,9 @@ import ChatHome from "./pages/Chatpage/chat2/home/chathome.jsx";
 import Message from "./pages/Chatpage/Pages/home.jsx";
 import { useAuth } from "./context/AuthProvider";
 
+// Create a QueryClient instance
+const queryClient = new QueryClient();
+
 function App() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -46,7 +50,8 @@ function App() {
   };
 
   return (
-    <>
+    // Wrap the entire app in QueryClientProvider
+    <QueryClientProvider client={queryClient}>
       <Navbar user={user} onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -76,7 +81,7 @@ function App() {
         <Route path="/library/:bookId" element={<BookDetailPage />} />
         <Route path="/library/borrow/:bookId" element={<BorrowPage />} />
       </Routes>
-    </>
+    </QueryClientProvider>
   );
 }
 

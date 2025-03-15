@@ -30,13 +30,9 @@ const LoginPage = ({ onLogin }) => {
       };
 
       const endpoint = isLogin ? "login" : "signup";
-      const res = await axios.post(
-        `http://localhost:5002/user/${endpoint}`,
-        userInfo,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post(`/api/user/${endpoint}`, userInfo, {
+        withCredentials: true,
+      });
 
       if (res.data) {
         alert(res.data.message);

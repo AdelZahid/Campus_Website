@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "./ProfilePage.css";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const navigate = useNavigate();
 
-  // Sample user data
+  // Sample user data (will be fetched in a real app)
   const user = {
     id: 1,
     name: "Alex Johnson",
@@ -197,12 +198,42 @@ const ProfilePage = () => {
         mutualFriends: 6,
       },
     ],
+    friendRequests: [
+      // New sample data for friend requests
+      {
+        id: 5,
+        name: "Lisa Nguyen",
+        username: "@lisanguyen",
+        avatar: "/images/lisa.jpg",
+        mutualFriends: 3,
+      },
+      {
+        id: 6,
+        name: "James Carter",
+        username: "@jamescarter",
+        avatar: "/images/james.jpg",
+        mutualFriends: 5,
+      },
+    ],
+  };
+
+  const handleEditProfile = () => {
+    navigate("/account");
+  };
+
+  const handleAddFriend = (friendId) => {
+    console.log(`Accepted friend request from ID: ${friendId}`);
+    // In a real app, this would update the friends list and remove from friendRequests via API
+  };
+
+  const handleRejectFriend = (friendId) => {
+    console.log(`Rejected friend request from ID: ${friendId}`);
+    // In a real app, this would remove the friend request via API
   };
 
   return (
     <div className="profile-page">
       <Navbar />
-
       <div className="profile-container">
         <div className="profile-header">
           <div
@@ -225,7 +256,6 @@ const ProfilePage = () => {
             <div className="profile-details">
               <h1>{user.name}</h1>
               <p className="profile-tagline">{user.tagline}</p>
-
               <div className="profile-meta">
                 <div className="profile-meta-item">
                   <i className="fas fa-university"></i>
@@ -244,9 +274,13 @@ const ProfilePage = () => {
                   </div>
                 )}
               </div>
-
               <div className="profile-actions">
-                <button className="edit-profile-btn">Edit Profile</button>
+                <button
+                  className="edit-profile-btn"
+                  onClick={handleEditProfile}
+                >
+                  Edit Profile
+                </button>
                 <button className="add-friend-btn">Add Friend</button>
                 <button className="message-btn">Message</button>
               </div>
@@ -293,6 +327,14 @@ const ProfilePage = () => {
           >
             Friends
           </button>
+          <button
+            className={`profile-tab ${
+              activeTab === "friendRequests" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("friendRequests")}
+          >
+            Friend Requests
+          </button>
         </div>
 
         <div className="profile-content">
@@ -302,7 +344,6 @@ const ProfilePage = () => {
                 <h2 className="section-title">About</h2>
                 <p className="about-text">{user.about}</p>
               </section>
-
               <section className="profile-section">
                 <h2 className="section-title">Interests</h2>
                 <div className="interests-list">
@@ -313,7 +354,6 @@ const ProfilePage = () => {
                   ))}
                 </div>
               </section>
-
               <section className="profile-section">
                 <h2 className="section-title">Projects</h2>
                 <div className="projects-grid">
@@ -327,7 +367,7 @@ const ProfilePage = () => {
                       </div>
                       <div className="project-info">
                         <h3>
-                          <Link to={`/profile/projects/${project.id}`}>
+                          <Link to={`/projects/${project.id}`}>
                             {project.title}
                           </Link>
                         </h3>
@@ -372,7 +412,6 @@ const ProfilePage = () => {
                   ))}
                 </div>
               </section>
-
               <section className="profile-section">
                 <h2 className="section-title">Courses</h2>
                 <div className="courses-list">
@@ -451,7 +490,6 @@ const ProfilePage = () => {
                   ))}
                 </div>
               </section>
-
               <section className="profile-section">
                 <h2 className="section-title">Upcoming Events</h2>
                 <div className="events-list">
@@ -513,9 +551,56 @@ const ProfilePage = () => {
               </section>
             </div>
           )}
+
+          {activeTab === "friendRequests" && (
+            <div className="profile-friend-requests">
+              <section className="profile-section">
+                <h2 className="section-title">
+                  Friend Requests <span>({user.friendRequests.length})</span>
+                </h2>
+                <div className="friend-requests-list">
+                  {user.friendRequests.length > 0 ? (
+                    user.friendRequests.map((request) => (
+                      <div key={request.id} className="friend-request-card">
+                        <div className="friend-avatar">
+                          <img
+                            src={request.avatar || "/images/default-avatar.jpg"}
+                            alt={request.name}
+                          />
+                        </div>
+                        <div className="friend-info">
+                          <h3>{request.name}</h3>
+                          <p className="friend-username">{request.username}</p>
+                          <p className="mutual-friends">
+                            <i className="fas fa-users"></i>{" "}
+                            {request.mutualFriends} mutual friends
+                          </p>
+                          <div className="friend-request-actions">
+                            <button
+                              className="add-friend-request-btn"
+                              onClick={() => handleAddFriend(request.id)}
+                            >
+                              <i className="fas fa-check"></i> Add Friend
+                            </button>
+                            <button
+                              className="reject-friend-request-btn"
+                              onClick={() => handleRejectFriend(request.id)}
+                            >
+                              <i className="fas fa-times"></i> Reject
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="no-requests">No new friend requests.</p>
+                  )}
+                </div>
+              </section>
+            </div>
+          )}
         </div>
       </div>
-
       <Footer />
     </div>
   );

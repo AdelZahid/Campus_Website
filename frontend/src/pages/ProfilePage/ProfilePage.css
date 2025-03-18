@@ -1,5 +1,5 @@
 .profile-page {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #f8f9fa;
   min-height: 100vh;
   display: flex;
@@ -8,7 +8,7 @@
 
 .profile-container {
   max-width: 1280px;
-  margin: 80px auto 40px;
+  margin: 100px auto 40px;
   padding: 0 20px;
   width: 100%;
 }
@@ -36,11 +36,12 @@
   position: relative;
 }
 
+/* Rest of the existing CSS remains unchanged until Friends section */
 .profile-avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background-color: #0D8ABC;
+  background-color: #0d8abc;
   color: white;
   display: flex;
   align-items: center;
@@ -87,7 +88,7 @@
 }
 
 .profile-meta-item i {
-  color: #0D8ABC;
+  color: #0d8abc;
 }
 
 .profile-actions {
@@ -117,7 +118,7 @@
 }
 
 .add-friend-btn {
-  background-color: #0D8ABC;
+  background-color: #0d8abc;
   color: white;
 }
 
@@ -157,12 +158,12 @@
 }
 
 .profile-tab:hover {
-  color: #0D8ABC;
+  color: #0d8abc;
 }
 
 .profile-tab.active {
-  color: #0D8ABC;
-  box-shadow: inset 0 -3px 0 #0D8ABC;
+  color: #0d8abc;
+  box-shadow: inset 0 -3px 0 #0d8abc;
 }
 
 /* Profile Content */
@@ -202,7 +203,7 @@
 .interest-tag {
   padding: 5px 12px;
   background-color: #f0f7ff;
-  color: #0D8ABC;
+  color: #0d8abc;
   border-radius: 20px;
   font-size: 0.9rem;
   display: inline-block;
@@ -259,7 +260,7 @@
 }
 
 .project-info h3 a:hover {
-  color: #0D8ABC;
+  color: #0d8abc;
 }
 
 .project-date {
@@ -290,13 +291,15 @@
 }
 
 /* Education Tab */
-.education-list, .courses-list {
+.education-list,
+.courses-list {
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
 
-.education-item, .course-item {
+.education-item,
+.course-item {
   display: flex;
   gap: 20px;
   padding: 20px;
@@ -305,17 +308,19 @@
   transition: all 0.3s ease;
 }
 
-.education-item:hover, .course-item:hover {
+.education-item:hover,
+.course-item:hover {
   background-color: rgba(13, 138, 188, 0.05);
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-.education-icon, .course-icon {
+.education-icon,
+.course-icon {
   width: 50px;
   height: 50px;
   background-color: rgba(13, 138, 188, 0.1);
-  color: #0D8ABC;
+  color: #0d8abc;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -324,25 +329,30 @@
   flex-shrink: 0;
 }
 
-.education-content, .course-content {
+.education-content,
+.course-content {
   flex: 1;
 }
 
-.education-content h3, .course-content h3 {
+.education-content h3,
+.course-content h3 {
   margin: 0 0 8px;
   font-size: 1.2rem;
   color: #333;
   font-weight: 600;
 }
 
-.education-degree, .course-code {
+.education-degree,
+.course-code {
   margin: 0 0 5px;
   font-size: 1rem;
-  color: #0D8ABC;
+  color: #0d8abc;
   font-weight: 500;
 }
 
-.education-period, .course-period, .course-institution {
+.education-period,
+.course-period,
+.course-institution {
   margin: 0 0 10px;
   font-size: 0.9rem;
   color: #777;
@@ -580,13 +590,15 @@
 }
 
 /* Friends Tab */
-.friends-list {
+.friends-list,
+.friend-requests-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
 }
 
-.friend-card {
+.friend-card,
+.friend-request-card {
   background-color: #f8f9fa;
   border-radius: 12px;
   overflow: hidden;
@@ -595,7 +607,8 @@
   padding: 20px;
 }
 
-.friend-card:hover {
+.friend-card:hover,
+.friend-request-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
@@ -635,18 +648,22 @@
 .mutual-friends {
   margin: 0 0 15px;
   font-size: 0.85rem;
-  color: #0D8ABC;
+  color: #0d8abc;
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.friend-actions {
+.friend-actions,
+.friend-request-actions {
   display: flex;
   gap: 10px;
 }
 
-.message-friend-btn, .view-profile-btn {
+.message-friend-btn,
+.view-profile-btn,
+.add-friend-request-btn,
+.reject-friend-request-btn {
   flex: 1;
   padding: 8px 12px;
   border-radius: 6px;
@@ -656,6 +673,10 @@
   transition: all 0.2s ease;
   border: none;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Space between icon and text */
 }
 
 .message-friend-btn {
@@ -674,6 +695,31 @@
 
 .view-profile-btn:hover {
   background-color: #e5e5e5;
+}
+
+.add-friend-request-btn {
+  background-color: #21a663;
+  color: white;
+}
+
+.add-friend-request-btn:hover {
+  background-color: #188f52;
+}
+
+.reject-friend-request-btn {
+  background-color: #e74c3c; /* Red for reject */
+  color: white;
+}
+
+.reject-friend-request-btn:hover {
+  background-color: #c0392b;
+}
+
+.no-requests {
+  font-size: 1rem;
+  color: #777;
+  text-align: center;
+  padding: 20px;
 }
 
 /* Responsive Styles */
@@ -705,7 +751,8 @@
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
 
-  .friends-list {
+  .friends-list,
+  .friend-requests-list {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 }
@@ -713,7 +760,7 @@
 @media (max-width: 768px) {
   .profile-container {
     padding: 0 15px;
-    margin-top: 70px;
+    margin-top: 80px;
   }
 
   .profile-tabs {
@@ -733,11 +780,16 @@
     grid-template-columns: 1fr;
   }
 
-  .friends-list {
+  .friends-list,
+  .friend-requests-list {
     grid-template-columns: 1fr;
   }
 
-  .education-item, .course-item, .achievement-item, .club-item, .event-item {
+  .education-item,
+  .course-item,
+  .achievement-item,
+  .club-item,
+  .event-item {
     padding: 15px;
     gap: 15px;
   }
@@ -758,7 +810,9 @@
     gap: 8px;
   }
 
-  .edit-profile-btn, .add-friend-btn, .message-btn {
+  .edit-profile-btn,
+  .add-friend-btn,
+  .message-btn {
     width: 100%;
   }
 
@@ -771,19 +825,32 @@
     font-size: 1.2rem;
   }
 
-  .education-item, .course-item, .achievement-item, .club-item, .event-item {
+  .education-item,
+  .course-item,
+  .achievement-item,
+  .club-item,
+  .event-item {
     flex-direction: column;
   }
 
-  .education-icon, .course-icon, .achievement-icon, .club-icon, .event-date {
+  .education-icon,
+  .course-icon,
+  .achievement-icon,
+  .club-icon,
+  .event-date {
     margin: 0 auto 15px;
   }
 
-  .education-content, .course-content, .achievement-content, .club-content, .event-content {
+  .education-content,
+  .course-content,
+  .achievement-content,
+  .club-content,
+  .event-content {
     text-align: center;
   }
 
-  .friend-card {
+  .friend-card,
+  .friend-request-card {
     flex-direction: column;
     align-items: center;
     text-align: center;

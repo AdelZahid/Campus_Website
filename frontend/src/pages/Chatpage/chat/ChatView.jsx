@@ -6,33 +6,35 @@ import MessageCard from "../chat/MessageCard";
 import useWebSocket from "../chat/socket";
 import "./ChatView.css";
 import Navbar from "../../../components/Navbar/Navbar";
-
+import Cookies from "js-cookie"; // Add this to get JWT
+import { jwtDecode } from "jwt-decode";
 export default function ChatView({ user, onClose }) {
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);
   const queryClient = useQueryClient();
 
+  // Get current user ID from JWT
+  const token = Cookies.get("jwt");
+  const decoded = token ? jwtDecode(token) : {};
+  const currentUserId = decoded.userId || null;
+
   const { data: messages = [] } = useQuery({
     queryKey: ["/api/messages", user.id],
     queryFn: async () => {
-      if (!user.id) {
-        throw new Error("User ID is undefined");
-      }
-
+      if (!user.id) throw new Error("User ID is undefined");
       const res = await fetch(`/api/message/get/${user.id}`, {
         credentials: "include",
       });
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch messages");
-      }
-
+      if (!res.ok) throw new Error("Failed to fetch messages");
       return res.json();
     },
   });
 
   const { sendMessage } = useWebSocket((data) => {
-    if (data.type === "new_message" && data.message.toId === user.id) {
+    if (
+      data.type === "new_message" &&
+      (data.message.toId === user.id || data.message.fromId === user.id)
+    ) {
       queryClient.invalidateQueries({ queryKey: ["/api/messages", user.id] });
     }
   });
@@ -46,11 +48,11 @@ export default function ChatView({ user, onClose }) {
   }, [messages]);
 
   const handleSend = () => {
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || !currentUserId) return;
 
     sendMessage({
       type: "message",
-      fromId: "currentUserId", // Replace with the current user's ID
+      fromId: currentUserId,
       toId: user.id,
       content: newMessage,
     });
@@ -60,19 +62,15 @@ export default function ChatView({ user, onClose }) {
 
   const groupMessagesByDate = (messages = []) => {
     const groups = {};
-
     messages.forEach((message) => {
       try {
-        const date = format(new Date(message.sent), "PP"); // Format the date
-        if (!groups[date]) {
-          groups[date] = [];
-        }
+        const date = format(new Date(message.sent), "PP");
+        if (!groups[date]) groups[date] = [];
         groups[date].push(message);
       } catch (error) {
         console.error("Invalid date in message:", message.sent);
       }
     });
-
     return groups;
   };
 
@@ -106,7 +104,7 @@ export default function ChatView({ user, onClose }) {
               <MessageCard
                 key={message.id}
                 message={message}
-                isMe={message.fromId === "currentUserId"} // Replace with actual current user ID
+                isMe={message.fromId === currentUserId}
               />
             ))}
           </div>

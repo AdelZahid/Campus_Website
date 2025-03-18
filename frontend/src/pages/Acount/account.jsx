@@ -1,489 +1,510 @@
-// import React from "react";
-// import { Route, Switch, useRouteMatch } from "react-router-dom";
-// import "./account.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "bootstrap/dist/js/bootstrap.bundle.min.js";
-// import Sidebar from "./navlinks/Sidebar";
-
-// // Import tab components
-// import GeneralTab from "./navlinks/generalinfo";
-// import ChangePasswordTab from "./navlinks/changePassword";
-// import InfoTab from "./navlinks/infotab";
-// import SocialLinksTab from "./navlinks/sociallink";
-// import ConnectionsTab from "./navlinks/connection";
-// import NotificationsTab from "./navlinks/notification";
-
-// const AccountPage = () => {
-//   let { path } = useRouteMatch();
-
-//   return (
-//     <div className="container light-style flex-grow-1 container-p-y">
-//       <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
-//       <div className="card overflow-hidden">
-//         <div className="row no-gutters row-bordered row-border-light">
-//           <Sidebar />
-//           <div className="col-md-9">
-//             <div className="tab-content">
-//               <Switch>
-//                 <Route exact path={path} component={GeneralTab} />
-//                 <Route path={`${path}/general`} component={GeneralTab} />
-//                 <Route
-//                   path={`${path}/change-password`}
-//                   component={ChangePasswordTab}
-//                 />
-//                 <Route path={`${path}/info`} component={InfoTab} />
-//                 <Route
-//                   path={`${path}/social-links`}
-//                   component={SocialLinksTab}
-//                 />
-//                 <Route
-//                   path={`${path}/connections`}
-//                   component={ConnectionsTab}
-//                 />
-//                 <Route
-//                   path={`${path}/notifications`}
-//                   component={NotificationsTab}
-//                 />
-//               </Switch>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AccountPage;
-
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./account.css";
-import { NavLink } from "react-router-dom";
 
 const AccountPage = () => {
-  const [activeTab, setActiveTab] = useState("general");
+  const [activeTab, setActiveTab] = useState("personal");
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    name: "",
+    avatar: "",
+    coverPhoto: "",
+    tagline: "",
+    university: "",
+    location: "",
+    fields: [],
+    about: "",
+    interests: [],
+    education: [],
+    courses: [],
+    achievements: [],
+    projects: [],
+    clubs: [],
+    events: [],
+  });
+  const [newEducation, setNewEducation] = useState({
+    institution: "",
+    degree: "",
+    period: "",
+    description: "",
+  });
+  const [newCourse, setNewCourse] = useState({
+    code: "",
+    title: "",
+    institution: "",
+    period: "",
+    grade: "",
+    certificate: false,
+  });
+  const [newAchievement, setNewAchievement] = useState({
+    title: "",
+    organization: "",
+    date: "",
+    description: "",
+  });
+  const [newProject, setNewProject] = useState({
+    title: "",
+    description: "",
+    tags: "",
+    date: "",
+    image: null,
+  });
+  const [newClub, setNewClub] = useState({
+    name: "",
+    role: "",
+    period: "",
+    description: "",
+  });
+  const [newEvent, setNewEvent] = useState({
+    title: "",
+    date: "",
+    month: "",
+    day: "",
+    location: "",
+    description: "",
+  });
 
-  const tabs = [
-    { id: "general", title: "General" },
-    { id: "change-password", title: "Change password" },
-    { id: "info", title: "Info" },
-    { id: "social-links", title: "Social links" },
-    { id: "connections", title: "Connections" },
-    { id: "notifications", title: "Notifications" },
-  ];
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await fetch("/api/user/profile", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          console.error("Failed to fetch user profile");
+        }
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+    fetchUserProfile();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleArrayChange = (field, value) => {
+    setUser((prev) => ({
+      ...prev,
+      [field]: value.split(",").map((item) => item.trim()),
+    }));
+  };
+
+  const handleFileChange = (e, field) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUser((prev) => ({
+        ...prev,
+        [field]: URL.createObjectURL(file),
+      }));
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      const response = await fetch("/api/user/profile", {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+      if (response.ok) {
+        alert("Profile updated successfully!");
+        navigate("/profile");
+      } else {
+        console.error("Failed to update profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  const handleAddItem = (field, newItem, setNewItem) => {
+    setUser((prev) => ({
+      ...prev,
+      [field]: [...prev[field], { ...newItem, id: Date.now() }],
+    }));
+    setNewItem(
+      field === "projects"
+        ? { title: "", description: "", tags: "", date: "", image: null }
+        : { ...newItem, id: "", title: "", description: "" }
+    );
+  };
+
+  const renderFormSection = (title, fields, newItem, setNewItem) => (
+    <section className="account-section">
+      <h2 className="section-title">{title}</h2>
+      {fields.map((field, index) => (
+        <div key={index} className="form-group">
+          <label>{field.label}</label>
+          {field.type === "textarea" ? (
+            <textarea
+              name={field.name}
+              value={
+                newItem ? newItem[field.name] || "" : user[field.name] || ""
+              }
+              onChange={
+                newItem
+                  ? (e) =>
+                      setNewItem((prev) => ({
+                        ...prev,
+                        [field.name]: e.target.value,
+                      }))
+                  : handleInputChange
+              }
+              className="form-input"
+            />
+          ) : field.type === "file" ? (
+            <input
+              type="file"
+              onChange={(e) =>
+                newItem
+                  ? setNewItem((prev) => ({
+                      ...prev,
+                      [field.name]: e.target.files[0],
+                    }))
+                  : handleFileChange(e, field.name)
+              }
+              className="form-input file-input"
+            />
+          ) : (
+            <input
+              type={field.type || "text"}
+              name={field.name}
+              value={
+                newItem
+                  ? newItem[field.name] || ""
+                  : field.name.includes("fields") ||
+                    field.name.includes("interests")
+                  ? (user[field.name] || []).join(", ")
+                  : user[field.name] || ""
+              }
+              onChange={
+                newItem
+                  ? (e) =>
+                      setNewItem((prev) => ({
+                        ...prev,
+                        [field.name]: e.target.value,
+                      }))
+                  : (e) =>
+                      field.name.includes("fields") ||
+                      field.name.includes("interests")
+                        ? handleArrayChange(field.name, e.target.value)
+                        : handleInputChange(e)
+              }
+              className="form-input"
+            />
+          )}
+        </div>
+      ))}
+    </section>
+  );
 
   return (
-    <div>
-      <div className="container light-style flex-grow-1 container-p-y">
-        <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
-        <div className="card overflow-hidden">
-          <div className="row no-gutters row-bordered row-border-light">
-            <div className="col-md-3 pt-0">
-              <div className="list-group list-group-flush account-settings-links">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    className={`list-group-item list-group-item-action ${
-                      activeTab === tab.id ? "active" : ""
-                    }`}
-                    onClick={() => setActiveTab(tab.id)}
-                  >
-                    {tab.title}
-                  </button>
+    <div className="account-page">
+      <div className="account-container">
+        <div className="account-header">
+          <img
+            src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+            alt="Account Settings"
+            className="header-image"
+          />
+          <h1>Account Settings</h1>
+        </div>
+        <div className="account-tabs">
+          {[
+            "personal",
+            "education",
+            "achievements",
+            "projects",
+            "activities",
+          ].map((tab) => (
+            <button
+              key={tab}
+              className={`account-tab ${activeTab === tab ? "active" : ""}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div className="account-content">
+          {activeTab === "personal" && (
+            <>
+              {renderFormSection("Personal Information", [
+                { label: "Name", name: "name" },
+                { label: "Avatar", name: "avatar", type: "file" },
+                { label: "Cover Photo", name: "coverPhoto", type: "file" },
+                { label: "Tagline", name: "tagline" },
+                { label: "University", name: "university" },
+                { label: "Location", name: "location" },
+                { label: "Fields (comma-separated)", name: "fields" },
+                { label: "About", name: "about", type: "textarea" },
+                { label: "Interests (comma-separated)", name: "interests" },
+              ])}
+            </>
+          )}
+
+          {activeTab === "education" && (
+            <>
+              {renderFormSection(
+                "Add Education",
+                [
+                  { label: "Institution", name: "institution" },
+                  { label: "Degree", name: "degree" },
+                  { label: "Period", name: "period" },
+                  {
+                    label: "Description",
+                    name: "description",
+                    type: "textarea",
+                  },
+                ],
+                newEducation,
+                setNewEducation
+              )}
+              <button
+                className="add-btn"
+                onClick={() =>
+                  handleAddItem("education", newEducation, setNewEducation)
+                }
+              >
+                Add Education
+              </button>
+              <div className="items-list">
+                {user.education.map((item) => (
+                  <div key={item.id} className="item-card">
+                    <p>
+                      <strong>{item.institution}</strong> - {item.degree}
+                    </p>
+                    <p>{item.period}</p>
+                    <p>{item.description}</p>
+                  </div>
                 ))}
               </div>
-            </div>
-            <div className="col-md-9">
-              <div className="tab-content">
-                {/* General Tab */}
-                <div
-                  className={`tab-pane fade ${
-                    activeTab === "general" ? "active show" : ""
-                  }`}
-                  id="account-general"
-                >
-                  <div className="card-body media align-items-center">
-                    <img
-                      src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                      alt=""
-                      className="d-block ui-w-80"
-                    />
-                    <div className="media-body ml-4">
-                      <label className="btn btn-outline-primary">
-                        Upload new photo
-                        <input
-                          type="file"
-                          className="account-settings-fileinput"
-                        />
-                      </label>
-                      <button
-                        type="button"
-                        className="btn btn-default md-btn-flat"
-                      >
-                        Reset
-                      </button>
-                      <div className="text-light small mt-1">
-                        Allowed JPG, GIF or PNG. Max size of 800K
-                      </div>
-                    </div>
-                  </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body">
-                    <div className="form-group">
-                      <label className="form-label">Username</label>
-                      <input
-                        type="text"
-                        className="form-control mb-1"
-                        value="nmaxwell"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value="Nelle Maxwell"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">E-mail</label>
-                      <input
-                        type="text"
-                        className="form-control mb-1"
-                        value="nmaxwell@mail.com"
-                      />
-                      <div className="alert alert-warning mt-3">
-                        Your email is not confirmed. Please check your inbox.
-                        <br />
-                        <a href="#!">Resend confirmation</a>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Company</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value="Company Ltd."
-                      />
-                    </div>
-                    <div className="text-right mt-3">
-                      <button type="button" className="btn btn-primary">
-                        Save changes
-                      </button>
-                      <button type="button" className="btn btn-default ml-2">
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </div>
 
-                {/* Change Password Tab */}
-                <div
-                  className={`tab-pane fade ${
-                    activeTab === "change-password" ? "active show" : ""
-                  }`}
-                  id="account-change-password"
-                >
-                  <div className="card-body pb-2">
-                    <div className="form-group">
-                      <label className="form-label">Current password</label>
-                      <input type="password" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">New password</label>
-                      <input type="password" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Repeat new password</label>
-                      <input type="password" className="form-control" />
-                    </div>
-                    <div className="text-right mt-3">
-                      <button type="button" className="btn btn-primary">
-                        Save changes
-                      </button>
-                      <button type="button" className="btn btn-default ml-2">
-                        Cancel
-                      </button>
-                    </div>
+              {renderFormSection(
+                "Add Course",
+                [
+                  { label: "Code", name: "code" },
+                  { label: "Title", name: "title" },
+                  { label: "Institution", name: "institution" },
+                  { label: "Period", name: "period" },
+                  { label: "Grade", name: "grade" },
+                  { label: "Certificate (true/false)", name: "certificate" },
+                ],
+                newCourse,
+                setNewCourse
+              )}
+              <button
+                className="add-btn"
+                onClick={() =>
+                  handleAddItem("courses", newCourse, setNewCourse)
+                }
+              >
+                Add Course
+              </button>
+              <div className="items-list">
+                {user.courses.map((item) => (
+                  <div key={item.id} className="item-card">
+                    <p>
+                      <strong>{item.code}</strong> - {item.title}
+                    </p>
+                    <p>{item.institution}</p>
+                    <p>{item.period}</p>
+                    {item.grade && <p>Grade: {item.grade}</p>}
+                    {item.certificate && <p>Certificate: Yes</p>}
                   </div>
-                </div>
-
-                {/* Info Tab */}
-                <div
-                  className={`tab-pane fade ${
-                    activeTab === "info" ? "active show" : ""
-                  }`}
-                  id="account-info"
-                >
-                  <div className="card-body pb-2">
-                    <div className="form-group">
-                      <label className="form-label">Bio</label>
-                      <textarea className="form-control" rows="5">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit...
-                      </textarea>
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Birthday</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value="May 3, 1995"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Country</label>
-                      <select className="custom-select">
-                        <option>USA</option>
-                        <option>Canada</option>
-                        <option>UK</option>
-                        <option>Germany</option>
-                        <option>France</option>
-                      </select>
-                    </div>
-                  </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body pb-2">
-                    <h6 className="mb-4">Contacts</h6>
-                    <div className="form-group">
-                      <label className="form-label">Phone</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value="+0 (123) 456 7891"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Website</label>
-                      <input type="text" className="form-control" value="" />
-                    </div>
-                    <div className="text-right mt-3">
-                      <button type="button" className="btn btn-primary">
-                        Save changes
-                      </button>
-                      <button type="button" className="btn btn-default ml-2">
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Social Links Tab */}
-                <div
-                  className={`tab-pane fade ${
-                    activeTab === "social-links" ? "active show" : ""
-                  }`}
-                  id="account-social-links"
-                >
-                  <div className="card-body pb-2">
-                    <div className="form-group">
-                      <label className="form-label">Twitter</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value="https://twitter.com/user"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Facebook</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value="https://www.facebook.com/user"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Google+</label>
-                      <input type="text" className="form-control" value="" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">LinkedIn</label>
-                      <input type="text" className="form-control" value="" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Instagram</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value="https://www.instagram.com/user"
-                      />
-                    </div>
-                    <div className="text-right mt-3">
-                      <button type="button" className="btn btn-primary">
-                        Save changes
-                      </button>
-                      <button type="button" className="btn btn-default ml-2">
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Connections Tab */}
-                <div
-                  className={`tab-pane fade ${
-                    activeTab === "connections" ? "active show" : ""
-                  }`}
-                  id="account-connections"
-                >
-                  <div className="card-body">
-                    <button type="button" className="btn btn-twitter">
-                      Connect to <strong>Twitter</strong>
-                    </button>
-                  </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body">
-                    <h5 className="mb-2">
-                      <a href="#!" className="float-right text-muted text-tiny">
-                        <i className="ion ion-md-close"></i> Remove
-                      </a>
-                      <i className="ion ion-logo-google text-google"></i>
-                      You are connected to Google:
-                    </h5>
-                    <a
-                      href="/cdn-cgi/l/email-protection"
-                      className="__cf_email__"
-                      data-cfemail="f9979498818e9c9595b994989095d79a9694"
-                    >
-                      [email&#160;protected]
-                    </a>
-                  </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body">
-                    <button type="button" className="btn btn-facebook">
-                      Connect to <strong>Facebook</strong>
-                    </button>
-                  </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body">
-                    <button type="button" className="btn btn-instagram">
-                      Connect to <strong>Instagram</strong>
-                    </button>
-                  </div>
-                  <div className="text-right mt-3">
-                    <button type="button" className="btn btn-primary">
-                      Save changes
-                    </button>
-                    <button type="button" className="btn btn-default ml-2">
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-
-                {/* Notifications Tab */}
-                <div
-                  className={`tab-pane fade ${
-                    activeTab === "notifications" ? "active show" : ""
-                  }`}
-                  id="account-notifications"
-                >
-                  <div className="card-body pb-2">
-                    <h6 className="mb-4">Activity</h6>
-                    <div className="form-group">
-                      <label className="switcher">
-                        <input
-                          type="checkbox"
-                          className="switcher-input"
-                          defaultChecked
-                        />
-                        <span className="switcher-indicator">
-                          <span className="switcher-yes"></span>
-                          <span className="switcher-no"></span>
-                        </span>
-                        <span className="switcher-label">
-                          Email me when someone comments on my article
-                        </span>
-                      </label>
-                    </div>
-                    <div className="form-group">
-                      <label className="switcher">
-                        <input
-                          type="checkbox"
-                          className="switcher-input"
-                          defaultChecked
-                        />
-                        <span className="switcher-indicator">
-                          <span className="switcher-yes"></span>
-                          <span className="switcher-no"></span>
-                        </span>
-                        <span className="switcher-label">
-                          Email me when someone answers on my forum thread
-                        </span>
-                      </label>
-                    </div>
-                    <div className="form-group">
-                      <label className="switcher">
-                        <input type="checkbox" className="switcher-input" />
-                        <span className="switcher-indicator">
-                          <span className="switcher-yes"></span>
-                          <span className="switcher-no"></span>
-                        </span>
-                        <span className="switcher-label">
-                          Email me when someone follows me
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body pb-2">
-                    <h6 className="mb-4">Application</h6>
-                    <div className="form-group">
-                      <label className="switcher">
-                        <input
-                          type="checkbox"
-                          className="switcher-input"
-                          defaultChecked
-                        />
-                        <span className="switcher-indicator">
-                          <span className="switcher-yes"></span>
-                          <span className="switcher-no"></span>
-                        </span>
-                        <span className="switcher-label">
-                          News and announcements
-                        </span>
-                      </label>
-                    </div>
-                    <div className="form-group">
-                      <label className="switcher">
-                        <input type="checkbox" className="switcher-input" />
-                        <span className="switcher-indicator">
-                          <span className="switcher-yes"></span>
-                          <span className="switcher-no"></span>
-                        </span>
-                        <span className="switcher-label">
-                          Weekly product updates
-                        </span>
-                      </label>
-                    </div>
-                    <div className="form-group">
-                      <label className="switcher">
-                        <input
-                          type="checkbox"
-                          className="switcher-input"
-                          defaultChecked
-                        />
-                        <span className="switcher-indicator">
-                          <span className="switcher-yes"></span>
-                          <span className="switcher-no"></span>
-                        </span>
-                        <span className="switcher-label">
-                          Weekly blog digest
-                        </span>
-                      </label>
-                    </div>
-                    <div className="text-right mt-3">
-                      <button type="button" className="btn btn-primary">
-                        Save changes
-                      </button>
-                      <button type="button" className="btn btn-default ml-2">
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
-            </div>
+            </>
+          )}
+
+          {activeTab === "achievements" && (
+            <>
+              {renderFormSection(
+                "Add Achievement",
+                [
+                  { label: "Title", name: "title" },
+                  { label: "Organization", name: "organization" },
+                  { label: "Date", name: "date" },
+                  {
+                    label: "Description",
+                    name: "description",
+                    type: "textarea",
+                  },
+                ],
+                newAchievement,
+                setNewAchievement
+              )}
+              <button
+                className="add-btn"
+                onClick={() =>
+                  handleAddItem(
+                    "achievements",
+                    newAchievement,
+                    setNewAchievement
+                  )
+                }
+              >
+                Add Achievement
+              </button>
+              <div className="items-list">
+                {user.achievements.map((item) => (
+                  <div key={item.id} className="item-card">
+                    <p>
+                      <strong>{item.title}</strong> - {item.organization}
+                    </p>
+                    <p>{item.date}</p>
+                    <p>{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {activeTab === "projects" && (
+            <>
+              {renderFormSection(
+                "Add Project",
+                [
+                  { label: "Title", name: "title" },
+                  {
+                    label: "Description",
+                    name: "description",
+                    type: "textarea",
+                  },
+                  { label: "Tags (comma-separated)", name: "tags" },
+                  { label: "Date", name: "date" },
+                  { label: "Image", name: "image", type: "file" },
+                ],
+                newProject,
+                setNewProject
+              )}
+              <button
+                className="add-btn"
+                onClick={() =>
+                  handleAddItem(
+                    "projects",
+                    {
+                      ...newProject,
+                      tags: newProject.tags.split(",").map((tag) => tag.trim()),
+                    },
+                    setNewProject
+                  )
+                }
+              >
+                Add Project
+              </button>
+              <div className="items-list">
+                {user.projects.map((item) => (
+                  <div key={item.id} className="item-card">
+                    <p>
+                      <strong>{item.title}</strong>
+                    </p>
+                    <p>{item.description}</p>
+                    <p>Tags: {item.tags.join(", ")}</p>
+                    <p>{item.date}</p>
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="item-image"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {activeTab === "activities" && (
+            <>
+              {renderFormSection(
+                "Add Club",
+                [
+                  { label: "Name", name: "name" },
+                  { label: "Role", name: "role" },
+                  { label: "Period", name: "period" },
+                  {
+                    label: "Description",
+                    name: "description",
+                    type: "textarea",
+                  },
+                ],
+                newClub,
+                setNewClub
+              )}
+              <button
+                className="add-btn"
+                onClick={() => handleAddItem("clubs", newClub, setNewClub)}
+              >
+                Add Club
+              </button>
+              <div className="items-list">
+                {user.clubs.map((item) => (
+                  <div key={item.id} className="item-card">
+                    <p>
+                      <strong>{item.name}</strong> - {item.role}
+                    </p>
+                    <p>{item.period}</p>
+                    <p>{item.description}</p>
+                  </div>
+                ))}
+              </div>
+
+              {renderFormSection(
+                "Add Event",
+                [
+                  { label: "Title", name: "title" },
+                  { label: "Date (YYYY-MM-DD)", name: "date" },
+                  { label: "Month (e.g., Nov)", name: "month" },
+                  { label: "Day (e.g., 15)", name: "day" },
+                  { label: "Location", name: "location" },
+                  {
+                    label: "Description",
+                    name: "description",
+                    type: "textarea",
+                  },
+                ],
+                newEvent,
+                setNewEvent
+              )}
+              <button
+                className="add-btn"
+                onClick={() => handleAddItem("events", newEvent, setNewEvent)}
+              >
+                Add Event
+              </button>
+              <div className="items-list">
+                {user.events.map((item) => (
+                  <div key={item.id} className="item-card">
+                    <p>
+                      <strong>{item.title}</strong>
+                    </p>
+                    <p>
+                      {item.date} ({item.month} {item.day})
+                    </p>
+                    <p>{item.location}</p>
+                    <p>{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          <div className="account-actions">
+            <button className="save-btn" onClick={handleSaveProfile}>
+              Save Changes
+            </button>
+            <button className="cancel-btn" onClick={() => navigate("/profile")}>
+              Cancel
+            </button>
           </div>
         </div>
       </div>

@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css"; // Added import statement for index.css
-
 // Import styles in the correct order
 import "./styles/reset.css";
 //import "./index.css"; //This line is already imported above. Removing to avoid duplication.

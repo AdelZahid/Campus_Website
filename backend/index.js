@@ -7,7 +7,8 @@ import { WebSocketServer } from "ws";
 import userRoutes from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
 import messageRoutes from "./routes/message.route.js";
-import { saveMessageToDatabase } from "./controller/message.controller.js"; // Correct import
+import { saveMessageToDatabase } from "./controller/message.controller.js";
+import jwt from "jsonwebtoken";
 
 const app = express();
 dotenv.config();
@@ -19,73 +20,88 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
-// Create an HTTP server
 const server = http.createServer(app);
-
-// Create a WebSocket server
 const wss = new WebSocketServer({ server });
 
-wss.on("listening", () => {
-  console.log(`WebSocket server is running on port ${PORT}`);
-});
+const users = {};
 
 wss.on("connection", (ws) => {
   console.log("New WebSocket connection");
+  let userId;
 
-  // Handle incoming messages
   ws.on("message", async (message) => {
     try {
       const data = JSON.parse(message);
-      console.log("Received message:", data);
+      console.log("Received:", data);
 
-      // Save the message to the database
-      await saveMessageToDatabase(data);
+      // Handle token authentication
+      if (data.token && !userId) {
+        const decoded = jwt.verify(data.token, process.env.JWT_TOKEN);
+        userId = decoded.userId;
+        users[userId] = ws;
+        ws.userId = userId;
+        console.log(`User ${userId} authenticated`);
+        return;
+      }
 
-      // Broadcast the message to all clients except the sender
-      wss.clients.forEach((client) => {
-        if (client !== ws && client.readyState === ws.OPEN) {
-          client.send(JSON.stringify(data));
-        }
-      });
+      // Require authentication
+      if (!userId) {
+        ws.send(JSON.stringify({ error: "Authentication required" }));
+        return;
+      }
+
+      // Handle chat message
+      if (data.type === "message" && data.fromId && data.toId && data.content) {
+        const savedMessage = await saveMessageToDatabase({
+          senderId: data.fromId,
+          receiverId: data.toId,
+          message: data.content,
+        });
+
+        const messagePayload = {
+          type: "new_message",
+          message: {
+            id: savedMessage._id,
+            fromId: data.fromId,
+            toId: data.toId,
+            content: data.content,
+            sent: savedMessage.sent,
+          },
+        };
+
+        if (users[data.fromId])
+          users[data.fromId].send(JSON.stringify(messagePayload));
+        if (users[data.toId])
+          users[data.toId].send(JSON.stringify(messagePayload));
+      }
     } catch (error) {
-      console.error("Error parsing WebSocket message:", error);
+      console.error("Error handling message:", error);
+      ws.send(JSON.stringify({ error: "Failed to process message" }));
     }
   });
 
-  // Handle connection close
   ws.on("close", () => {
-    console.log("WebSocket connection closed");
+    console.log(`User ${userId} disconnected`);
+    if (userId) delete users[userId];
   });
 
-  // Handle WebSocket errors
-  ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
-  });
+  ws.on("error", (error) => console.error("WebSocket error:", error));
 });
 
-// Routes
 app.use("/api/user", userRoutes);
 app.use("/api/message", messageRoutes);
 
-// Global error handling middleware
 app.use((err, req, res, next) => {
   console.error("Error:", err);
   res.status(500).json({ error: "Internal server error" });
 });
 
-// Start the server after MongoDB connection
 const startServer = async () => {
   try {
-    console.log("MONGODB_URI:", URI);
-    if (!URI) {
-      throw new Error("MongoDB URI is required");
-    }
+    if (!URI) throw new Error("MongoDB URI is required");
     await mongoose.connect(URI);
     console.log("MongoDB Connected");
-
-    server.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
+    server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
   } catch (error) {
     console.log("Failed to connect", error);
   }
